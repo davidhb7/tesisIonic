@@ -1,0 +1,7 @@
+{
+  "name": "IonicGestionReporte",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
