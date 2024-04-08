@@ -1,0 +1,105 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/usuarios"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Formulario Usuario
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+
+    <form [formGroup]="form" >
+      <!-- Campo para el Nombre Completo -->
+      <ion-item>
+        <ion-label position="floating">Nombre Completo:</ion-label>
+        <ion-input formControlName="nombreUsuario" type="text" aria-label="nombreUsuario"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="form.get('nombreUsuario').invalid && form.get('nombreUsuario').touched">
+        <p *ngIf="form.get('nombreUsuario').errors['required']">Nombre Completo es requerido.</p>
+      </ion-text>
+
+      <!-- Campo para la cedula -->
+      <ion-item>
+        <ion-label position="floating">Cedula:</ion-label>
+        <ion-input formControlName="cedulausuario" type="tel" aria-label="cedulausuario"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="form.get('cedulausuario').invalid && form.get('cedulausuario').touched">
+        <p *ngIf="form.get('cedulausuario').errors['required']">Cedula es requerida.</p>
+        <p *ngIf="form.get('cedulausuario').errors['pattern']">Por favor, ingrese solo números.</p>
+      </ion-text>
+
+      <!-- Campo para el Correo -->
+      <ion-item>
+        <ion-label position="floating">Correo:</ion-label>
+        <ion-input formControlName="correoUsuario" type="email" aria-label="correoUsuario"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="form.get('correoUsuario').invalid && form.get('correoUsuario').touched">
+        <p *ngIf="form.get('correoUsuario').errors['required']">Correo es requerido.</p>
+        <p *ngIf="form.get('correoUsuario').errors['email']">Correo no es válido.</p>
+      </ion-text>
+
+      <!-- Campo para el Celular -->
+      <ion-item>
+        <ion-label position="floating">Celular:</ion-label>
+        <ion-input formControlName="celularUsuario" type="tel" aria-label="celularUsuario"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="form.get('celularUsuario').invalid && form.get('celularUsuario').touched">
+        <p *ngIf="form.get('celularUsuario').errors['required']">Celular es requerido.</p>
+        <p *ngIf="form.get('celularUsuario').errors['pattern']">Por favor, ingrese solo números.</p>
+      </ion-text>
+
+      <!-- Campo para la Dirección -->
+      <ion-item>
+        <ion-label position="floating">Dirección:</ion-label>
+        <ion-input formControlName="direccionUsuario" type="text" aria-label="direccionUsuario"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="form.get('direccionUsuario').invalid && form.get('direccionUsuario').touched">
+        <p *ngIf="form.get('direccionUsuario').errors['required']">Dirección es requerida.</p>
+      </ion-text>
+
+      <!-- Campo para el Teléfono Fijo -->
+      <ion-item>
+        <ion-label position="floating">Teléfono Fijo:</ion-label>
+        <ion-input formControlName="telefonoUsuario" type="tel" aria-label="telefonoUsuario"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="form.get('telefonoUsuario').invalid && form.get('telefonoUsuario').touched">
+        <p *ngIf="form.get('telefonoUsuario').errors['pattern']">Por favor, ingrese solo números.</p>
+      </ion-text>
+    </form>
+
+    <!-- <ion-item>
+      <ion-label position="floating">Nombre Completo:</ion-label>
+      <ion-input type="text" name="numeroReporte" aria-label="number" ></ion-input>
+    </ion-item>>
+      <ion-label position="floating" >Correo:</ion-label>
+      <ion-textarea type="text" name="descripcion"  aria-label="text"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" >Celular:</ion-label>
+      <ion-textarea type="number" name="descripcion"  aria-label="text"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" >Direccion:</ion-label>
+      <ion-textarea type="text" name="descripcion"  aria-label="text"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" >Telefono fijo:</ion-label>
+      <ion-textarea type="number" name="descripcion"  aria-label="text"></ion-textarea>
+    </ion-item> -->
+
+
+    <ion-button type="submit"  style="margin-left: 10px; font-size: 9px;" color="success" [disabled]="form.invalid">Enviar</ion-button>
+
+    @if (cargando) {
+      <div style="text-align:center;">
+        <ion-spinner name="bubbles"></ion-spinner>
+      </div>
+    }
+
+
+  </ion-card>
+</ion-content>

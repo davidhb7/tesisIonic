@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Reporte
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title></ion-card-title>
+        <ion-card-subtitle style="font-weight: bold; color: white; ">Identificacion del reporte:</ion-card-subtitle>
+        <p>{{idPresente}}</p>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>Descripcipon expecifica: {{reporte.descripcion}}</p>
+        <p>Coordenadas {{reporte.ubicacion}}</p>
+        <p style="color: green;">{{reporte.estado}}</p>
+      </ion-card-content>
+
+    </ion-card>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ionic-gest-rep-all": {
+      "hosting": {
+        "app": [
+          "ionic-gest-rep-all"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "ionic-gest-rep-all"
+  }
+}

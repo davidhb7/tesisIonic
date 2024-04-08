@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/reportes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Crear reporte
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+
+    <!-- Campo para el Número de Reporte -->
+    <ion-item>
+      <ion-label position="floating">Número de Reporte:</ion-label>
+      <ion-input type="text" name="numeroReporte" aria-label="number" [(ngModel)]="nuevoReporte.numeroReporte" disabled="true" re></ion-input>
+    </ion-item>
+
+    <!-- Campo para la Descripción -->
+    <ion-item>
+      <ion-label position="floating" >Descripción *</ion-label>
+      <ion-textarea type="text" name="descripcion" [(ngModel)]="nuevoReporte.descripcion" aria-label="text"></ion-textarea>
+    </ion-item>
+
+
+    <!-- Botón para enviar el formulario -->
+    <ion-button type="submit" (click)="guardarRegistro()" style="margin-left: 10px; font-size: 9px;" color="success">Enviar</ion-button>
+
+    @if (cargando) {
+      <div style="text-align:center;">
+        <ion-spinner name="bubbles"></ion-spinner>
+      </div>
+    }
+    <p style="margin-left: 10px;">  Numero de registros totales: {{numeroActualReportes}}</p>
+
+  </ion-card>
+</ion-content>
+
+
+

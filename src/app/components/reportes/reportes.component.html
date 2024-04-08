@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Reportes
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-button (click)="navegarFormularioCrearReporte()" style="margin-left: 10px; ">Crear nuevo reporte</ion-button>
+    <ion-item *ngFor="let reporte of reportes, let index">
+      <ion-label>
+        Reporte numero: {{reporte.numeroReporte}}
+        <p>Descripcipon: {{reporte.descripcion}}</p>
+        <p>Estado:</p><p style="color: green;"> {{reporte.estado}}</p>
+
+      </ion-label>
+      @if (cargando) {
+        <div style="text-align:center;">
+          <ion-spinner name="bubbles"></ion-spinner>
+        </div>
+      }
+      <ion-button color="danger" (click)="eliminarReporte(reporte)" style="font-size: 8px;">Eliminar</ion-button>
+      <ion-button color="success" (click)="navegarConIDVerReporte(reporte.idReporte)" style="font-size: 8px;">Ver</ion-button>
+      <ion-button color="warning" (click)="navegarConIDEditarReporte(reporte.idReporte)" style="font-size: 8px;">Editar</ion-button>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

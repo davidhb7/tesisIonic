@@ -1,0 +1,37 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Usuarios
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <p style="margin-left: 10px;">  Numero de Usuarios totales: {{numeroActualReportes}}</p>
+  <ion-list>
+    <ion-button (click)="navegarFormulario()" style="margin-left: 10px; ">Crear usuario</ion-button>
+    <ion-item *ngFor="let usuario of usuarios, let index">
+      <ion-label>
+        Nombre: {{usuario.nombreUsuario}}
+        <p>Correo: {{usuario.correoUsuario}}</p>
+        <p>Celular:</p><p> {{usuario.celularUsuario}}</p>
+        <p>Estado: </p><p style="color: green;"> {{usuario.esActivo}}</p>
+
+      </ion-label>
+      @if (cargando) {
+        <div style="text-align:center;">
+          <ion-spinner name="bubbles"></ion-spinner>
+        </div>
+      }
+      <ion-button color="danger" (click)="eliminarUsuario(usuario)" style="font-size: 8px;">Eliminar</ion-button>
+      <ion-button color="success" (click)="navegarConIDVerReporte(usuario.idUsuario)" style="font-size: 8px;">Ver</ion-button>
+      <ion-button color="warning"  style="font-size: 8px;">Editar</ion-button>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

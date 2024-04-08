@@ -1,0 +1,17 @@
+//CONSTANTES DE ESTADO DEL REPORTE PARA EL USUARIO
+export const EN_PROCESO = "EN PROCESO";
+export const FINALIZADO = "FINALIZADO"
+
+
+
+//CONSTANTES DE ACTIVIDAD DE USUARIO
+export const ACTIVO = "ACTIVO";
+export const INACTIVO = "INACTIVO"
+export const SUSPENDIDO = "SUSPENDIDO"
+
+
+//CONSTANTES DE ROLES
+export const ADMINISTRADOR = "1"
+export const EMPRESA = "2"
+export const OPERADOR = "3"
+export const USUARIO = "4"

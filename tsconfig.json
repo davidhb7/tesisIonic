@@ -19,10 +19,14 @@
     "target": "es2022",
     "module": "es2020",
     "lib": [
-      "es2018", 
+      "es2018",
       "dom"
     ],
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    //PERMITIR LA NO INICILIZACION
+    "strictPropertyInitialization": false,
+    //PERMITIR LOS NULOS
+    "strictNullChecks": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

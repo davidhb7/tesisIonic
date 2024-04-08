@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/usuarios"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Usuario
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title></ion-card-title>
+        <ion-card-subtitle style="font-weight: bold; color: white; ">Identificacion del Usuario</ion-card-subtitle>
+        <p>{{idPresente}}</p>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>Nombre:{{usuario.nombreUsuario}} </p>
+        <p>Correo </p>
+        <p>Celular</p>
+        <p>Estado</p>
+        <p>Direccion-Sector</p>
+      </ion-card-content>
+
+    </ion-card>
+  </ion-list>
+</ion-content>
