@@ -19,6 +19,7 @@ import { getRemoteConfig, provideRemoteConfig } from '@angular/fire/remote-confi
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire/compat';
 import { PROVIDED_STORAGE_INSTANCES } from '@angular/fire/storage/storage.module';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -31,25 +32,27 @@ import { PROVIDED_STORAGE_INSTANCES } from '@angular/fire/storage/storage.module
     ReactiveFormsModule,
     AppRoutingModule,
 
+    AngularFireModule.initializeApp(environment.firebase),
+
+    // AngularFireModule.initializeApp({
+    //   "projectId":"ionic-gest-rep-all",
+    //   "appId":"1:1053661105256:web:66d9999b5cdd683631ffdd",
+    //   "storageBucket":"ionic-gest-rep-all.appspot.com",
+    //   "apiKey":"AIzaSyAEg4LYp3RqblvzMTvJZNPIGIAPGzbYnaw",
+    //   "authDomain":"ionic-gest-rep-all.firebaseapp.com",
+    //   "messagingSenderId":"1053661105256"}),
 
 
-    AngularFireModule.initializeApp({
-      "projectId":"ionic-gest-rep-all",
-      "appId":"1:1053661105256:web:66d9999b5cdd683631ffdd",
-      "storageBucket":"ionic-gest-rep-all.appspot.com",
-      "apiKey":"AIzaSyAEg4LYp3RqblvzMTvJZNPIGIAPGzbYnaw",
-      "authDomain":"ionic-gest-rep-all.firebaseapp.com",
-      "messagingSenderId":"1053661105256"}),
-
-    provideFirebaseApp(() => initializeApp(
-      {
-      "projectId":"ionic-gest-rep-all",
-      "appId":"1:1053661105256:web:66d9999b5cdd683631ffdd",
-      "storageBucket":"ionic-gest-rep-all.appspot.com",
-      "apiKey":"AIzaSyAEg4LYp3RqblvzMTvJZNPIGIAPGzbYnaw",
-      "authDomain":"ionic-gest-rep-all.firebaseapp.com",
-      "messagingSenderId":"1053661105256"}
-    )),
+    provideFirebaseApp(()=>initializeApp(environment.firebase)),
+    // provideFirebaseApp(() => initializeApp(
+    //   {
+    //   "projectId":"ionic-gest-rep-all",
+    //   "appId":"1:1053661105256:web:66d9999b5cdd683631ffdd",
+    //   "storageBucket":"ionic-gest-rep-all.appspot.com",
+    //   "apiKey":"AIzaSyAEg4LYp3RqblvzMTvJZNPIGIAPGzbYnaw",
+    //   "authDomain":"ionic-gest-rep-all.firebaseapp.com",
+    //   "messagingSenderId":"1053661105256"}
+    // )),
 
     provideAuth(() => getAuth()),
 
