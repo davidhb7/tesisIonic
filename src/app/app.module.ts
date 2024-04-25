@@ -31,29 +31,8 @@ import { environment } from 'src/environments/environment';
     IonicModule.forRoot(),
     ReactiveFormsModule,
     AppRoutingModule,
-
     AngularFireModule.initializeApp(environment.firebase),
-
-    // AngularFireModule.initializeApp({
-    //   "projectId":"ionic-gest-rep-all",
-    //   "appId":"1:1053661105256:web:66d9999b5cdd683631ffdd",
-    //   "storageBucket":"ionic-gest-rep-all.appspot.com",
-    //   "apiKey":"AIzaSyAEg4LYp3RqblvzMTvJZNPIGIAPGzbYnaw",
-    //   "authDomain":"ionic-gest-rep-all.firebaseapp.com",
-    //   "messagingSenderId":"1053661105256"}),
-
-
     provideFirebaseApp(()=>initializeApp(environment.firebase)),
-    // provideFirebaseApp(() => initializeApp(
-    //   {
-    //   "projectId":"ionic-gest-rep-all",
-    //   "appId":"1:1053661105256:web:66d9999b5cdd683631ffdd",
-    //   "storageBucket":"ionic-gest-rep-all.appspot.com",
-    //   "apiKey":"AIzaSyAEg4LYp3RqblvzMTvJZNPIGIAPGzbYnaw",
-    //   "authDomain":"ionic-gest-rep-all.firebaseapp.com",
-    //   "messagingSenderId":"1053661105256"}
-    // )),
-
     provideAuth(() => getAuth()),
 
     provideAnalytics(() => getAnalytics()),
@@ -62,6 +41,7 @@ import { environment } from 'src/environments/environment';
       //const provider = new ReCaptchaEnterpriseProvider(/* reCAPTCHA Enterprise site key */);
       //return initializeAppCheck(undefined, { provider, isTokenAutoRefreshEnabled: true });
       //}),
+
     provideFirestore(() => getFirestore()),
     provideDatabase(() => getDatabase()),
     provideFunctions(() => getFunctions()),
