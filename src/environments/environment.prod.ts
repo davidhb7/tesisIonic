@@ -9,5 +9,6 @@ export const environment = {
     storageBucket: "ionic-gest-rep-all.appspot.com",
     messagingSenderId: "1053661105256",
     appId: "1:1053661105256:web:66d9999b5cdd683631ffdd"
-  }
+  },
+  ak:"AIzaSyAFNy4BqdVggOknb2Qz9eaPEHrbv_7ddjc"
 };

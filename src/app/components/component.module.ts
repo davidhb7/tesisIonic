@@ -12,6 +12,7 @@ import { UsuarioComponent } from './usuario/usuario.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { FormularioUsuarioComponent } from './formulario-usuario/formulario-usuario.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GoogleMapsComponent } from './google-maps/google-maps.component';
 
 
 
@@ -28,7 +29,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     UsuarioComponent,
     UsuariosComponent,
     //FORMULARIO-USUARIO
-    FormularioUsuarioComponent
+    FormularioUsuarioComponent,
+    //MAPA
+    GoogleMapsComponent,
 
 
 
@@ -47,6 +50,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     UsuariosComponent,
     //FORMULARIO COMPONENT
     FormularioUsuarioComponent,
+    //MAPA
+    GoogleMapsComponent,
 
 
 
@@ -57,7 +62,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     IonicModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    //MAPA
+    //GoogleMapsComponent,
 
   ]
 

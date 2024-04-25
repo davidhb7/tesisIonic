@@ -26,8 +26,6 @@ export class LoginComponent  implements OnInit {
     private formBuilderLogin: FormBuilder,
     private llamaServiciosAut: AuthServices,
     private serviciosInteraccion: InteractionService,
-
-
     //INYECCION DE ROUTER. NAVEGACIONES
     private router: Router
   ) {
@@ -38,11 +36,7 @@ export class LoginComponent  implements OnInit {
     return;
   }
 
-
-
-
-
-
+  //INICIALIZAR CAMPOS
   inicializarCamposLogin(){
     this.formLogin = this.formBuilderLogin.group({
       correoUsuarioLogin: ['', [Validators.required, Validators.email]],
@@ -51,8 +45,9 @@ export class LoginComponent  implements OnInit {
   }
 
 
+  //CONSUMIENDO SERVICIOS AUTH INICIO DE SESION
   async iniciarSesion(){
-    this.serviciosInteraccion.cargandoGeneral("Ingresando")
+    this.serviciosInteraccion.cargandoConMensaje("Ingresando")
     if(this.formLogin.valid){
       const resp= await this.llamaServiciosAut.credValUno(this.correoUsuarioLogin, this.paseUsuarioLogin)
       .catch((er)=>{
@@ -77,9 +72,10 @@ export class LoginComponent  implements OnInit {
     }
   }
 
+  //REDIRECCION A MENU
   goToMenu(){
     this.router.navigate(['/menu']);
-    console.log("autenticado")
+    console.log("Autenticado")
   }
 
 

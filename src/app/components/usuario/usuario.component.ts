@@ -3,6 +3,7 @@ import { DocumentData } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioI } from 'src/app/commonFS/models-interfaceFS/usuarios.interface';
 import { FireStoreService } from 'src/app/commonFS/servicesFS/fire-store.service';
+import { InteractionService } from 'src/app/commonFS/servicesFS/interaction.service';
 
 @Component({
   selector: 'app-usuario',
@@ -11,19 +12,24 @@ import { FireStoreService } from 'src/app/commonFS/servicesFS/fire-store.service
 })
 export class UsuarioComponent  implements OnInit {
 
+  //OBJETOS
   usuario: UsuarioI;
 
-  idPresente:string
+  //VARIABLES
+  idPresenteDeUsuario:string="";//VARIABLE A USAR ÁRA EL ID DEL USUARIO
+  nombrePresente:string="";
 
   constructor(
     private fireStoreService: FireStoreService,//INYECTANDO DEPENDENCIA
-    route: ActivatedRoute
+    private route: ActivatedRoute,
+    private serviciosInteraccion: InteractionService,
   ) {
-    this.idPresente=route.snapshot.params['idUsuario'];
-    console.log(this.idPresente)
+    //RECIBE EL ID DEL USUARIO POR PARAMETRO DE ROUTE
+    this.idPresenteDeUsuario=route.snapshot.params['idUsuario'];
+
     this.inicializarUsuarioVacio();
-    //this.getReporte();
-    console.log(this.usuario);
+    this.getUsuarioPorID();
+
 
   }
 
@@ -48,8 +54,9 @@ export class UsuarioComponent  implements OnInit {
     }
   }
 
-  async getReporte(){
-    const response = await this.fireStoreService.getDocumentSolo('Usuarios',this.idPresente);
+  async getUsuarioPorID(){
+    this.serviciosInteraccion.cargandoConMensaje("Cargando");
+    const response = await this.fireStoreService.getDocumentSolo('Usuarios',this.idPresenteDeUsuario);
     const usuarioData: DocumentData = response.data();
     this.usuario = {
       idUsuario: usuarioData['idUsuario'] || '',
@@ -65,7 +72,7 @@ export class UsuarioComponent  implements OnInit {
       esActivo: usuarioData['esActivo'] || '',
       fechaRegistro: usuarioData['fechaRegistro'] || ''
     }
+    this.serviciosInteraccion.cerrarCargando();
   }
-
 
 }

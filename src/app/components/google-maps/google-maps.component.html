@@ -1,0 +1,23 @@
+<p>
+  google-maps works!
+</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Mapa
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div #mapa class="mapa">
+    <ion-chip class="miUbicacion" (click)="tomarPunto()">
+      <ion-label>Mi ubicacion Actual</ion-label>
+      <ion-icon name="locate"></ion-icon>
+    </ion-chip>
+
+    <ion-chip class="aceptar" (click)="aceptado()">
+      <ion-label class="normal">Aceptar</ion-label>
+      <ion-icon name="checkmark"></ion-icon>
+    </ion-chip>
+  </div>
+</ion-content>

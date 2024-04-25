@@ -43,7 +43,7 @@ export class UsuariosComponent  implements OnInit {
 
   //REDIRECCIONAR CON ID
   navegarConIDVerReporte(idUsuario:string){
-    //this.router.navigate(['/usuario',idUsuario]);
+    this.router.navigate(['/usuario',idUsuario]);
     console.log("enviando id",idUsuario)
   }
 

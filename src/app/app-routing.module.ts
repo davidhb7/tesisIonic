@@ -30,14 +30,20 @@ const routes: Routes = [
     loadChildren: () => import('./components/reportes/reportes.module').then( m => m.ReportesPageModule)
   },
   {
+    path:'reportes/:idUsuario',
+    loadChildren: () => import('./components/reportes/reportes.module').then( m => m.ReportesPageModule)
+  },
+  {
     path:'reporte/:idReporte',
     loadChildren: () => import('./components/reporte/reporte.module').then( m => m.ReportePageModule)
   },
   {
+    //SE UTILIZA PARA CREAR
     path:'crear-reporte',
     loadChildren: () => import('./components/crear-reporte/crear-reporte.module').then( m => m.CrearReportePageModule)
   },
   {
+    //SE UTILIZA PARA EDITAR
     path:'crear-reporte/:idReporte',
     loadChildren: () => import('./components/crear-reporte/crear-reporte.module').then( m => m.CrearReportePageModule)
   },
@@ -49,10 +55,10 @@ const routes: Routes = [
     path:'usuario/:idUsuario',
     component: UsuarioComponent
   },
-  {
-    path:'usuario',
-    component: UsuarioComponent
-  },
+  // {
+  //   path:'usuario',
+  //   component: UsuarioComponent
+  // },
   {
     path:'formulario-usuario',
     component: FormularioUsuarioComponent

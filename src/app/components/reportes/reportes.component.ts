@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ReportesI } from 'src/app/commonFS/models-interfaceFS/reportes.interface';
 import { FireStoreService } from 'src/app/commonFS/servicesFS/fire-store.service';
-import { CrearReporteComponent } from '../crear-reporte/crear-reporte.component';
+import { MenuComponent } from 'src/app/pages/menu/menu.component';
 
 @Component({
   selector: 'app-reportes',
@@ -11,55 +11,65 @@ import { CrearReporteComponent } from '../crear-reporte/crear-reporte.component'
 })
 export class ReportesComponent  implements OnInit {
 
-  reportes: ReportesI[]=[];
-  reporte:ReportesI;
+  //OBJETOS
+  documentosReportes:ReportesI[]=[];
+  idUsuarioPresente:string;
 
+  //VARIABLES
+  noHayReportes:boolean;
   cargando:boolean=false;
 
 
 
   constructor(
     private router: Router,
-    private fireStoreService: FireStoreService,//INYECTANDO DEPENDENCIA
-
+    private route: ActivatedRoute,
+    private serviciosFireStoreDatabase: FireStoreService,//INYECTANDO DEPENDENCIA
   ) {
-    this.cargarReportesParaEmpresa();
-
-
+    this.idUsuarioPresente=route.snapshot.params['idUsuario'];//DECLARAR EL PASO DE ID EN EL ROUTING
+    this.avisoExisteReporte();
+    this.getReportesParaUsuariosObservable();
   }
 
   ngOnInit() {
     return;
   }
 
-//GET REPORTES GENERAL
-  cargarReportesParaEmpresa(){
-    this.fireStoreService.getCambiosYListar<ReportesI>('Reportes').subscribe(//SUBSCRIE, muestra los cambios en tiempo real
-      data=>{
-        if(data){
-          this.reportes=data;
-        }
-      }
-    );
+  //MENSAJE QUE AVISA AL USUARIO LA EXISTENCIA O NO DE REPORTES EN LA PANTALLA
+  avisoExisteReporte(){
+    if(this.documentosReportes.length>=0){
+      this.noHayReportes=true;
+    }
+    else{
+      this.noHayReportes=false;
+    }
   }
 
+  //GET REPORTES ESPECIFICOS CREADOS POR EL USUARIO QUE INICIA SESION. ROL DE USUARIO
+  async getReportesParaUsuariosObservable() {
+    this.serviciosFireStoreDatabase.getReportesParaUsuariosObservable(this.idUsuarioPresente).subscribe({
+      next: documentos => {
+        //console.log("Documentos actualizados:");
+        this.documentosReportes=documentos;
+      },
+    })
+  }
+
+  //CREAR REPORTE CON ID DE PAAMETRO EN RUTA
   navegarFormularioCrearReporte(){
     this.router.navigate(['/crear-reporte']);
+    console.log("sin id")
   }
 
+  //ELIMINA EL REPORTE SELECCIONADO
   async eliminarReporte(reporteEliminar: ReportesI){
-    console.log(reporteEliminar)
     this.cargando=true;
-    await this.fireStoreService.eliminarDocPorID( 'Reportes',reporteEliminar.idReporte);
+    await this.serviciosFireStoreDatabase.eliminarDocPorID( 'Reportes',reporteEliminar.idReporte);
     this.cargando=false;
   }
 
-  // verReporte(){
-  //   this.router.navigate(["/reporte"]);
-  // }
-
-  //REDIRECCIONAR CON ID
-  async navegarConIDVerReporte(idRep:string){
+  //REDIRECCIONAR A GET REPORTE CON ID
+  navegarConIDVerReporte(idRep:string){
     this.router.navigate(['/reporte',idRep]);
     console.log("enviando id",idRep)
   }

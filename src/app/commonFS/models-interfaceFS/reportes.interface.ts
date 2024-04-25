@@ -7,9 +7,9 @@ export interface ReportesI {
   fechaRegistroReporte: string,
   fechaAtencionReporte: string,
   fechaFinReporte: string,
-  idUsuario: number,
-  idOperador: number,
-  idEmpresa: number,
-  idFoto: number
+  idUsuario: string,
+  idOperador: string,
+  idEmpresa: string,
+  idFoto: string
   estado:string
 }

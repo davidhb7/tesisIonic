@@ -13,13 +13,19 @@ import { InteractionService } from 'src/app/commonFS/servicesFS/interaction.serv
 })
 export class MenuComponent  implements OnInit {
 
+  //OBJETOS
   usuarioLog:UsuarioI;
-  visibleReportes: boolean= true;
-  visibleOperarios: boolean= true;
-  visibleUsuarios: boolean= true;
 
+  //VARIABLES
+  visibleReportes: boolean;
+  visibleOperarios: boolean;
+  visibleUsuarios: boolean;
   idLog:string ="";
+  otroId:string;
 
+  x:any;
+
+  //OBJETO DE RUTAS
   opcionesMenu: any[]=[
     {
       idMen:1,
@@ -50,6 +56,7 @@ export class MenuComponent  implements OnInit {
 
 
   ];
+
   constructor(
     private router: Router,
     private serviciosUsAth: AuthServices,
@@ -61,33 +68,36 @@ export class MenuComponent  implements OnInit {
     this.serviciosAuth.estadoLogUsuario().subscribe(res =>{
       if(res){
         this.idLog=res.uid
-        console.log("SI LOG")
+        console.log("SI LOG", this.idLog);
+        console.log(this.usuarioLog.idUsuario)
         this.traerUS();
-
       }
       else{
         console.log("NO LOG")
       }
     });
-
   }
 
   ngOnInit() {
+
     return;
   }
 
-  //DIRECTO DE MENU
-  redirectMenu(nuevaRuta: any){
-    this.router.navigate([nuevaRuta]);
+  //DIRECTORIO DE MENU. REDIRECCIONA SEGUN LO ELEGIDO
+  redirectMenu(nuevaRuta: string,elId?:string){
+    this.router.navigate([nuevaRuta, elId] );
+    console.log(elId)
   }
 
-  cerrar(){
+  //CERRAR SESION CON SERVICIO
+  cerrarSesion(){
     this.serviciosUsAth.salida();
     this.serviciosInteracion.cerrarCargando();
     this.serviciosInteracion.mensajeGeneral("Salió correctamente");
     this.router.navigate(['/login']);
   }
 
+  //INICIALIZAR USUARIO VACIO
   inicializarUSVacioMen(){
     this.usuarioLog = {
       idUsuario: '',
@@ -105,6 +115,7 @@ export class MenuComponent  implements OnInit {
     };
   }
 
+  //CONSULTA EL USUARIO Y OTORGA/QUITA PERMISOS DE ROL
   async traerUS(){
     const response= await this.serviciosFirestore.getDocumentSolo("Usuarios", this.idLog);
     const usuarioData: DocumentData = response.data();
@@ -122,13 +133,25 @@ export class MenuComponent  implements OnInit {
       esActivo: usuarioData['esActivo'] ||'',
       fechaRegistro: usuarioData['fechaRegistro'] ||''
     }
+    this.idLog= this.usuarioLog.idUsuario
+
+
     if(this.usuarioLog.idRol=="4"){
       this.visibleReportes=false;
       this.visibleOperarios=false;
       this.visibleUsuarios=false;
     }
     else if(this.usuarioLog.idRol=="1" || this.usuarioLog.idRol=="2" || this.usuarioLog.idRol=="3"){
-      console.log("TIENE PERMISOS")
+      console.log("TIENE PERMISOS");
+      this.visibleReportes=true;
+      this.visibleOperarios=true;
+      this.visibleUsuarios=true;
+    }
+    else{
+      console.log("ROL DESCONOCIDO");
+      this.visibleReportes=false;
+      this.visibleOperarios=false;
+      this.visibleUsuarios=false;
     }
 
 
@@ -136,6 +159,11 @@ export class MenuComponent  implements OnInit {
 
   }
 
+  //PERFIL DEL USUARIO Y SU INFORMACION
+  paraverPerfilconId(idUsuariorouter: string){
+    console.log(idUsuariorouter);
+    this.router.navigate(['/usuario', idUsuariorouter])
+  }
 
 
 

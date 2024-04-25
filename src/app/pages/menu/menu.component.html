@@ -9,7 +9,7 @@
       <ion-menu-toggle>
 
         <ion-item >
-          <ion-label (click)="redirectMenu('/reportes')">
+          <ion-label (click)="redirectMenu('/reportes', usuarioLog.idUsuario)">
             Reportes
           </ion-label>
         </ion-item>
@@ -27,13 +27,13 @@
           </ion-label>
         </ion-item>
         <ion-item>
-          <ion-label (click)="redirectMenu('/usuario')">
+          <ion-label (click)="paraverPerfilconId(usuarioLog.idUsuario)">
             Perfil
           </ion-label>
         </ion-item>
 
         <ion-item>
-          <ion-label (click)="cerrar()">
+          <ion-label (click)="cerrarSesion()">
             Cerrar Sesion
           </ion-label>
         </ion-item>

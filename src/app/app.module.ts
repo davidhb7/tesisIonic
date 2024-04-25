@@ -18,6 +18,7 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import { getRemoteConfig, provideRemoteConfig } from '@angular/fire/remote-config';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire/compat';
+import { PROVIDED_STORAGE_INSTANCES } from '@angular/fire/storage/storage.module';
 
 @NgModule({
   declarations: [
@@ -28,9 +29,10 @@ import { AngularFireModule } from '@angular/fire/compat';
     BrowserModule,
     IonicModule.forRoot(),
     ReactiveFormsModule,
-    //FormsModule,
     AppRoutingModule,
-    //ERRORE??
+
+
+
     AngularFireModule.initializeApp({
       "projectId":"ionic-gest-rep-all",
       "appId":"1:1053661105256:web:66d9999b5cdd683631ffdd",
@@ -38,9 +40,9 @@ import { AngularFireModule } from '@angular/fire/compat';
       "apiKey":"AIzaSyAEg4LYp3RqblvzMTvJZNPIGIAPGzbYnaw",
       "authDomain":"ionic-gest-rep-all.firebaseapp.com",
       "messagingSenderId":"1053661105256"}),
-    //AngularFireModule,
 
-    provideFirebaseApp(() => initializeApp({
+    provideFirebaseApp(() => initializeApp(
+      {
       "projectId":"ionic-gest-rep-all",
       "appId":"1:1053661105256:web:66d9999b5cdd683631ffdd",
       "storageBucket":"ionic-gest-rep-all.appspot.com",
@@ -53,7 +55,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 
     provideAnalytics(() => getAnalytics()),
     //provideAppCheck(() => {
-      // TODO get a reCAPTCHA Enterprise here https://console.cloud.google.com/security/recaptcha?project=_
+      // get a reCAPTCHA Enterprise here https://console.cloud.google.com/security/recaptcha?project=_
       //const provider = new ReCaptchaEnterpriseProvider(/* reCAPTCHA Enterprise site key */);
       //return initializeAppCheck(undefined, { provider, isTokenAutoRefreshEnabled: true });
       //}),

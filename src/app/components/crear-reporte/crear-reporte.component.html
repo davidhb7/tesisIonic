@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/reportes"></ion-back-button>
+      <ion-back-button  [defaultHref]="'/reportes/' + idPresenteDeUsuario"></ion-back-button>
     </ion-buttons>
     <ion-title>
       Crear reporte
@@ -24,6 +24,26 @@
       <ion-textarea type="text" name="descripcion" [(ngModel)]="nuevoReporte.descripcion" aria-label="text"></ion-textarea>
     </ion-item>
 
+    <ion-item>
+      <ion-label>Fotos</ion-label>
+      <ion-buttons slot="end">
+        <label for="carga-archivo">
+          <ion-icon slot="icon-only" name="camera"></ion-icon>
+        </label>
+        <!-- ABRIR EXPLORADOR DE ARCHIVOS/GALERIA PARA CARGAR LAS FOTOS -->
+        <input type="file" accept="image/*" style="display: none;" id="carga-archivo" (change)="subirFotoCrearReporte($event)">
+      </ion-buttons>
+    </ion-item>
+
+    <!-- TODO -->
+    <!-- IMPLEMENTAR EL ACCESO A LA CAMARA -->
+
+    <!-- <ion-item>
+      <img [src]="nuevaFoto" alt="Sin fotos de reporte">
+    </ion-item> -->
+
+
+
 
     <!-- Botón para enviar el formulario -->
     <ion-button type="submit" (click)="guardarRegistro()" style="margin-left: 10px; font-size: 9px;" color="success">Enviar</ion-button>
@@ -37,6 +57,9 @@
 
   </ion-card>
 </ion-content>
+
+
+
 
 
 

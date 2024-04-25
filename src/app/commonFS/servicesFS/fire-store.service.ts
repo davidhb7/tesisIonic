@@ -1,12 +1,13 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collectionData, deleteDoc, doc, getDoc, getDocFromServer, getDocs, getDocsFromServer, setDoc, updateDoc } from '@angular/fire/firestore';
-import { DocumentReference, collection, getCountFromServer } from 'firebase/firestore';
+import { Firestore, collectionData, deleteDoc, doc, getDoc, getDocFromServer, getDocs, getDocsFromServer, onSnapshot, setDoc, updateDoc } from '@angular/fire/firestore';
+import { DocumentReference, collection, getCountFromServer, query, where } from 'firebase/firestore';
 
 import { Observable } from 'rxjs';
 //import { v4 as uuidv4 } from 'uuid';
 
 //DECLARACION UNICA DE ID PARA FIRESTORE
 import { v4 as uuidv4 } from 'uuid';
+import { ReportesI } from '../models-interfaceFS/reportes.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -68,7 +69,7 @@ export class FireStoreService {
     return deleteDoc(documento);
   }
 
-  //OBTENER NUMERO TOTAL DE DATOS REGITRADO-CONTEO.
+  //OBTENER NUMERO TOTAL DE DATOS REGITRADO-CONTEO. DEFINITIVO
   async contarNumeroDocumentosTotal(path:string){
     const consulta=collection(this.firestore,path);//REFERENCIA DE LA COLECCION
     const snapshot= await getCountFromServer(consulta);
@@ -76,23 +77,26 @@ export class FireStoreService {
     return totalCuenta;
   }
 
-
-  //SEGUNDA FORMA DE CONTAR DOCUMENTOS
-  /**
-   * TODO
-   */
-  async getCountFromServer(consulta: any) {
-    const querySnapshot = await getDocs(consulta);
-    return { count: querySnapshot.size };
+  //CONSULTA COMPUESTA DE REPORTES SEGUN ID DE USUARIO
+  //TRAE LOS REPORTES REALIZADOS POR EL USUARIO QUE INICIÓ SESION
+  getReportesParaUsuariosObservable(idUsuarioPresente:any): Observable<ReportesI[]> {
+    const coll =  collection(this.firestore, "Reportes");
+    const q = query(coll, where("idUsuario", "==", idUsuarioPresente));
+    return new Observable<ReportesI[]>((observer) => {
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const documentos: ReportesI[] = [];
+        querySnapshot.forEach((doc) => {
+          documentos.push(doc.data() as ReportesI);
+        });
+        observer.next(documentos);
+      });
+      return unsubscribe;
+    });
   }
-  async contarNumeroDocumentosTotalNuevo(path:string){
-    const consulta = collection(this.firestore, path);
-    const snapshot = await this.getCountFromServer(consulta);
-    let totalCuenta = snapshot.count;
-    return totalCuenta;
-  }
 
 
+  //TODO
+  //CREAR UN SERVICIO DONDE SE CONSULTEN TODOS LOS REPORTES CUANDO EL USUARIO ES EMPRESA
 
 
 

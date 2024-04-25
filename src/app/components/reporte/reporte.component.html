@@ -16,13 +16,16 @@
       <ion-card-header>
         <ion-card-title></ion-card-title>
         <ion-card-subtitle style="font-weight: bold; color: white; ">Identificacion del reporte:</ion-card-subtitle>
-        <p>{{idPresente}}</p>
+        <p>{{idPresenteReporte}}</p>
       </ion-card-header>
 
       <ion-card-content>
+        <strong>Reporte numero: {{reporte.numeroReporte}}</strong>
         <p>Descripcipon expecifica: {{reporte.descripcion}}</p>
         <p>Coordenadas {{reporte.ubicacion}}</p>
+        <p>BOTON UBICACION</p>
         <p style="color: green;">{{reporte.estado}}</p>
+        <p>FOTOS</p>
       </ion-card-content>
 
     </ion-card>
