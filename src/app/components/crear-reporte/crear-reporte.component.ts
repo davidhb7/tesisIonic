@@ -10,6 +10,8 @@ import { AuthServices } from 'src/app/commonFS/servicesFS/auth.service';
 import { FotoI } from 'src/app/commonFS/models-interfaceFS/fotos.interface';
 import { InteractionService } from 'src/app/commonFS/servicesFS/interaction.service';
 
+import { Geolocation, GeolocationPosition, GeolocationPermissionType } from '@capacitor/geolocation';
+
 
 
 @Component({
@@ -44,12 +46,14 @@ export class CrearReporteComponent  implements OnInit {
     private serviciosInteraccion: InteractionService,
     private router: Router,
     private serviciosAuth: AuthServices,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    //private geolocation: Geolocation
   ) {
     //RECIBIENDO ID IDREPORTE
     this.idPresenteDeReporte=route.snapshot.params['idReporte'];
     this.inicializarUsuarioVacio();
     this.inicializarFotoVacio();
+
 
     //OBTENCION DE ID USUARIO
     this.serviciosAuth.estadoLogUsuario().subscribe(res =>{
@@ -217,6 +221,22 @@ export class CrearReporteComponent  implements OnInit {
       urlFoto:[]
     }
   }
+
+
+  async tomarubicacion(){
+    this.serviciosInteraccion.cargandoConMensaje("Tomando coordenadas")
+    const parametrosUbicacion = {
+      enableHighAccuracy: true, // Obtener coordenadas más precisas
+      maximumAge: 5000 // No obtener coordenadas de caché mayores a 5 segundos
+    };
+    const localizacion = await Geolocation.getCurrentPosition(parametrosUbicacion);
+    this.serviciosInteraccion.mensajeGeneral("Hecho!");
+    this.serviciosInteraccion.cerrarCargando();
+    console.log(localizacion.coords.latitude, localizacion.coords.longitude );
+    this.nuevoReporte.ubicacion=localizacion.coords.latitude.toString() +" "+ localizacion.coords.longitude.toString()
+  }
+
+
 
 
 }

@@ -25,6 +25,16 @@
     </ion-item>
 
     <ion-item>
+      <ion-label (click)="tomarubicacion()">
+        Posicion actual: <p>{{nuevoReporte.ubicacion}}</p>
+      </ion-label>
+      <ion-icon name="location-outline" (click)="tomarubicacion()"></ion-icon>
+    </ion-item>
+
+
+
+
+    <ion-item>
       <ion-label>Fotos</ion-label>
       <ion-buttons slot="end">
         <label for="carga-archivo">

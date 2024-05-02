@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 
+
 @NgModule({
   declarations: [
     CrearReporteComponent
@@ -15,7 +16,11 @@ import { IonicModule } from '@ionic/angular';
     CommonModule,
     CrearReporteRoutingModule,
     IonicModule,
-    FormsModule
+    FormsModule,
+  ],
+  providers:[
+    Geolocation,
+
   ]
 })
 export class CrearReportePageModule { }
