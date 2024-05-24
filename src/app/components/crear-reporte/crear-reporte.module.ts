@@ -5,6 +5,7 @@ import { CrearReporteRoutingModule } from './crear-reporte-routing.module';
 import { CrearReporteComponent } from './crear-reporte.component';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 
 
@@ -20,6 +21,8 @@ import { IonicModule } from '@ionic/angular';
   ],
   providers:[
     Geolocation,
+    // Camera,
+    // CameraResultType,
 
   ]
 })

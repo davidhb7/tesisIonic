@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ACTIVO, USUARIO } from 'src/app/commonFS/constantes/constantes';
-import { UsuarioI } from 'src/app/commonFS/models-interfaceFS/usuarios.interface';
-import { FireStoreService } from 'src/app/commonFS/servicesFS/fire-store.service';
+import { ACTIVO, USUARIO } from 'src/app/common/constantes/constantes';
+import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
+import { FireStoreService } from 'src/app/common/services/fire-store.service';
 
 @Component({
   selector: 'app-formulario-usuario',
@@ -35,6 +35,7 @@ export class FormularioUsuarioComponent  implements OnInit {
     return;
   }
 
+  //INICIALIZAR USUARIO VACIO Y VALIDACIONES
   inicializarVacio(){
     this.nuevoUsuario = {
       idUsuario: '',
@@ -60,6 +61,7 @@ export class FormularioUsuarioComponent  implements OnInit {
     });
   }
 
+  //INICIALIZAR USUARIO BASE
   inicializarUsuarioBase(){
     let fechaHoyString: string = `${this.fechaHoy.getDate()}/${this.fechaHoy.getMonth() + 1}/${this.fechaHoy.getFullYear()} ${this.fechaHoy.getHours()}:${this.fechaHoy.getMinutes()}`;
     this.nuevoUsuario = {
@@ -78,6 +80,7 @@ export class FormularioUsuarioComponent  implements OnInit {
     };
   }
 
+  //GUARDAR USUARIO
   async guardarUsuario(){
     this.cargando=true;
     //await this.fireStroreService.crearDocumentoGeneralPorID(this.nuevoUsuario,'Usuarios', this.nuevoUsuario.idUsuario);
@@ -86,6 +89,7 @@ export class FormularioUsuarioComponent  implements OnInit {
     //this.router.navigate(["/usuarios"]);
   }
 
+  //GUARDAR?
   submitForm() {
     if (this.form.valid) {
       console.log("ES VALIDO");

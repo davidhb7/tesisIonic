@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { UsuarioI } from '../commonFS/models-interfaceFS/usuarios.interface';
-import { FireStoreService } from '../commonFS/servicesFS/fire-store.service';
+import { UsuarioI } from '../common/interfaces/usuarios.interface';
+import { FireStoreService } from '../common/services/fire-store.service';
 
 @Component({
   selector: 'app-home',

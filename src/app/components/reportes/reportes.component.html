@@ -10,9 +10,10 @@
 </ion-header>
 
 <ion-content>
-  <h3 *ngIf="documentosReportes.length<=0" style="margin-left: 10px;">No hay reportes...</h3>
+  <h3 *ngIf="!hayReportes" style="margin-left: 10px;">No hay reportes...</h3>
   <ion-list>
     <ion-button (click)="navegarFormularioCrearReporte()" style="margin-left: 10px; ">Crear nuevo reporte</ion-button>
+
     <ion-item *ngFor="let nuevoReporte of documentosReportes, let index" >
       <ion-label>
         Reporte numero: {{nuevoReporte.numeroReporte}}
@@ -28,6 +29,24 @@
       <ion-button color="danger" (click)="eliminarReporte(nuevoReporte)" style="font-size: 8px;">Eliminar</ion-button>
       <ion-button color="success" (click)="navegarConIDVerReporte(nuevoReporte.idReporte)" style="font-size: 8px;">Ver</ion-button>
       <ion-button color="warning" (click)="navegarConIDEditarReporte(nuevoReporte.idReporte)" style="font-size: 8px;">Editar</ion-button>
+    </ion-item>
+
+    <!-- REPORTES GENERALES -->
+    <ion-item *ngFor="let repGenerales of documentosGeneralesReportes, let index" >
+      <ion-label>
+        Reporte numero: {{repGenerales.numeroReporte}}
+        <p>Descripcipon: {{repGenerales.descripcion}}</p>
+        <p>Estado:</p><p style="color: green;"> {{repGenerales.estado}}</p>
+
+      </ion-label>
+      @if (cargando) {
+        <div style="text-align:center;">
+          <ion-spinner name="bubbles"></ion-spinner>
+        </div>
+      }
+      <ion-button color="danger" (click)="eliminarReporte(repGenerales)" style="font-size: 8px;">Eliminar</ion-button>
+      <ion-button color="success" (click)="navegarConIDVerReporte(repGenerales.idReporte)" style="font-size: 8px;">Ver</ion-button>
+      <ion-button color="warning" (click)="navegarConIDEditarReporte(repGenerales.idReporte)" style="font-size: 8px;">Editar</ion-button>
     </ion-item>
 
 

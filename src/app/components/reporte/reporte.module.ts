@@ -15,7 +15,8 @@ import { IonicModule } from '@ionic/angular';
     CommonModule,
     ReporteRoutingModule,
     IonicModule,
-    FormsModule
+    FormsModule,
+
   ]
 })
 export class ReportePageModule { }

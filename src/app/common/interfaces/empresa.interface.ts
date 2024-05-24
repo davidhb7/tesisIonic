@@ -1,4 +1,4 @@
-export interface Empresa {
+export interface EmpresaI {
   idEmpresa: number,
   nombreEmpresa: string,
   nitEmpresa: string,

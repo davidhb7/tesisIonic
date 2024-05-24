@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ACTIVO, USUARIO } from 'src/app/commonFS/constantes/constantes';
-import { UsuarioI } from 'src/app/commonFS/models-interfaceFS/usuarios.interface';
-import { AuthServices } from 'src/app/commonFS/servicesFS/auth.service';
-import { FireStoreService } from 'src/app/commonFS/servicesFS/fire-store.service';
-import { InteractionService } from 'src/app/commonFS/servicesFS/interaction.service';
+import { ACTIVO, USUARIO } from 'src/app/common/constantes/constantes';
+import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
+import { AuthServices } from 'src/app/common/services/auth.service';
+import { FireStoreService } from 'src/app/common/services/fire-store.service';
+import { InteractionService } from 'src/app/common/services/interaction.service';
 
 @Component({
   selector: 'app-registro',
@@ -89,7 +89,7 @@ export class RegistroComponent  implements OnInit {
     console.log("si sirve")
     console.log(this.nuevoUsuario)
 
-    const resp= await this.serviciosAuthe.registrarUsuarioRegistro(this.nuevoUsuario);
+    const resp= await this.serviciosAuthe.registrarUsuarioRegistroAuthServices(this.nuevoUsuario);
     if(resp){
       this.serviciosInteraccion.mensajeGeneral("Usuario registrado correctamente");
       this.nuevoUsuario.idUsuario=resp.user.uid;

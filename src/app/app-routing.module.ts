@@ -6,6 +6,7 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { FormularioUsuarioComponent } from './components/formulario-usuario/formulario-usuario.component';
 import { RegistroComponent } from './pages/registro/registro.component';
+import { OperadoresComponent } from './components/operadores/operadores.component';
 
 const routes: Routes = [
   {
@@ -26,14 +27,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
   },
   {
+    //VER REPORTE GENERALES
     path:'reportes',
     loadChildren: () => import('./components/reportes/reportes.module').then( m => m.ReportesPageModule)
   },
   {
+    //PARA VER LOS REPORTES REALIZADOS POR EL USUARIO
     path:'reportes/:idUsuario',
     loadChildren: () => import('./components/reportes/reportes.module').then( m => m.ReportesPageModule)
   },
   {
+    //VER UN REPORTE EN CONCRETO POR ID
     path:'reporte/:idReporte',
     loadChildren: () => import('./components/reporte/reporte.module').then( m => m.ReportePageModule)
   },
@@ -48,17 +52,21 @@ const routes: Routes = [
     loadChildren: () => import('./components/crear-reporte/crear-reporte.module').then( m => m.CrearReportePageModule)
   },
   {
+    //VER TODOS LOS USUARIOS REGISTRADOS
     path:'usuarios',
     component: UsuariosComponent
   },
+
   {
+    //PARA VER EL PERFIL DEL LOGEADO
     path:'usuario/:idUsuario',
     component: UsuarioComponent
   },
-  // {
-  //   path:'usuario',
-  //   component: UsuarioComponent
-  // },
+  {
+    //VER LOS OPERARIOS PERTENECIENTES A LA EMPRESA
+    path:'operarios',
+    component: OperadoresComponent
+  },
   {
     path:'formulario-usuario',
     component: FormularioUsuarioComponent

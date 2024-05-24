@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { GoogleMapsService } from 'src/app/commonFS/servicesFS/google-maps.service';
+import { GoogleMapsService } from 'src/app/common/services/google-maps.service';
 
 @Component({
   selector: 'app-google-maps',

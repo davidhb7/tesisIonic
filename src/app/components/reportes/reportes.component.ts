@@ -1,7 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
-import { ReportesI } from 'src/app/commonFS/models-interfaceFS/reportes.interface';
-import { FireStoreService } from 'src/app/commonFS/servicesFS/fire-store.service';
+import { ReportesI } from 'src/app/common/interfaces/reportes.interface';
+import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
+import { FireStoreService } from 'src/app/common/services/fire-store.service';
+import { InteractionService } from 'src/app/common/services/interaction.service';
+import { DocumentData } from '@angular/fire/firestore';
 import { MenuComponent } from 'src/app/pages/menu/menu.component';
 
 @Component({
@@ -13,11 +16,14 @@ export class ReportesComponent  implements OnInit {
 
   //OBJETOS
   documentosReportes:ReportesI[]=[];
-  idUsuarioPresente:string;
+  documentosGeneralesReportes: ReportesI[]=[];
+  usuarioPresente:UsuarioI;
+
 
   //VARIABLES
-  noHayReportes:boolean;
+  hayReportes:boolean;
   cargando:boolean=false;
+  idUsuarioPresente:string;
 
 
 
@@ -25,23 +31,41 @@ export class ReportesComponent  implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private serviciosFireStoreDatabase: FireStoreService,//INYECTANDO DEPENDENCIA
+    private serviciosInteraccion: InteractionService,
   ) {
     this.idUsuarioPresente=route.snapshot.params['idUsuario'];//DECLARAR EL PASO DE ID EN EL ROUTING
     this.avisoExisteReporte();
-    this.getReportesParaUsuariosObservable();
+
+    //CONDICIONAL PARA ESTOS...
+    this.tipoUsuario();
+
+
   }
 
   ngOnInit() {
     return;
   }
 
+
+  //SI ES EMPRESA U OPERARIO, TRAER TODOS LOS REPORTES
+  getReportesGeneralesEmpresaOperario(){
+    this.serviciosFireStoreDatabase.getCambiosYListar<ReportesI>("Reportes").subscribe(
+      data=>{
+        if(data){
+          this.documentosGeneralesReportes=data;
+          console.log("rep gen: ",data)
+        }
+      }
+    )
+  }
+
   //MENSAJE QUE AVISA AL USUARIO LA EXISTENCIA O NO DE REPORTES EN LA PANTALLA
   avisoExisteReporte(){
-    if(this.documentosReportes.length>=0){
-      this.noHayReportes=true;
+    if(this.documentosReportes.length>=0 || this.documentosGeneralesReportes.length>=0){
+      this.hayReportes=true;
     }
     else{
-      this.noHayReportes=false;
+      this.hayReportes=false;
     }
   }
 
@@ -78,6 +102,44 @@ export class ReportesComponent  implements OnInit {
   async navegarConIDEditarReporte(idRep:string){
     this.router.navigate(['/crear-reporte',idRep]);
     console.log("enviando id editar",idRep)
+  }
+
+  //CONSULTAR USUARIO
+  async tipoUsuario(){
+    this.serviciosInteraccion.cargandoConMensaje("Cargando");
+    const response = await this.serviciosFireStoreDatabase.getDocumentSolo('Usuarios',this.idUsuarioPresente);
+    const usuarioData: DocumentData = response.data();
+    this.usuarioPresente = {
+      idUsuario: usuarioData['idUsuario'] || '',
+      cedulausuario:  usuarioData['cedulausuario'] ||'',
+      numeroReferenciaUsuario: usuarioData['numeroReferenciaUsuario'] || 0,
+      nombreUsuario: usuarioData['nombreUsuario'] || '',
+      correoUsuario: usuarioData['correoUsuario'] || '',
+      celularUsuario: usuarioData['celularUsuario'] || '',
+      direccionUsuario: usuarioData['direccionUsuario'] || '',
+      telefonoUsuario: usuarioData['telefonoUsuario'] || '',
+      clave: usuarioData['clave'] || '',
+      idRol: usuarioData['idRol'] || '',
+      esActivo: usuarioData['esActivo'] || '',
+      fechaRegistro: usuarioData['fechaRegistro'] || ''
+    }
+    console.log(this.usuarioPresente);
+    this.serviciosInteraccion.cerrarCargando();
+    this.mostrarReportesSegunUsuario();
+  }
+
+
+  //MUESTRA REPORTES SEGUN EL USUARIO. TODOS O LOS DE LOS DEL USUARIO EN PARTICULAR
+  mostrarReportesSegunUsuario(){
+    if(this.usuarioPresente.idRol=="1" || this.usuarioPresente.idRol=="2" || this.usuarioPresente.idRol=="3"){
+      this.getReportesGeneralesEmpresaOperario();
+    }
+    else if(this.usuarioPresente.idRol=="4"){
+      this.getReportesParaUsuariosObservable();
+    }
+    else{
+      this.hayReportes=false;
+    }
   }
 
 

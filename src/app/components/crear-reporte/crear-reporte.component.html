@@ -28,22 +28,46 @@
       <ion-label (click)="tomarubicacion()">
         Posicion actual: <p>{{nuevoReporte.ubicacion}}</p>
       </ion-label>
-      <ion-icon name="location-outline" (click)="tomarubicacion()"></ion-icon>
+      <ion-icon name="location-outline" color="danger" (click)="tomarubicacion()"></ion-icon>
     </ion-item>
 
 
 
 
     <ion-item>
-      <ion-label>Fotos</ion-label>
+      <ion-label>Fotos de galeria:</ion-label>
       <ion-buttons slot="end">
         <label for="carga-archivo">
-          <ion-icon slot="icon-only" name="camera"></ion-icon>
+          <ion-icon slot="icon-only" name="image-outline"></ion-icon>
         </label>
         <!-- ABRIR EXPLORADOR DE ARCHIVOS/GALERIA PARA CARGAR LAS FOTOS -->
         <input type="file" accept="image/*" style="display: none;" id="carga-archivo" (change)="subirFotoCrearReporte($event)">
       </ion-buttons>
     </ion-item>
+
+
+    <!-- <ion-item>
+      <p>Fotos Seleccionadas</p>
+    </ion-item>
+    <ion-item class="imagen" *ngFor="let urlFoto of enlacesFotos">
+      <img src="{{urlFoto}}" alt=""  style="margin: 10px; border-radius: 10px; height: 10; width: 20;">
+      <ion-icon name="close-circle-outline" color="danger" (click)="eliminarFoto(urlFoto)"></ion-icon>
+    </ion-item> -->
+
+    <ion-item class="imagen" *ngFor="let urlFoto of enlacesFotos">
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="{{urlFoto}}" alt="" style="margin: 10px; border-radius: 10px; height: 100px; width: 200px;">
+        <ion-icon name="close-circle-outline" color="danger" (click)="eliminarFoto(urlFoto)" style="margin-top: 5px; margin-bottom: 10px;"></ion-icon>
+      </div>
+    </ion-item>
+    <!-- <ion-item>
+      <ion-label (click)="tomarFoto()">
+        Camara:
+      </ion-label>
+      <ion-icon name="camera" (click)="tomarFoto()"></ion-icon>
+    </ion-item> -->
+
+
 
     <!-- TODO -->
     <!-- IMPLEMENTAR EL ACCESO A LA CAMARA -->
@@ -56,14 +80,14 @@
 
 
     <!-- Botón para enviar el formulario -->
-    <ion-button type="submit" (click)="guardarRegistro()" style="margin-left: 10px; font-size: 9px;" color="success">Enviar</ion-button>
+    <ion-button type="submit" (click)="guardarRegistro()" style="margin-left: 10px; margin-top: 10px; font-size: 9px;" color="success">Enviar</ion-button>
 
     @if (cargando) {
       <div style="text-align:center;">
         <ion-spinner name="bubbles"></ion-spinner>
       </div>
     }
-    <p style="margin-left: 10px;">  Numero de registros totales: {{numeroActualReportes}}</p>
+    <p style="margin-left: 10px; color: orange;" >  <strong>Reportes realizados:</strong> {{numeroActualReportes}}</p>
 
   </ion-card>
 </ion-content>

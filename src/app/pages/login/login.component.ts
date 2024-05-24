@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
-import { UsuarioI } from 'src/app/commonFS/models-interfaceFS/usuarios.interface';
-import { AuthServices } from 'src/app/commonFS/servicesFS/auth.service';
-import { InteractionService } from 'src/app/commonFS/servicesFS/interaction.service';
+import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
+import { AuthServices } from 'src/app/common/services/auth.service';
+import { InteractionService } from 'src/app/common/services/interaction.service';
 
 @Component({
   selector: 'app-login',
@@ -49,7 +49,7 @@ export class LoginComponent  implements OnInit {
   async iniciarSesion(){
     this.serviciosInteraccion.cargandoConMensaje("Ingresando")
     if(this.formLogin.valid){
-      const resp= await this.llamaServiciosAut.credValUno(this.correoUsuarioLogin, this.paseUsuarioLogin)
+      const resp= await this.llamaServiciosAut.iniciarSesionAuthServices(this.correoUsuarioLogin, this.paseUsuarioLogin)
       .catch((er)=>{
         const errorCode = er.code;
         const errorMessage = er.message;
@@ -58,8 +58,7 @@ export class LoginComponent  implements OnInit {
         this.serviciosInteraccion.cerrarCargando();
         this.correoUsuarioLogin=""
         this.paseUsuarioLogin=""
-      })
-      ;
+      });
       if(resp){
         this.goToMenu();
         this.serviciosInteraccion.mensajeGeneral("Inicio correcto");

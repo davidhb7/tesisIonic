@@ -15,7 +15,7 @@ export class FireStorageService {
 
 
 
-  //CARGAR FOTOS Y OBTENCION DE ENLACES EN FIRE STORAGE
+  //SELECCIONAR FOTOS DEL DISPOSITIVO, SUBIR FOTOS Y OBTENCION DE ENLACES EN FIRE STORAGE
   cargarFotoFireStorage(archivo:any, ruta:any, nombreFoto:string): Promise<string>{
     return new Promise(resolve=>{
       const rutaArchivo= ruta+'/'+ nombreFoto;
@@ -32,7 +32,21 @@ export class FireStorageService {
           });
         })
       ).subscribe();
+    });
+  }
 
+
+  //ELIMINAR FOTO POR URL
+  eliminarFotoFireStorage(urlFoto: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      // Obtener referencia al archivo en Fire Storage a partir del URL
+      const referencia = this.angStorage.storage.refFromURL(urlFoto);
+      // Eliminar archivo
+      referencia.delete().then(() => {
+        resolve();
+      }).catch(error => {
+        reject(error);
+      });
     });
   }
 

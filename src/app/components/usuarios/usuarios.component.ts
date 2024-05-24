@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsuarioI } from 'src/app/commonFS/models-interfaceFS/usuarios.interface';
-import { FireStoreService } from 'src/app/commonFS/servicesFS/fire-store.service';
+import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
+import { FireStoreService } from 'src/app/common/services/fire-store.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -36,6 +36,7 @@ export class UsuariosComponent  implements OnInit {
       data=>{
         if(data){
           this.usuarios=data;
+          console.log("DATA",data)
         }
       }
     );

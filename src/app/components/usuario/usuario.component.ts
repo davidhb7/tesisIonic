@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UsuarioI } from 'src/app/commonFS/models-interfaceFS/usuarios.interface';
-import { FireStoreService } from 'src/app/commonFS/servicesFS/fire-store.service';
-import { InteractionService } from 'src/app/commonFS/servicesFS/interaction.service';
+import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
+import { FireStoreService } from 'src/app/common/services/fire-store.service';
+import { InteractionService } from 'src/app/common/services/interaction.service';
 
 @Component({
   selector: 'app-usuario',

@@ -1,13 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collectionData, deleteDoc, doc, getDoc, getDocFromServer, getDocs, getDocsFromServer, onSnapshot, setDoc, updateDoc } from '@angular/fire/firestore';
-import { DocumentReference, collection, getCountFromServer, query, where } from 'firebase/firestore';
+import { DocumentReference, QuerySnapshot, collection, getCountFromServer, query, where } from 'firebase/firestore';
 
 import { Observable } from 'rxjs';
 //import { v4 as uuidv4 } from 'uuid';
 
 //DECLARACION UNICA DE ID PARA FIRESTORE
 import { v4 as uuidv4 } from 'uuid';
-import { ReportesI } from '../models-interfaceFS/reportes.interface';
+import { ReportesI } from '../interfaces/reportes.interface';
+import { FotoI } from '../interfaces/fotos.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,8 @@ export class FireStoreService {
   private firestore: Firestore = inject(Firestore);
 
   constructor(
-  ) {
 
+  ) {
   }
 
   //CREAR ID ALEATORIO
@@ -38,6 +39,8 @@ export class FireStoreService {
 
 
   //GET
+  //TODO
+  //TRAE TODOS LOS DOCUMENTOS DE ESA COLECCION?
   //TRAER Y OBTENER LOS CAMBIOS DE LA COLECCION.
   //LEE CUALQUEIR COLECCION. ESTA PENDIENTE DE LOS CAMBIOS
   getCambiosYListar<tipo>(path: string){//tipo: es el campo o variable a leer. Argumento. Path es la ruta a la BDD de firestore
@@ -51,13 +54,13 @@ export class FireStoreService {
     return setDoc(documento,data);
   }
 
-  //CREATEBYID
+  //CREATEBYID. CREAR DOCUMENTO CON UN ID PREDISEÑADO
   async crearDocumentoGeneralPorID(data: any, enlace: string, idDoc: string){
     const documento = doc(this.firestore, `${enlace}/${idDoc}`);
     return await setDoc(documento,data);//setDoc, es el encargado de ordenar la creacion del documento en Firestore
   }
 
-  //UPDATE
+  //UPDATE. ACTUALIZAR DOCUMENTO TENIENDO UN ID DE REFERENCIA
   async actualizarDocumentoPorID(data:any, enlace:string, idDoc:number){
     const documento = doc(this.firestore, `${enlace}/${idDoc}`);
     return updateDoc(documento,data);
@@ -84,11 +87,29 @@ export class FireStoreService {
     const q = query(coll, where("idUsuario", "==", idUsuarioPresente));
     return new Observable<ReportesI[]>((observer) => {
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const documentos: ReportesI[] = [];
-        querySnapshot.forEach((doc) => {
-          documentos.push(doc.data() as ReportesI);
+        const documentosReportes: ReportesI[] = [];
+        querySnapshot.forEach((doc)=>{
+          documentosReportes.push(doc.data() as ReportesI);
         });
-        observer.next(documentos);
+        observer.next(documentosReportes);
+      });
+      return unsubscribe;
+    });
+  }
+
+
+  //CONSULTA COMPUESTA DE TRAER FOTOS, SEGUN ID DEL REPORTE
+  //TRAE LAS FOTOS PERTENECIENTES AL REPORTE SELECCIONADO.
+  getFotosSegunReporteObservable(idReportePresente: any): Observable<FotoI[]>{
+    const coleccionNecesaria = collection(this.firestore, "Fotos");
+    const consulta = query(coleccionNecesaria, where("idReporte", "==", idReportePresente));
+    return new Observable<FotoI[]>((observer)=>{
+      const unsubscribe = onSnapshot(consulta, (querySnapshot)=>{
+        const documentoFotos: FotoI[]=[];
+        querySnapshot.forEach((doc)=>{
+          documentoFotos.push(doc.data() as FotoI);
+        });
+        observer.next(documentoFotos);
       });
       return unsubscribe;
     });

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DocumentData } from 'firebase/firestore';
-import { UsuarioI } from 'src/app/commonFS/models-interfaceFS/usuarios.interface';
-import { AuthServices } from 'src/app/commonFS/servicesFS/auth.service';
-import { FireStoreService } from 'src/app/commonFS/servicesFS/fire-store.service';
-import { InteractionService } from 'src/app/commonFS/servicesFS/interaction.service';
+import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
+import { AuthServices } from 'src/app/common/services/auth.service';
+import { FireStoreService } from 'src/app/common/services/fire-store.service';
+import { InteractionService } from 'src/app/common/services/interaction.service';
 
 @Component({
   selector: 'app-menu',
@@ -17,9 +17,9 @@ export class MenuComponent  implements OnInit {
   usuarioLog:UsuarioI;
 
   //VARIABLES
-  visibleReportes: boolean;
-  visibleOperarios: boolean;
-  visibleUsuarios: boolean;
+  visibleReportes: boolean=true;
+  visibleOperarios: boolean=true;
+  visibleUsuarios: boolean=true;
   idLog:string ="";
   otroId:string;
 
@@ -86,7 +86,8 @@ export class MenuComponent  implements OnInit {
   //DIRECTORIO DE MENU. REDIRECCIONA SEGUN LO ELEGIDO
   redirectMenu(nuevaRuta: string,elId?:string){
     this.router.navigate([nuevaRuta, elId] );
-    console.log(elId)
+    console.log(elId);
+    console.log("LA RUTA:",nuevaRuta);
   }
 
   //CERRAR SESION CON SERVICIO
@@ -153,10 +154,6 @@ export class MenuComponent  implements OnInit {
       this.visibleOperarios=false;
       this.visibleUsuarios=false;
     }
-
-
-
-
   }
 
   //PERFIL DEL USUARIO Y SU INFORMACION
@@ -164,6 +161,18 @@ export class MenuComponent  implements OnInit {
     console.log(idUsuariorouter);
     this.router.navigate(['/usuario', idUsuariorouter])
   }
+
+  //PERFIL DEL USUARIO Y SU INFORMACION
+  irTodosLosUsuarios(){
+    this.router.navigate(['/usuarios'])
+  }
+
+  //VER TODOS LOS OPERARIOS-CONTRATISTAS-FONTANEROS
+  irTodosLosOperarios(){
+    this.router.navigate(['/operarios'])
+  }
+
+
 
 
 

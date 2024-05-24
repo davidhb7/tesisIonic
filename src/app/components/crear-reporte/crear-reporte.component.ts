@@ -1,14 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EN_PROCESO } from 'src/app/commonFS/constantes/constantes';
-import { ReportesI } from 'src/app/commonFS/models-interfaceFS/reportes.interface';
-import { UsuarioI } from 'src/app/commonFS/models-interfaceFS/usuarios.interface';
-import { FireStorageService } from 'src/app/commonFS/servicesFS/fire-storage.service';
-import { FireStoreService } from 'src/app/commonFS/servicesFS/fire-store.service';
-import { AuthServices } from 'src/app/commonFS/servicesFS/auth.service';
-import { FotoI } from 'src/app/commonFS/models-interfaceFS/fotos.interface';
-import { InteractionService } from 'src/app/commonFS/servicesFS/interaction.service';
+import { EN_PROCESO } from 'src/app/common/constantes/constantes';
+import { ReportesI } from 'src/app/common/interfaces/reportes.interface';
+import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
+import { FireStorageService } from 'src/app/common/services/fire-storage.service';
+import { FireStoreService } from 'src/app/common/services/fire-store.service';
+import { AuthServices } from 'src/app/common/services/auth.service';
+import { FotoI } from 'src/app/common/interfaces/fotos.interface';
+import { InteractionService } from 'src/app/common/services/interaction.service';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 import { Geolocation, GeolocationPosition, GeolocationPermissionType } from '@capacitor/geolocation';
 
@@ -38,6 +39,7 @@ export class CrearReporteComponent  implements OnInit {
   idPresenteDeReporte:string;
   idPresenteDeUsuario:string;
   enlacesFotos:string[] =[];
+  idsFotosSeleccionadas:string[]=[];
   contadorFotosNombre=0;
 
   constructor(
@@ -52,6 +54,7 @@ export class CrearReporteComponent  implements OnInit {
     //RECIBIENDO ID IDREPORTE
     this.idPresenteDeReporte=route.snapshot.params['idReporte'];
     this.inicializarUsuarioVacio();
+
     this.inicializarFotoVacio();
 
 
@@ -61,6 +64,7 @@ export class CrearReporteComponent  implements OnInit {
         this.usuarioLog.idUsuario=res.uid;
         this.idPresenteDeUsuario=res.uid;
         this.nuevoReporte.idUsuario=res.uid;
+        this.getUsuarioPorID();
       }
       else{
         console.log("NO LOG")
@@ -110,9 +114,8 @@ export class CrearReporteComponent  implements OnInit {
       idUsuario: '',
       fechaFoto:'',
       nombreFoto: '',
-      urlFoto:[]
+      urlFoto:''
     }
-
   }
 
   //INICIALIZAR CON VACIO
@@ -141,7 +144,7 @@ export class CrearReporteComponent  implements OnInit {
       idReporte: this.serviciosFireStore.crearIDUnico(),
       numeroReporte: this.asignableNuevo,
       descripcion: "",
-      ubicacion: "Lat: 0, Long: 0",
+      ubicacion: "Sin ubicacion",
       fechaRegistroReporte: fechaHoyString,
       fechaAtencionReporte: "",
       fechaFinReporte: "",
@@ -156,10 +159,9 @@ export class CrearReporteComponent  implements OnInit {
   //FUNCION GUARDAR
   async guardarRegistro(){
     this.cargando=true;
-    this.serviciosInteraccion.cargandoConMensaje("Guardando Reportes")
+    this.serviciosInteraccion.cargandoConMensaje("Guardando Reportes")//Interacciones del proceso
+    //Crea y guarda el objeto de reporte
     await this.serviciosFireStore.crearDocumentoGeneralPorID(this.nuevoReporte,'Reportes',this.nuevoReporte.idReporte);
-    this.nuevaFotoI.urlFoto=this.enlacesFotos;
-    await this.serviciosFireStore.crearDocumentoGeneralPorID(this.nuevaFotoI,'Fotos',this.nuevaFotoI.idFoto);
     this.cargando=false;
     this.serviciosInteraccion.mensajeGeneral("Reporte enviado");
     this.serviciosInteraccion.cerrarCargando();
@@ -194,19 +196,48 @@ export class CrearReporteComponent  implements OnInit {
     }
   }
 
-
-
-
-  //CONSUMO DE SERVICIO SUBIR FOTOS AL STORAGE AL CREAR EL REPORTE
+  //CONSUMO DE SERVICIO SUBIR FOTOS AL STORAGE MIENTRAS SE CREA EL REPORTE
   async subirFotoCrearReporte(event:any){
-    const rutaPath="Fotos de Reportes";
-    const nombre="fotoReporte"+this.nuevoReporte.numeroReporte+this.contadorFotosNombre.toString();
+    const nombreRutaCarpetaStorage=this.usuarioLog.correoUsuario;
+    const nombreFotoEnStorage="fotoReporte"+this.nuevoReporte.numeroReporte+this.contadorFotosNombre.toString();
     const archivo= event.target.files[0];
-    const res = await this.servicioFireStorage.cargarFotoFireStorage(archivo, rutaPath, nombre );
-    console.log("ENLACE res ", res)
+    this.serviciosInteraccion.cargandoConMensaje("Cargando foto.")
+    const res = await this.servicioFireStorage.cargarFotoFireStorage(archivo, nombreRutaCarpetaStorage, nombreFotoEnStorage );
+    this.nuevaFotoI.urlFoto=res;
     this.enlacesFotos.push(res)
+    this.idsFotosSeleccionadas.push(this.nuevaFotoI.idFoto);
+    this.nuevaFotoI.idFoto=this.serviciosFireStore.crearIDUnico();
+    await this.serviciosFireStore.crearDocumentoGeneralPorID(this.nuevaFotoI,'Fotos',this.nuevaFotoI.idFoto);
     this.contadorFotosNombre++;
+    this.serviciosInteraccion.mensajeGeneral("Listo");
+    this.serviciosInteraccion.cerrarCargando();
     console.log("arreglo enlaces",this.enlacesFotos)
+  }
+
+  //ELIMINAR FOTO SELECCIONADA
+  eliminarFoto(url: string, fotoID?:string) {
+
+    //ELIMINANDO LA FOTO DEL STORAGE
+    this.servicioFireStorage.eliminarFotoFireStorage(url).then(() => {
+      console.log('Foto eliminada con éxito');
+    }).catch(error => {
+      console.error('Error al eliminar la foto', error);
+    });
+    //ELIMINANDO LA FOTO DE LA COLECCION
+    // this.serviciosFireStore.eliminarDocPorID("Fotos", this.nuevaFotoI)
+    if(url==this.nuevaFotoI.urlFoto){
+      this.serviciosFireStore.eliminarDocPorID("Fotos", this.nuevaFotoI.idFoto);
+      console.log(this.nuevaFotoI.idFoto);
+    }
+    //ELIMINANDO LA FOTO DEL ARREGLO
+    //const valorAEliminar = 'valor'; // El valor que deseas eliminar
+    const indice = this.enlacesFotos.indexOf(url);
+    if (indice !== -1) {
+        this.enlacesFotos.splice(indice, 1); // Elimina un elemento en el índice encontrado
+    }
+    this.serviciosInteraccion.mensajeGeneral("Eliminada.");
+    this.serviciosInteraccion.cerrarCargando();
+
   }
 
   //CREA EL DOCUMENTO DE FOTOS, AGREGA LOS LINKS DE LAS FOTOS EN EL DOCUMENTO
@@ -218,11 +249,11 @@ export class CrearReporteComponent  implements OnInit {
       idUsuario: this.usuarioLog.idUsuario,
       fechaFoto: fechaHoyStringFoto,
       nombreFoto: '',
-      urlFoto:[]
+      urlFoto:''
     }
   }
 
-
+  //TOMA LA UBICACION DE QUIEN REALIZA EL REPORTE
   async tomarubicacion(){
     this.serviciosInteraccion.cargandoConMensaje("Tomando coordenadas")
     const parametrosUbicacion = {
@@ -236,7 +267,39 @@ export class CrearReporteComponent  implements OnInit {
     this.nuevoReporte.ubicacion=localizacion.coords.latitude.toString() +" "+ localizacion.coords.longitude.toString()
   }
 
+  //METODO PARA USAR LA CAMARA DEL DISPOSITIVO
+  async tomarFoto(){
+    const foto =await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.Uri
+    });
+    let fotoUrl = foto.webPath;
+    console.log("fotoUrl",fotoUrl);
+    console.log("foto",fotoUrl);
+  }
 
+  //OBTENER USUARIO QUE HACE REGISTRO
+  async getUsuarioPorID(){
+    this.serviciosInteraccion.cargandoConMensaje("Cargando");
+    const response = await this.serviciosFireStore.getDocumentSolo('Usuarios',this.usuarioLog.idUsuario);
+    const usuarioData: DocumentData = response.data();
+    this.usuarioLog = {
+      idUsuario: usuarioData['idUsuario'] || '',
+      cedulausuario:  usuarioData['cedulausuario'] ||'',
+      numeroReferenciaUsuario: usuarioData['numeroReferenciaUsuario'] || 0,
+      nombreUsuario: usuarioData['nombreUsuario'] || '',
+      correoUsuario: usuarioData['correoUsuario'] || '',
+      celularUsuario: usuarioData['celularUsuario'] || '',
+      direccionUsuario: usuarioData['direccionUsuario'] || '',
+      telefonoUsuario: usuarioData['telefonoUsuario'] || '',
+      clave: usuarioData['clave'] || '',
+      idRol: usuarioData['idRol'] || '',
+      esActivo: usuarioData['esActivo'] || '',
+      fechaRegistro: usuarioData['fechaRegistro'] || ''
+    }
+    this.serviciosInteraccion.cerrarCargando();
+  }
 
 
 }

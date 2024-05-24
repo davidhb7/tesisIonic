@@ -4,5 +4,5 @@ export interface FotoI{
   idUsuario: string,
   fechaFoto:string,
   nombreFoto: string,
-  urlFoto:string[]
+  urlFoto:string
 }

@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ReportesI } from 'src/app/commonFS/models-interfaceFS/reportes.interface';
-import { FireStoreService } from 'src/app/commonFS/servicesFS/fire-store.service';
+import { ReportesI } from 'src/app/common/interfaces/reportes.interface';
+import { FireStoreService } from 'src/app/common/services/fire-store.service';
 import { ReportesComponent } from '../reportes/reportes.component';
 import { DocumentData } from '@angular/fire/firestore';
+import { FotoI } from 'src/app/common/interfaces/fotos.interface';
 
 @Component({
   selector: 'app-reporte',
@@ -14,25 +15,28 @@ export class ReporteComponent  implements OnInit {
 
   //OBJETOS
   reporte: ReportesI;
+  fotosDeReporte:FotoI[]=[]
 
   //VARIABLES
   idPresenteReporte:string;
 
 
   constructor(
-    private fireStoreService: FireStoreService,//INYECTANDO DEPENDENCIA
+    private servicioFireStore: FireStoreService,//INYECTANDO DEPENDENCIA
     private route: ActivatedRoute
   ) {
     //RECIBE EL ID QUE TRAE EL NAVEGADOR DE COMPONENTE: poner el id tal cual la interfazS
     this.idPresenteReporte=route.snapshot.params['idReporte'];
     this.inicializarEnVacio();
-    this.getReporte()
+    this.getReporteSoloVer();
+    this.getFotosPorIdReporte();
   }
 
   ngOnInit() {
     return;
   }
 
+  //INICIALIZAR REPORTE VACIO
   inicializarEnVacio(){
     this.reporte = {
       idReporte: '',
@@ -50,8 +54,9 @@ export class ReporteComponent  implements OnInit {
     }
   }
 
-  async getReporte(){
-    const response = await this.fireStoreService.getDocumentSolo( 'Reportes',this.idPresenteReporte);
+  //TRAER REPORTE POR ID
+  async getReporteSoloVer(){
+    const response = await this.servicioFireStore.getDocumentSolo( 'Reportes',this.idPresenteReporte);
     const reporteData: DocumentData = response.data();
     this.reporte ={
       idReporte: reporteData['idReporte'] || '',
@@ -68,6 +73,17 @@ export class ReporteComponent  implements OnInit {
       estado: reporteData['estado'] || ''
     }
   }
+
+
+  //TRAER FOTOS POR ID DE REPORTE
+  async getFotosPorIdReporte(){
+    this.servicioFireStore.getFotosSegunReporteObservable(this.idPresenteReporte).subscribe({
+      next: documentosFotos=>{
+        this.fotosDeReporte=documentosFotos;
+      }
+    });
+  }
+
 
 
 

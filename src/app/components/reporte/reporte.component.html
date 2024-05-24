@@ -25,9 +25,10 @@
         <p>Coordenadas {{reporte.ubicacion}}</p>
         <p>BOTON UBICACION</p>
         <p style="color: green;">{{reporte.estado}}</p>
-        <p>FOTOS</p>
+        <ion-item *ngFor="let foto of fotosDeReporte">
+          <img src="{{foto.urlFoto}}" alt="Fotos del reporte" style="border-radius: 10px;">
+        </ion-item>
       </ion-card-content>
-
     </ion-card>
   </ion-list>
 </ion-content>

@@ -6,8 +6,6 @@ import { EmpresaComponent } from './empresa/empresa.component';
 import { EmpresasComponent } from './empresas/empresas.component';
 import { OperadorComponent } from './operador/operador.component';
 import { OperadoresComponent } from './operadores/operadores.component';
-import { ReporteComponent } from './reporte/reporte.component';
-import { ReportesComponent } from './reportes/reportes.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { FormularioUsuarioComponent } from './formulario-usuario/formulario-usuario.component';
@@ -32,10 +30,6 @@ import { GoogleMapsComponent } from './google-maps/google-maps.component';
     FormularioUsuarioComponent,
     //MAPA
     GoogleMapsComponent,
-
-
-
-
   ],
 
   exports:[
