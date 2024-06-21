@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DocumentData } from 'firebase/firestore';
+import { OperarioI } from 'src/app/common/interfaces/operario.interface';
 import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { AuthServices } from 'src/app/common/services/auth.service';
 import { FireStoreService } from 'src/app/common/services/fire-store.service';
@@ -15,12 +16,16 @@ export class MenuComponent  implements OnInit {
 
   //OBJETOS
   usuarioLog:UsuarioI;
+  operarioLog:OperarioI;
+
 
   //VARIABLES
   visibleReportes: boolean=true;
   visibleOperarios: boolean=true;
   visibleUsuarios: boolean=true;
-  idLog:string ="";
+  visibleAsignaciones: boolean=true;
+  idQuienInicia:string ="";
+  idLogOperario:string ="";
   otroId:string;
 
   x:any;
@@ -65,21 +70,22 @@ export class MenuComponent  implements OnInit {
     private serviciosFirestore: FireStoreService
   ) {
     this.inicializarUSVacioMen();
+
+    //VERIFICA ESTADO DEL USUARIO
     this.serviciosAuth.estadoLogUsuario().subscribe(res =>{
       if(res){
-        this.idLog=res.uid
-        console.log("SI LOG", this.idLog);
-        console.log(this.usuarioLog.idUsuario)
+        this.idQuienInicia=res.uid
+        console.log("SI LOG: ", this.idQuienInicia);
         this.traerUS();
       }
       else{
-        console.log("NO LOG")
+        console.log("NO LOG");
+        this.cerrarSesion();
       }
     });
   }
 
   ngOnInit() {
-
     return;
   }
 
@@ -87,12 +93,11 @@ export class MenuComponent  implements OnInit {
   redirectMenu(nuevaRuta: string,elId?:string){
     this.router.navigate([nuevaRuta, elId] );
     console.log(elId);
-    console.log("LA RUTA:",nuevaRuta);
   }
 
   //CERRAR SESION CON SERVICIO
   cerrarSesion(){
-    this.serviciosUsAth.salida();
+    this.serviciosUsAth.servicioCerrarSesion();
     this.serviciosInteracion.cerrarCargando();
     this.serviciosInteracion.mensajeGeneral("Salió correctamente");
     this.router.navigate(['/login']);
@@ -102,8 +107,8 @@ export class MenuComponent  implements OnInit {
   inicializarUSVacioMen(){
     this.usuarioLog = {
       idUsuario: '',
-      cedulausuario:'',
-      numeroReferenciaUsuario: 0,
+      identificacionUsuario:'',
+      numeroReferenciaUsuarioConsumidor: 0,
       nombreUsuario: '',
       correoUsuario: '',
       celularUsuario: '',
@@ -111,19 +116,20 @@ export class MenuComponent  implements OnInit {
       telefonoUsuario: '',
       clave: '',
       idRol: '',
-      esActivo: '',
+      disponibleOperario:true,
+      esActivo: true,
       fechaRegistro: ''
     };
   }
 
   //CONSULTA EL USUARIO Y OTORGA/QUITA PERMISOS DE ROL
   async traerUS(){
-    const response= await this.serviciosFirestore.getDocumentSolo("Usuarios", this.idLog);
+    const response= await this.serviciosFirestore.getDocumentSolo("Usuarios", this.idQuienInicia);
     const usuarioData: DocumentData = response.data();
     this.usuarioLog= {
       idUsuario: usuarioData['idUsuario'] ||'',
-      cedulausuario: usuarioData['cedulausuario'] ||'',
-      numeroReferenciaUsuario: usuarioData['numeroReferenciaUsuario'] || 0,
+      identificacionUsuario: usuarioData['cedulausuario'] ||'',
+      numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuario'] || 0,
       nombreUsuario: usuarioData['nombreUsuario'] ||'',
       correoUsuario: usuarioData['correoUsuario'] || '',
       celularUsuario: usuarioData['celularUsuario'] ||'',
@@ -131,34 +137,49 @@ export class MenuComponent  implements OnInit {
       telefonoUsuario: usuarioData['telefonoUsuario'] ||'',
       clave: usuarioData['clave'] ||'',
       idRol: usuarioData['idRol'] ||'',
-      esActivo: usuarioData['esActivo'] ||'',
+      disponibleOperario: usuarioData['esActivo'] ||true,
+      esActivo: usuarioData['esActivo'] ||true,
       fechaRegistro: usuarioData['fechaRegistro'] ||''
     }
-    this.idLog= this.usuarioLog.idUsuario
+
+
+    this.idQuienInicia= this.usuarioLog.idUsuario
+    console.log("ROL: ",this.usuarioLog.idRol);
 
 
     if(this.usuarioLog.idRol=="4"){
+      console.log("Us-Cons");
       this.visibleReportes=false;
       this.visibleOperarios=false;
       this.visibleUsuarios=false;
+      this.visibleAsignaciones=false;
     }
-    else if(this.usuarioLog.idRol=="1" || this.usuarioLog.idRol=="2" || this.usuarioLog.idRol=="3"){
-      console.log("TIENE PERMISOS");
+    else if(this.usuarioLog.idRol=="1" || this.usuarioLog.idRol=="2"){
+      console.log("TIENE PERMISOS - Adm - Empr");
+
       this.visibleReportes=true;
       this.visibleOperarios=true;
       this.visibleUsuarios=true;
+      this.visibleAsignaciones=false;
+    }
+    else if(this.usuarioLog.idRol=="3"){
+      console.log("Op");
+      this.visibleReportes=true;
+      this.visibleOperarios=true;
+      this.visibleUsuarios=false;
+      this.visibleAsignaciones=true
     }
     else{
       console.log("ROL DESCONOCIDO");
       this.visibleReportes=false;
       this.visibleOperarios=false;
       this.visibleUsuarios=false;
+      this.visibleAsignaciones=false;
     }
   }
 
   //PERFIL DEL USUARIO Y SU INFORMACION
   paraverPerfilconId(idUsuariorouter: string){
-    console.log(idUsuariorouter);
     this.router.navigate(['/usuario', idUsuariorouter])
   }
 
@@ -172,15 +193,8 @@ export class MenuComponent  implements OnInit {
     this.router.navigate(['/operarios'])
   }
 
-
-
-
-
-
-
-
-
-
+  clasificarLog(){
+  }
 
 
 }

@@ -4,13 +4,13 @@ import { IonicModule } from '@ionic/angular';
 
 import { EmpresaComponent } from './empresa/empresa.component';
 import { EmpresasComponent } from './empresas/empresas.component';
-import { OperadorComponent } from './operador/operador.component';
-import { OperadoresComponent } from './operadores/operadores.component';
+import { OperarioComponent } from './operador/operador.component';
+import { OperariosComponent } from './operadores/operadores.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
-import { FormularioUsuarioComponent } from './formulario-usuario/formulario-usuario.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsComponent } from './google-maps/google-maps.component';
+import { FormularioUsuarioComponent } from './formulario-usuario/formulario-usuario.component';
 
 
 
@@ -21,8 +21,8 @@ import { GoogleMapsComponent } from './google-maps/google-maps.component';
     EmpresaComponent,
     EmpresasComponent,
     //OPERADOR
-    OperadorComponent,
-    OperadoresComponent,
+    OperarioComponent,
+    OperariosComponent,
     //USUARIO
     UsuarioComponent,
     UsuariosComponent,
@@ -37,8 +37,8 @@ import { GoogleMapsComponent } from './google-maps/google-maps.component';
     EmpresaComponent,
     EmpresasComponent,
     //OPERADOR
-    OperadorComponent,
-    OperadoresComponent,
+    OperarioComponent,
+    OperariosComponent,
     //USUARIO
     UsuarioComponent,
     UsuariosComponent,

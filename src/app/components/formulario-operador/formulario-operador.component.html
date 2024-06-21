@@ -1,0 +1,69 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/operarios"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Registro Operador
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card>
+    <p style="margin: 15px; font-weight: bold;">Formulario para los Operarios - Contratistas que hagan parte de la empresa prestadora de servicios publico de agua y alcantarillado comunitario</p>
+    <hr color="blue">
+
+    <form action="" [formGroup]="formGroupOperador" style="margin: 5px;">
+      <ion-item>
+        <ion-label position="floating">Nombre Completo:</ion-label>
+        <ion-input formControlName="nombreUsuario" type="text" aria-label="nombreUsuario" [(ngModel)]="nuevoUsuarioOperario.nombreUsuario"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="formGroupOperador.get('nombreUsuario').invalid && formGroupOperador.get('nombreUsuario').touched">
+        <p *ngIf="formGroupOperador.get('nombreUsuario').errors['required']">Nombre Completo es requerido.</p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Correo:</ion-label>
+        <ion-input formControlName="correoUsuario" type="email" aria-label="correoUsuario" [(ngModel)]="nuevoUsuarioOperario.correoUsuario"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="formGroupOperador.get('correoUsuario').invalid && formGroupOperador.get('correoUsuario').touched">
+        <p *ngIf="formGroupOperador.get('correoUsuario').errors['required']">Correo es requerido.</p>
+        <p *ngIf="formGroupOperador.get('correoUsuario').errors['email']">Correo no es válido.</p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Cedula:</ion-label>
+        <ion-input formControlName="identificacionUsuario" type="tel" aria-label="identificacionUsuario" [(ngModel)]="nuevoUsuarioOperario.identificacionUsuario"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="formGroupOperador.get('identificacionUsuario').invalid && formGroupOperador.get('identificacionUsuario').touched">
+        <p *ngIf="formGroupOperador.get('identificacionUsuario').errors['required']">Cedula es requerida.</p>
+        <p *ngIf="formGroupOperador.get('identificacionUsuario').errors['pattern']">Por favor, ingrese solo números.</p>
+      </ion-text>
+
+
+      <ion-item>
+        <ion-label position="floating">Celular:</ion-label>
+        <ion-input formControlName="celularUsuario" type="tel" aria-label="celularUsuario" [(ngModel)]="nuevoUsuarioOperario.celularUsuario"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="formGroupOperador.get('celularUsuario').invalid && formGroupOperador.get('celularUsuario').touched">
+        <p *ngIf="formGroupOperador.get('celularUsuario').errors['required']">Celular es requerido.</p>
+        <p *ngIf="formGroupOperador.get('celularUsuario').errors['pattern']">Por favor, ingrese solo números.</p>
+      </ion-text>
+
+
+
+
+
+      <ion-button type="submit"  style="margin-left: 10px; margin-top: 10px; font-size: 9px; " color="success" [disabled]="formGroupOperador.invalid" (click)="guardarOperador()">Enviar</ion-button>
+
+      @if (cargando) {
+        <div style="text-align:center;">
+          <ion-spinner name="bubbles"></ion-spinner>
+        </div>
+      }
+      <p style="margin-left: 15px;"><strong>Nota: </strong>Atencion al usuario, exclusivamente para registrar el Operario.</p>
+
+
+    </form>
+  </ion-card>
+</ion-content>

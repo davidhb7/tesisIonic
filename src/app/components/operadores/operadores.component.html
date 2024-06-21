@@ -8,15 +8,37 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
+
+
 <ion-content>
   <ion-card>
     <ion-card-content style="margin: 1px;">
-      <ion-button >
+      <ion-button (click)="irFormularioOperador()">
         <ion-icon slot="start" name="add"></ion-icon>
         Agregar operario
       </ion-button>
-      <hr>
+      <hr color="blue">
+      <h2>OPERARIOS REGISTRADOS:</h2>
+      <ion-item *ngFor="let operario of operariosRegistrdos">
+        <ion-label>
+          <strong>Operario: </strong>{{operario.nombreUsuario}}
+          @if (operario.esActivo===true) {
+            <p style="color: green;">ACTIVO - DISPONIBLE </p>
+          }
+          @else {
+            <p style="color: red;">NO DISPONIBLE</p>
+          }
+          <p>{{operario.correoUsuario}}</p>
+          <p>{{operario.identificacionUsuario}}</p>
+        </ion-label>
+        <!-- ELIMINAR -->
+        <ion-button color="danger" (click)="eliminarUsuario(operario)" style="font-size: 8px;">Eliminar</ion-button>
+        <!-- VER -->
+        <ion-button color="success" (click)="navegarConIDVerOperario(operario.idUsuario)" style="font-size: 8px;">Ver</ion-button>
+        <!-- EDITAR -->
+        <ion-button color="warning" (click)="redireccionarParaEditar(operario.idUsuario)" style="font-size: 8px;">Editar</ion-button>
 
+      </ion-item>
 
 
     </ion-card-content>

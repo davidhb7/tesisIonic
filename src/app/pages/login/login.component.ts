@@ -12,11 +12,12 @@ import { InteractionService } from 'src/app/common/services/interaction.service'
 })
 export class LoginComponent  implements OnInit {
 
+  //OBJETOS Y CLASES
   formLogin: FormGroup;
   usuario:UsuarioI
 
 
-
+  //VARIABVLES
   correoUsuarioLogin:string="";
   paseUsuarioLogin:string="";
   alertarError: boolean=false;

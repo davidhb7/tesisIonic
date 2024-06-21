@@ -49,11 +49,11 @@ export class ReportesComponent  implements OnInit {
 
   //SI ES EMPRESA U OPERARIO, TRAER TODOS LOS REPORTES
   getReportesGeneralesEmpresaOperario(){
-    this.serviciosFireStoreDatabase.getCambiosYListar<ReportesI>("Reportes").subscribe(
+    this.serviciosFireStoreDatabase.getDocumentosGeneralAtentoCambios<ReportesI>("Reportes").subscribe(
       data=>{
         if(data){
           this.documentosGeneralesReportes=data;
-          console.log("rep gen: ",data)
+          console.log("Respuesta general: ",data)
         }
       }
     )
@@ -111,16 +111,18 @@ export class ReportesComponent  implements OnInit {
     const usuarioData: DocumentData = response.data();
     this.usuarioPresente = {
       idUsuario: usuarioData['idUsuario'] || '',
-      cedulausuario:  usuarioData['cedulausuario'] ||'',
-      numeroReferenciaUsuario: usuarioData['numeroReferenciaUsuario'] || 0,
+      identificacionUsuario:  usuarioData['cedulausuario'] ||'',
+      numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuario'] || 0,
       nombreUsuario: usuarioData['nombreUsuario'] || '',
       correoUsuario: usuarioData['correoUsuario'] || '',
       celularUsuario: usuarioData['celularUsuario'] || '',
       direccionUsuario: usuarioData['direccionUsuario'] || '',
       telefonoUsuario: usuarioData['telefonoUsuario'] || '',
       clave: usuarioData['clave'] || '',
+
       idRol: usuarioData['idRol'] || '',
-      esActivo: usuarioData['esActivo'] || '',
+      disponibleOperario: usuarioData['esActivo'] || true,
+      esActivo: usuarioData['esActivo'] || true,
       fechaRegistro: usuarioData['fechaRegistro'] || ''
     }
     console.log(this.usuarioPresente);

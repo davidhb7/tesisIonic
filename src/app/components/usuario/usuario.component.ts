@@ -39,18 +39,19 @@ export class UsuarioComponent  implements OnInit {
 
   inicializarUsuarioVacio(){
     this.usuario = {
-      idUsuario: "",
-      cedulausuario:'',
-      numeroReferenciaUsuario: 0,
-      nombreUsuario: "",
-      correoUsuario: "",
-      celularUsuario: "",
-      direccionUsuario: "",
-      telefonoUsuario: "",
-      clave: "",
+      idUsuario: '',
+      identificacionUsuario:'',
+      numeroReferenciaUsuarioConsumidor: 0,
+      nombreUsuario: '',
+      correoUsuario: '',
+      celularUsuario: '',
+      direccionUsuario: '',
+      telefonoUsuario: '',
+      clave: '',
       idRol: '',
-      esActivo: "",
-      fechaRegistro: ""
+      disponibleOperario:true,
+      esActivo: true,
+      fechaRegistro: ''
     }
   }
 
@@ -60,8 +61,8 @@ export class UsuarioComponent  implements OnInit {
     const usuarioData: DocumentData = response.data();
     this.usuario = {
       idUsuario: usuarioData['idUsuario'] || '',
-      cedulausuario:  usuarioData['cedulausuario'] ||'',
-      numeroReferenciaUsuario: usuarioData['numeroReferenciaUsuario'] || 0,
+      identificacionUsuario:  usuarioData['cedulausuario'] ||'',
+      numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuario'] || 0,
       nombreUsuario: usuarioData['nombreUsuario'] || '',
       correoUsuario: usuarioData['correoUsuario'] || '',
       celularUsuario: usuarioData['celularUsuario'] || '',
@@ -69,7 +70,8 @@ export class UsuarioComponent  implements OnInit {
       telefonoUsuario: usuarioData['telefonoUsuario'] || '',
       clave: usuarioData['clave'] || '',
       idRol: usuarioData['idRol'] || '',
-      esActivo: usuarioData['esActivo'] || '',
+      disponibleOperario: usuarioData['esActivo'] || true,
+      esActivo: usuarioData['esActivo'] || true,
       fechaRegistro: usuarioData['fechaRegistro'] || ''
     }
     this.serviciosInteraccion.cerrarCargando();

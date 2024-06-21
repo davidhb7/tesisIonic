@@ -14,5 +14,4 @@ export const SUSPENDIDO = "SUSPENDIDO"
 export const ADMINISTRADOR = "1"
 export const EMPRESA = "2"
 export const OPERADOR = "3"
-
 export const USUARIO = "4"

@@ -28,7 +28,7 @@
       <!-- Campo para la cedula -->
       <ion-item>
         <ion-label position="floating">Cedula:</ion-label>
-        <ion-input formControlName="cedulausuario" type="tel" aria-label="cedulausuario" [(ngModel)]="nuevoUsuario.cedulausuario"></ion-input>
+        <ion-input formControlName="cedulausuario" type="tel" aria-label="cedulausuario" [(ngModel)]="nuevoUsuario.identificacionUsuario"></ion-input>
       </ion-item>
       <ion-text color="danger" *ngIf="formGroupRegistro.get('cedulausuario').invalid && formGroupRegistro.get('cedulausuario').touched">
         <p *ngIf="formGroupRegistro.get('cedulausuario').errors['required']">Cedula es requerida.</p>

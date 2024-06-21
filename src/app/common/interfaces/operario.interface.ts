@@ -1,11 +1,12 @@
-export interface  OperadorI {
-  idOperador: number,
+export interface  OperarioI {
+  idOperador: string,
   nombreOperador: string,
   correoOperador: string,
   celularOperador: string,
   disponible: boolean,
-  clave: string,
-  idRol: number,
+  cedulaOp: string,
+  clave:string,
+  idRol: string,
   esActivo: boolean,
   fechaRegistro: string
 };

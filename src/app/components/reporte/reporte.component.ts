@@ -85,9 +85,4 @@ export class ReporteComponent  implements OnInit {
   }
 
 
-
-
-
-
-
 }

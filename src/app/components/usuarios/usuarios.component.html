@@ -29,7 +29,7 @@
       }
       <ion-button color="danger" (click)="eliminarUsuario(usuario)" style="font-size: 8px;">Eliminar</ion-button>
       <ion-button color="success" (click)="navegarConIDVerReporte(usuario.idUsuario)" style="font-size: 8px;">Ver</ion-button>
-      <ion-button color="warning"  style="font-size: 8px;">Editar</ion-button>
+      <ion-button color="warning" (click)="redireccionarParaEditar(usuario.idUsuario)" style="font-size: 8px;">Editar</ion-button>
     </ion-item>
 
   </ion-list>

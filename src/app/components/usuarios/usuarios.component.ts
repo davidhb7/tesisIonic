@@ -10,17 +10,20 @@ import { FireStoreService } from 'src/app/common/services/fire-store.service';
 })
 export class UsuariosComponent  implements OnInit {
 
+  //OBJETOS
   usuarios: UsuarioI[]=[];
 
+
+  //VARIABLES
   numeroActualReportes:number;
   cargando:boolean=false;
 
   constructor(
-    private fireStoreServices: FireStoreService,
+    private serviciosFireStore: FireStoreService,
     private router: Router,
   ) {
     //LLAMAR SERVICIO DE CONTEO DE REPORTES Y CONVERSION DE NUMERO A LA VARIABLE A MANEJAR
-    this.fireStoreServices.contarNumeroDocumentosTotal("Usuarios").then((numero: number) => {
+    this.serviciosFireStore.contarNumeroDocumentosTotal("Usuarios").then((numero: number) => {
       this.numeroActualReportes = numero;
     });
     this.getusUariosParaEmpresa();
@@ -32,7 +35,7 @@ export class UsuariosComponent  implements OnInit {
 
   //VER TODOS LOS USUARIOS REGISTRADOS EN EL SISTEMA.
   getusUariosParaEmpresa(){
-    this.fireStoreServices.getCambiosYListar<UsuarioI>('Usuarios').subscribe(//SUBSCRIE, muestra los cambios en tiempo real
+    this.serviciosFireStore.getDocumentosGeneralAtentoCambios<UsuarioI>('Usuarios').subscribe(//SUBSCRIE, muestra los cambios en tiempo real
       data=>{
         if(data){
           this.usuarios=data;
@@ -42,23 +45,31 @@ export class UsuariosComponent  implements OnInit {
     );
   }
 
-  //REDIRECCIONAR CON ID
+  //REDIRECCIONAR A VER USUARIO POR ID
   navegarConIDVerReporte(idUsuario:string){
     this.router.navigate(['/usuario',idUsuario]);
     console.log("enviando id",idUsuario)
   }
 
-
+  //ELIMINAR DOCUMENTO CON ID
   async eliminarUsuario(usuarioEliminar: UsuarioI){
-    console.log(usuarioEliminar)
     this.cargando=true;
-    await this.fireStoreServices.eliminarDocPorID( 'Usuarios',usuarioEliminar.idUsuario);
+    await this.serviciosFireStore.eliminarDocPorID( 'Usuarios',usuarioEliminar.idUsuario);
     this.cargando=false;
   }
 
+  //REDIRECCIONAR A FORMULARIO CREAR USUARIO
   navegarFormulario(){
     this.router.navigate(['/formulario-usuario']);
   }
+
+  redireccionarParaEditar(idUsuario:string){
+    console.log("Para editar", idUsuario);
+    this.router.navigate(['/formulario-registro',idUsuario])
+  }
+
+
+
 
 
 

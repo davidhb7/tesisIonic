@@ -78,7 +78,6 @@ export class CrearReporteComponent  implements OnInit {
     this.nuevoReporte.numeroReporte=this.asignableNuevo
     });
     //FIN CONTEO REPORTES
-
     this.inicializarReporteEnVacio();
     this.cargando=false;
     this.editar_o_Crear();
@@ -92,8 +91,8 @@ export class CrearReporteComponent  implements OnInit {
   inicializarUsuarioVacio(){
     this.usuarioLog = {
       idUsuario: '',
-      cedulausuario:'',
-      numeroReferenciaUsuario: 0,
+      identificacionUsuario:'',
+      numeroReferenciaUsuarioConsumidor: 0,
       nombreUsuario: '',
       correoUsuario: '',
       celularUsuario: '',
@@ -101,7 +100,8 @@ export class CrearReporteComponent  implements OnInit {
       telefonoUsuario: '',
       clave: '',
       idRol: '',
-      esActivo: '',
+      disponibleOperario:true,
+      esActivo: true,
       fechaRegistro: ''
     };
   }
@@ -136,8 +136,8 @@ export class CrearReporteComponent  implements OnInit {
     }
   }
 
-  //INICIALIZACION PARA CREAR
-  inicializarNuevoReporte(){
+  //INICIALIZACION PARA CREAR CON DATOS BASICOS
+  inicializarNuevoReporteDatosBasicos(){
     let fechaHoyString: string = `${this.fechaHoy.getDate()}/${this.fechaHoy.getMonth() + 1}/${this.fechaHoy.getFullYear()} ${this.fechaHoy.getHours()}:${this.fechaHoy.getMinutes()}`;
     //this.nuevoReporte.idReporte= this.serviciosFireStore.crearIDUnico();
     this.nuevoReporte={
@@ -168,7 +168,7 @@ export class CrearReporteComponent  implements OnInit {
     await this.router.navigate(["/reportes",this.idPresenteDeUsuario]);
   }
 
-  //EDITAR SEGUN DEFINICION DE ID
+  //EDITAR O CREAR SEGUN DEFINICION DE ID
   async editar_o_Crear(){
     if(this.idPresenteDeReporte!=null || this.idPresenteDeReporte!=undefined ){
       //PARA EDITAR
@@ -191,7 +191,7 @@ export class CrearReporteComponent  implements OnInit {
     }
     else{
       //PARA CREAR
-      this.inicializarNuevoReporte();
+      this.inicializarNuevoReporteDatosBasicos();
       this.inicializarDatosFoto();
     }
   }
@@ -216,7 +216,6 @@ export class CrearReporteComponent  implements OnInit {
 
   //ELIMINAR FOTO SELECCIONADA
   eliminarFoto(url: string, fotoID?:string) {
-
     //ELIMINANDO LA FOTO DEL STORAGE
     this.servicioFireStorage.eliminarFotoFireStorage(url).then(() => {
       console.log('Foto eliminada con éxito');
@@ -286,8 +285,8 @@ export class CrearReporteComponent  implements OnInit {
     const usuarioData: DocumentData = response.data();
     this.usuarioLog = {
       idUsuario: usuarioData['idUsuario'] || '',
-      cedulausuario:  usuarioData['cedulausuario'] ||'',
-      numeroReferenciaUsuario: usuarioData['numeroReferenciaUsuario'] || 0,
+      identificacionUsuario:  usuarioData['cedulausuario'] ||'',
+      numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuario'] || 0,
       nombreUsuario: usuarioData['nombreUsuario'] || '',
       correoUsuario: usuarioData['correoUsuario'] || '',
       celularUsuario: usuarioData['celularUsuario'] || '',
@@ -295,11 +294,21 @@ export class CrearReporteComponent  implements OnInit {
       telefonoUsuario: usuarioData['telefonoUsuario'] || '',
       clave: usuarioData['clave'] || '',
       idRol: usuarioData['idRol'] || '',
-      esActivo: usuarioData['esActivo'] || '',
+      disponibleOperario:usuarioData['esActivo'] || true,
+      esActivo: usuarioData['esActivo'] || true,
       fechaRegistro: usuarioData['fechaRegistro'] || ''
     }
     this.serviciosInteraccion.cerrarCargando();
   }
 
 
+
+  //TODO
+  // ASIGNACION AUTOMATICA DE OPERARIOS
+
+  //TODO
+  //CATEGORIZAR REPORTE DESDE LA EMPRESA DE 1 A 5
+
+  //TODO
+  //EN EDITAR, VOLVER A PONER LA FOTO ASIGNADA AL REPORTE
 }

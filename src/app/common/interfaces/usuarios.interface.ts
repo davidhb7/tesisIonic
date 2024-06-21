@@ -1,7 +1,7 @@
 export interface UsuarioI {
   idUsuario: string,
-  cedulausuario: string,
-  numeroReferenciaUsuario: number,
+  identificacionUsuario: string,
+  numeroReferenciaUsuarioConsumidor: number,
   nombreUsuario: string,
   correoUsuario: string,
   celularUsuario: string,
@@ -9,6 +9,7 @@ export interface UsuarioI {
   telefonoUsuario: string,
   clave: string,
   idRol: string,
-  esActivo: string,
+  disponibleOperario:boolean,
+  esActivo: boolean,
   fechaRegistro: string
 };

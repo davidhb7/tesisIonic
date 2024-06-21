@@ -1,3 +1,42 @@
-<p>
-  operador works!
-</p>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/operarios"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Operario
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card >
+    <ion-item style="margin: 10px;">
+      <ion-item>
+        <ion-label style="width: 200px;">
+          <h1>Operario</h1>
+          <p>Nombre: {{operario.nombreUsuario}}</p>
+          <p>Correo: {{operario.correoUsuario}}</p>
+          <p>Celular: {{operario.celularUsuario}}</p>
+          <p>Cedula: {{operario.identificacionUsuario}}</p>
+          <p>Disponibilidad: {{operario.disponibleOperario}}</p>
+          <p>Esta activo: {{operario.esActivo}}</p>
+          <p>Registrado el: {{operario.fechaRegistro}}</p>
+        </ion-label>
+      </ion-item>
+
+    </ion-item>
+
+
+  </ion-card>
+  <hr color="blue" style="margin: 10px;">
+  <ion-card>
+    <ion-item>
+      <ion-item>
+        <ion-label>
+          <h1>ASIGNACIONES</h1>
+        </ion-label>
+      </ion-item>
+    </ion-item>
+  </ion-card>
+
+</ion-content>

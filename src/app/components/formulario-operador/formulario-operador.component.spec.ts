@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { OperarioComponent } from './operador.component';
+import { FormularioOperadorComponent } from './formulario-operador.component';
 
-describe('OperadorComponent', () => {
-  let component: OperarioComponent;
-  let fixture: ComponentFixture<OperarioComponent>;
+describe('FormularioOperadorComponent', () => {
+  let component: FormularioOperadorComponent;
+  let fixture: ComponentFixture<FormularioOperadorComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ OperarioComponent ],
+      declarations: [ FormularioOperadorComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(OperarioComponent);
+    fixture = TestBed.createComponent(FormularioOperadorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

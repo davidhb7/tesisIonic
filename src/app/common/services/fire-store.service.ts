@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 
 //DECLARACION UNICA DE ID PARA FIRESTORE
 import { v4 as uuidv4 } from 'uuid';
+
+
 import { ReportesI } from '../interfaces/reportes.interface';
 import { FotoI } from '../interfaces/fotos.interface';
 
@@ -39,11 +41,10 @@ export class FireStoreService {
 
 
   //GET
-  //TODO
   //TRAE TODOS LOS DOCUMENTOS DE ESA COLECCION?
   //TRAER Y OBTENER LOS CAMBIOS DE LA COLECCION.
   //LEE CUALQUEIR COLECCION. ESTA PENDIENTE DE LOS CAMBIOS
-  getCambiosYListar<tipo>(path: string){//tipo: es el campo o variable a leer. Argumento. Path es la ruta a la BDD de firestore
+  getDocumentosGeneralAtentoCambios<tipo>(path: string){//tipo: es el campo o variable a leer. Argumento. Path es la ruta a la BDD de firestore
     const itemColection = collection(this.firestore, path);//path: es la ruta de la coleccion
     return collectionData(itemColection) as Observable<tipo[]>;//observable: pendiente de los cambios, segun el <tipo> de variable
   }
@@ -116,8 +117,6 @@ export class FireStoreService {
   }
 
 
-  //TODO
-  //CREAR UN SERVICIO DONDE SE CONSULTEN TODOS LOS REPORTES CUANDO EL USUARIO ES EMPRESA
 
 
 

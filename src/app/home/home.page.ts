@@ -21,7 +21,7 @@ export class HomeComponent {
 
   //GET USUARIOS GENERAL
   cargarUsuarios(){
-    this.fireStoreService.getCambiosYListar<UsuarioI>('Usuarios').subscribe(
+    this.fireStoreService.getDocumentosGeneralAtentoCambios<UsuarioI>('Usuarios').subscribe(
       data=>{
         if(data){
           this.usuarios= data;

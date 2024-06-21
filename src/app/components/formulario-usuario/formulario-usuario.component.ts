@@ -39,8 +39,8 @@ export class FormularioUsuarioComponent  implements OnInit {
   inicializarVacio(){
     this.nuevoUsuario = {
       idUsuario: '',
-      cedulausuario:'',
-      numeroReferenciaUsuario: 0,
+      identificacionUsuario:'',
+      numeroReferenciaUsuarioConsumidor: 0,
       nombreUsuario: '',
       correoUsuario: '',
       celularUsuario: '',
@@ -48,7 +48,8 @@ export class FormularioUsuarioComponent  implements OnInit {
       telefonoUsuario: '',
       clave: '',
       idRol: '',
-      esActivo: '',
+      disponibleOperario:true,
+      esActivo: true,
       fechaRegistro: ''
     };
     this.form = this.formBuilder.group({
@@ -66,16 +67,17 @@ export class FormularioUsuarioComponent  implements OnInit {
     let fechaHoyString: string = `${this.fechaHoy.getDate()}/${this.fechaHoy.getMonth() + 1}/${this.fechaHoy.getFullYear()} ${this.fechaHoy.getHours()}:${this.fechaHoy.getMinutes()}`;
     this.nuevoUsuario = {
       idUsuario: this.fireStroreService.crearIDUnico(),
-      cedulausuario:'',
-      numeroReferenciaUsuario: null,
+      identificacionUsuario:'',
+      numeroReferenciaUsuarioConsumidor: null,
       nombreUsuario: '',
       correoUsuario: '',
       celularUsuario: '',
       direccionUsuario: '',
       telefonoUsuario: '',
-      clave: this.nuevoUsuario.cedulausuario,
+      clave: this.nuevoUsuario.identificacionUsuario,
       idRol: USUARIO,
-      esActivo: ACTIVO,
+      disponibleOperario:true,
+      esActivo: true,
       fechaRegistro: fechaHoyString
     };
   }
