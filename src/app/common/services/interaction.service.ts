@@ -14,8 +14,6 @@ export class InteractionService {
     public loadingController: LoadingController
   ) { }
 
-
-
   async mensajeGeneral(mensaje: string) {
     const toast = await this.toastController.create({
       message: mensaje,
@@ -33,9 +31,6 @@ export class InteractionService {
   }
 
   async cerrarCargando() {
-
     await this.cargando.dismiss();
-
-
   }
 }

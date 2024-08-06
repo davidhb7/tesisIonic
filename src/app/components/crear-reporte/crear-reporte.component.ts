@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EN_PROCESO } from 'src/app/common/constantes/constantes';
+import { EN_PROCESO, OPERADOR } from 'src/app/common/constant/constantes';
 import { ReportesI } from 'src/app/common/interfaces/reportes.interface';
 import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { FireStorageService } from 'src/app/common/services/fire-storage.service';
@@ -11,7 +11,7 @@ import { FotoI } from 'src/app/common/interfaces/fotos.interface';
 import { InteractionService } from 'src/app/common/services/interaction.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
 
-import { Geolocation, GeolocationPosition, GeolocationPermissionType } from '@capacitor/geolocation';
+import { Geolocation } from '@capacitor/geolocation';
 
 
 
@@ -29,6 +29,7 @@ export class CrearReporteComponent  implements OnInit {
   nuevoReporte:ReportesI;
   usuarioLog: UsuarioI;
   fechaHoy: Date = new Date();
+  usuarioOperarioAsignar:UsuarioI;
 
 
 
@@ -102,6 +103,7 @@ export class CrearReporteComponent  implements OnInit {
       idRol: '',
       disponibleOperario:true,
       esActivo: true,
+      asignacionesActivas:0,
       fechaRegistro: ''
     };
   }
@@ -138,8 +140,9 @@ export class CrearReporteComponent  implements OnInit {
 
   //INICIALIZACION PARA CREAR CON DATOS BASICOS
   inicializarNuevoReporteDatosBasicos(){
+    this.getOperarioAsignar();
     let fechaHoyString: string = `${this.fechaHoy.getDate()}/${this.fechaHoy.getMonth() + 1}/${this.fechaHoy.getFullYear()} ${this.fechaHoy.getHours()}:${this.fechaHoy.getMinutes()}`;
-    //this.nuevoReporte.idReporte= this.serviciosFireStore.crearIDUnico();
+
     this.nuevoReporte={
       idReporte: this.serviciosFireStore.crearIDUnico(),
       numeroReporte: this.asignableNuevo,
@@ -148,7 +151,7 @@ export class CrearReporteComponent  implements OnInit {
       fechaRegistroReporte: fechaHoyString,
       fechaAtencionReporte: "",
       fechaFinReporte: "",
-      idUsuario: this.idPresenteDeUsuario,
+      idUsuario: this.usuarioOperarioAsignar.idUsuario,
       idOperador: '',
       idEmpresa: '',
       idFoto: '',
@@ -296,15 +299,24 @@ export class CrearReporteComponent  implements OnInit {
       idRol: usuarioData['idRol'] || '',
       disponibleOperario:usuarioData['esActivo'] || true,
       esActivo: usuarioData['esActivo'] || true,
+      asignacionesActivas: usuarioData['esActivo'] || 0,
       fechaRegistro: usuarioData['fechaRegistro'] || ''
     }
     this.serviciosInteraccion.cerrarCargando();
   }
-
-
-
   //TODO
   // ASIGNACION AUTOMATICA DE OPERARIOS
+  getOperarioAsignar(){
+    this.serviciosFireStore.getUsuariosSegunRol<UsuarioI>(OPERADOR).subscribe({
+      next:documentoOperario=>{
+        //TODO VALIDAR QUE ESTÉ DISPONIBLE Y QUE TENGA MENOS NUMERO DE ASIGNACIONES
+        //TODO DENTRO DE LA VALIDACION ANTERIOR, ASIGNAR EL PRIMERO QUE CUMPLA LOS REQUERIMIENTOS
+        if(documentoOperario && documentoOperario.length>0){
+          this.usuarioOperarioAsignar=documentoOperario[0];
+        }
+      }
+    })
+  }
 
   //TODO
   //CATEGORIZAR REPORTE DESDE LA EMPRESA DE 1 A 5

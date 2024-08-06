@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ACTIVO, USUARIO } from 'src/app/common/constantes/constantes';
+import { ACTIVO, USUARIO_CONSUMIDOR } from 'src/app/common/constant/constantes';
 import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { FireStoreService } from 'src/app/common/services/fire-store.service';
 
@@ -50,6 +50,7 @@ export class FormularioUsuarioComponent  implements OnInit {
       idRol: '',
       disponibleOperario:true,
       esActivo: true,
+      asignacionesActivas:0,
       fechaRegistro: ''
     };
     this.form = this.formBuilder.group({
@@ -75,9 +76,10 @@ export class FormularioUsuarioComponent  implements OnInit {
       direccionUsuario: '',
       telefonoUsuario: '',
       clave: this.nuevoUsuario.identificacionUsuario,
-      idRol: USUARIO,
+      idRol: USUARIO_CONSUMIDOR,
       disponibleOperario:true,
       esActivo: true,
+      asignacionesActivas:0,
       fechaRegistro: fechaHoyString
     };
   }

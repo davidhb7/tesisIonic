@@ -118,6 +118,7 @@ export class MenuComponent  implements OnInit {
       idRol: '',
       disponibleOperario:true,
       esActivo: true,
+      asignacionesActivas:0,
       fechaRegistro: ''
     };
   }
@@ -137,9 +138,10 @@ export class MenuComponent  implements OnInit {
       telefonoUsuario: usuarioData['telefonoUsuario'] ||'',
       clave: usuarioData['clave'] ||'',
       idRol: usuarioData['idRol'] ||'',
-      disponibleOperario: usuarioData['esActivo'] ||true,
+      disponibleOperario: usuarioData['esActivo'] || true,
       esActivo: usuarioData['esActivo'] ||true,
-      fechaRegistro: usuarioData['fechaRegistro'] ||''
+      asignacionesActivas:usuarioData['esActivo'] || 0,
+      fechaRegistro: usuarioData['fechaRegistro'] || ''
     }
 
 
@@ -155,7 +157,7 @@ export class MenuComponent  implements OnInit {
       this.visibleAsignaciones=false;
     }
     else if(this.usuarioLog.idRol=="1" || this.usuarioLog.idRol=="2"){
-      console.log("TIENE PERMISOS - Adm - Empr");
+      console.log("Adm - Empr");
 
       this.visibleReportes=true;
       this.visibleOperarios=true;
@@ -192,9 +194,5 @@ export class MenuComponent  implements OnInit {
   irTodosLosOperarios(){
     this.router.navigate(['/operarios'])
   }
-
-  clasificarLog(){
-  }
-
 
 }

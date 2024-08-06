@@ -11,5 +11,6 @@ export interface UsuarioI {
   idRol: string,
   disponibleOperario:boolean,
   esActivo: boolean,
+  asignacionesActivas: number,
   fechaRegistro: string
 };

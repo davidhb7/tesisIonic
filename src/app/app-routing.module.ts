@@ -1,13 +1,9 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { MenuComponent } from './pages/menu/menu.component';
-import { LoginComponent } from './pages/login/login.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { FormularioUsuarioComponent } from './components/formulario-usuario/formulario-usuario.component';
-import { RegistroComponent } from './pages/registro/registro.component';
 import { OperariosComponent } from './components/operadores/operadores.component';
-import { FormularioOperadorComponent } from './components/formulario-operador/formulario-operador.component';
 import { OperarioComponent } from './components/operador/operador.component';
 
 const routes: Routes = [

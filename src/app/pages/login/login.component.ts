@@ -75,7 +75,6 @@ export class LoginComponent  implements OnInit {
   //REDIRECCION A MENU
   goToMenu(){
     this.router.navigate(['/menu']);
-    console.log("Autenticado")
   }
 
 

@@ -73,7 +73,6 @@ export class ReportesComponent  implements OnInit {
   async getReportesParaUsuariosObservable() {
     this.serviciosFireStoreDatabase.getReportesParaUsuariosObservable(this.idUsuarioPresente).subscribe({
       next: documentos => {
-        //console.log("Documentos actualizados:");
         this.documentosReportes=documentos;
       },
     })
@@ -123,6 +122,7 @@ export class ReportesComponent  implements OnInit {
       idRol: usuarioData['idRol'] || '',
       disponibleOperario: usuarioData['esActivo'] || true,
       esActivo: usuarioData['esActivo'] || true,
+      asignacionesActivas:usuarioData['esActivo'] || 0,
       fechaRegistro: usuarioData['fechaRegistro'] || ''
     }
     console.log(this.usuarioPresente);

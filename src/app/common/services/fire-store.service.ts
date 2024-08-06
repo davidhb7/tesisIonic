@@ -49,13 +49,13 @@ export class FireStoreService {
     return collectionData(itemColection) as Observable<tipo[]>;//observable: pendiente de los cambios, segun el <tipo> de variable
   }
 
-  //CREATE
+  //CREATE TODO GENERAL
   crearDocumentoGeneral(data: any, enlace: string){
     const documento = doc(this.firestore, enlace);
     return setDoc(documento,data);
   }
 
-  //CREATEBYID. CREAR DOCUMENTO CON UN ID PREDISEÑADO
+  //CREATE BY ID. CREAR DOCUMENTO CON UN ID PREDISEÑADO
   async crearDocumentoGeneralPorID(data: any, enlace: string, idDoc: string){
     const documento = doc(this.firestore, `${enlace}/${idDoc}`);
     return await setDoc(documento,data);//setDoc, es el encargado de ordenar la creacion del documento en Firestore
@@ -81,6 +81,30 @@ export class FireStoreService {
     return totalCuenta;
   }
 
+
+  // ************************************************************* CONSULTAS COMPUESTAS ************************************************************************
+  // ***********************************************************************************************************************************************************
+
+
+  //CONSULTA COMPUESTA. TRAER USUARIOS CON ROL DE OPERADORES
+  getUsuariosSegunRol<tipoModeloObjeto>(rol:  string): Observable<tipoModeloObjeto[]>{
+    const coleccionBuscar = collection(this.firestore, "Usuarios");
+    const consulta = query(coleccionBuscar, where("idRol", "==", rol));
+    return new Observable<tipoModeloObjeto[]>((observador)=>{
+      const unsubscribe = onSnapshot(consulta,( querySnapshot)=>{
+        const documentosPorRol: tipoModeloObjeto[] = [];
+        querySnapshot.forEach((doc)=>{
+          documentosPorRol.push(doc.data() as tipoModeloObjeto);
+        });
+        observador.next(documentosPorRol);
+      });
+      return unsubscribe;
+    });
+  }
+
+
+
+
   //CONSULTA COMPUESTA DE REPORTES SEGUN ID DE USUARIO
   //TRAE LOS REPORTES REALIZADOS POR EL USUARIO QUE INICIÓ SESION
   getReportesParaUsuariosObservable(idUsuarioPresente:any): Observable<ReportesI[]> {
@@ -98,7 +122,6 @@ export class FireStoreService {
     });
   }
 
-
   //CONSULTA COMPUESTA DE TRAER FOTOS, SEGUN ID DEL REPORTE
   //TRAE LAS FOTOS PERTENECIENTES AL REPORTE SELECCIONADO.
   getFotosSegunReporteObservable(idReportePresente: any): Observable<FotoI[]>{
@@ -115,6 +138,9 @@ export class FireStoreService {
       return unsubscribe;
     });
   }
+
+
+
 
 
 

@@ -1,19 +1,19 @@
-
 <ion-content>
   <div class="card-container">
     <ion-card>
       <ion-row>
-        <ion-col size-md="3" size="12" class="ion-padding ion-blue-bkg">
+        <ion-col size-md="3" size="12" class="ion-padding ion-blue-bkg image-container">
           <img
             src="../../../assets/icon/report.png"
             alt="Report icon"
             loading="lazy"
-            style="height: 200px; width: 200px;"
+            class="centered-image"
           />
         </ion-col>
         <ion-col size-md="9" size="12" class="welcome">
           <ion-card-header>
-            <ion-card-title> Bienvenido a su gestor de reportes de confianza.</ion-card-title>
+            <ion-card-title style="text-align: center;">Acua Reporte</ion-card-title>
+            <ion-card-content style="text-align: center;">Bienvenido a su gestor de reportes de confianza.</ion-card-content>
           </ion-card-header>
 
           <form action="" [formGroup]="formLogin">
@@ -27,7 +27,6 @@
               <p *ngIf="formLogin.get('correoUsuarioLogin').errors['email']">Correo no es válido.</p>
             </ion-text>
 
-
             <ion-item>
               <ion-label position="floating">Clave:</ion-label>
               <ion-input type="password" formControlName="paseUsuarioLogin" [(ngModel)]="paseUsuarioLogin"></ion-input>
@@ -36,12 +35,10 @@
               <p *ngIf="formLogin.get('paseUsuarioLogin').errors['required']">Clave es requerida.</p>
             </ion-text>
 
-
-            <ion-button type="submit"  style="margin-left: 10px; font-size: 9px;" color="primary" [disabled]="formLogin.invalid" (click)="iniciarSesion()">Entrar</ion-button>
+            <ion-button type="submit" style="margin-left: 10px; font-size: 9px;" color="primary" [disabled]="formLogin.invalid" (click)="iniciarSesion()">Entrar</ion-button>
           </form>
           <hr style="margin-top: 15px; margin-bottom: 15px;">
           <a href="formulario-registro" style="color: blue; margin-top: 15px;">No tiene una cuenta?</a>
-
         </ion-col>
       </ion-row>
     </ion-card>

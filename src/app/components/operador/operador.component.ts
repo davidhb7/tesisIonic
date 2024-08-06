@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentData } from '@angular/fire/firestore';
-import { OperarioI } from 'src/app/common/interfaces/operario.interface';
 import { FireStoreService } from 'src/app/common/services/fire-store.service';
 import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
+import { OperarioI } from 'src/app/common/interfaces/operario.interface';
 
 @Component({
   selector: 'app-operador',
@@ -13,7 +13,7 @@ import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 export class OperarioComponent  implements OnInit {
 
   //OBJETOS
-  operario:UsuarioI;
+  operario:OperarioI;
 
   //VARIABLES
   idPresenteOperario: string="";
@@ -49,6 +49,7 @@ export class OperarioComponent  implements OnInit {
       idRol: '',
       disponibleOperario:true,
       esActivo: true,
+      asignacionesActivas:0,
       fechaRegistro: ''
     }
   }
@@ -72,6 +73,7 @@ export class OperarioComponent  implements OnInit {
       idRol: usuarioData['idRol'] || '',
       disponibleOperario: usuarioData['esActivo'] || true,
       esActivo: usuarioData['esActivo'] || true,
+      asignacionesActivas:usuarioData['esActivo'] || true,
       fechaRegistro: usuarioData['fechaRegistro'] || ''
     }
     this.cargando=false;

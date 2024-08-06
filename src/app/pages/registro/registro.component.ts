@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ACTIVO, USUARIO } from 'src/app/common/constantes/constantes';
+import { ACTIVO, USUARIO_CONSUMIDOR } from 'src/app/common/constant/constantes';
 import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { AuthServices } from 'src/app/common/services/auth.service';
 import { FireStoreService } from 'src/app/common/services/fire-store.service';
@@ -63,6 +63,7 @@ export class RegistroComponent  implements OnInit {
       idRol: '',
       disponibleOperario:true,
       esActivo: true,
+      asignacionesActivas:0,
       fechaRegistro: ''
     };
     this.formGroupRegistro = this.formBuilderRegistro.group({
@@ -88,9 +89,10 @@ export class RegistroComponent  implements OnInit {
       direccionUsuario: '',
       telefonoUsuario: '',
       clave: '',
-      idRol: USUARIO,
+      idRol: USUARIO_CONSUMIDOR,
       disponibleOperario:true,
       esActivo: true,
+      asignacionesActivas:0,
       fechaRegistro: fechaHoyString
     };
   }
@@ -114,6 +116,7 @@ export class RegistroComponent  implements OnInit {
         idRol: usuarioData['idRol'] || '',
         disponibleOperario:usuarioData['esActivo'] || '',
         esActivo: usuarioData['esActivo'] || '',
+        asignacionesActivas:usuarioData['esActivo'] || 0,
         fechaRegistro: usuarioData['fechaRegistro'] || ''
       }
       this.serviciosInteraccion.cerrarCargando();

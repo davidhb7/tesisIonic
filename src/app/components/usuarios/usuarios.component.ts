@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { USUARIO_CONSUMIDOR } from 'src/app/common/constant/constantes';
 import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { FireStoreService } from 'src/app/common/services/fire-store.service';
 
@@ -26,7 +27,8 @@ export class UsuariosComponent  implements OnInit {
     this.serviciosFireStore.contarNumeroDocumentosTotal("Usuarios").then((numero: number) => {
       this.numeroActualReportes = numero;
     });
-    this.getusUariosParaEmpresa();
+    //this.getusUariosParaEmpresa();
+    this.getUsuarioConsumidorDeEmpresaRolUsuario();
   }
 
   ngOnInit() {
@@ -45,7 +47,7 @@ export class UsuariosComponent  implements OnInit {
     );
   }
 
-  //REDIRECCIONAR A VER USUARIO POR ID
+  //VER. REDIRECCIONAR A VER USUARIO POR ID
   navegarConIDVerReporte(idUsuario:string){
     this.router.navigate(['/usuario',idUsuario]);
     console.log("enviando id",idUsuario)
@@ -58,16 +60,25 @@ export class UsuariosComponent  implements OnInit {
     this.cargando=false;
   }
 
-  //REDIRECCIONAR A FORMULARIO CREAR USUARIO
+  //CREAR. REDIRECCIONAR A FORMULARIO CREAR USUARIO
   navegarFormulario(){
     this.router.navigate(['/formulario-usuario']);
   }
 
+  //EDITAR
   redireccionarParaEditar(idUsuario:string){
     console.log("Para editar", idUsuario);
     this.router.navigate(['/formulario-registro',idUsuario])
   }
 
+  //TRAER USUARIO-CONSUMIDOR POR INTERFAZ DE EMPRESA
+  getUsuarioConsumidorDeEmpresaRolUsuario(){
+    this.serviciosFireStore.getUsuariosSegunRol<UsuarioI>(USUARIO_CONSUMIDOR).subscribe({
+      next:documentoUsuarioConsumidor=>{
+        this.usuarios=documentoUsuarioConsumidor;
+      }
+    });
+  }
 
 
 

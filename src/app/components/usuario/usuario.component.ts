@@ -51,6 +51,7 @@ export class UsuarioComponent  implements OnInit {
       idRol: '',
       disponibleOperario:true,
       esActivo: true,
+      asignacionesActivas:0,
       fechaRegistro: ''
     }
   }
@@ -72,6 +73,7 @@ export class UsuarioComponent  implements OnInit {
       idRol: usuarioData['idRol'] || '',
       disponibleOperario: usuarioData['esActivo'] || true,
       esActivo: usuarioData['esActivo'] || true,
+      asignacionesActivas: usuarioData['esActivo'] || 0,
       fechaRegistro: usuarioData['fechaRegistro'] || ''
     }
     this.serviciosInteraccion.cerrarCargando();

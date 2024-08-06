@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OPERADOR } from 'src/app/common/constantes/constantes';
+import { OPERADOR } from 'src/app/common/constant/constantes';
 import { OperarioI } from 'src/app/common/interfaces/operario.interface';
 import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { AuthServices } from 'src/app/common/services/auth.service';
@@ -17,7 +17,7 @@ import { InteractionService } from 'src/app/common/services/interaction.service'
 export class FormularioOperadorComponent  implements OnInit {
 
   //OBJETOS
-  nuevoUsuarioOperario:UsuarioI
+  nuevoUsuarioOperario:OperarioI
   formGroupOperador: FormGroup;
   fechaHoy: Date = new Date();
 
@@ -35,9 +35,8 @@ export class FormularioOperadorComponent  implements OnInit {
 
   ) {
     this.idPresenteOperario=routerActivate.snapshot.params['idUsuario'];
-    console.log("");
     this.inicializarOperadorVacioValidaciones();
-    //this.iniciaizarOperadorBase();
+    this.iniciaizarOperadorBase();
     this.editar_o_crear();
   }
 
@@ -61,6 +60,7 @@ export class FormularioOperadorComponent  implements OnInit {
       idRol: OPERADOR,
       disponibleOperario:true,
       esActivo: true,
+      asignacionesActivas:0,
       fechaRegistro: ''
     };
     this.formGroupOperador = this.formBuilderOperador.group({
@@ -84,8 +84,9 @@ export class FormularioOperadorComponent  implements OnInit {
       direccionUsuario: '',
       telefonoUsuario: '',
       clave: '',
-      idRol: '',
+      idRol: OPERADOR,
       disponibleOperario:true,
+      asignacionesActivas:0,
       esActivo: true,
       fechaRegistro: fechaHoyString
     };
@@ -101,9 +102,11 @@ export class FormularioOperadorComponent  implements OnInit {
         this.nuevoUsuarioOperario.idUsuario=resp.user.uid;
         await this.servicioFireStore.crearDocumentoGeneralPorID(this.nuevoUsuarioOperario,'Usuarios', resp.user.uid.toString());
         this.inicializarOperadorVacioValidaciones();
+        this.formGroupOperador.reset();
       }
       this.router.navigate(['/operarios']);
       this.cargando=false;
+
     }catch(err){
       console.log("No guardó: "+err)
     }
@@ -129,6 +132,7 @@ export class FormularioOperadorComponent  implements OnInit {
         idRol: usuarioData['idRol'] || '',
         disponibleOperario: usuarioData['esActivo'] || true,
         esActivo: usuarioData['esActivo'] || true,
+        asignacionesActivas: usuarioData['esActivo'] || true,
         fechaRegistro: usuarioData['fechaRegistro'] || ''
       }
       this.cargando=false;

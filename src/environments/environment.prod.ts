@@ -1,3 +1,4 @@
+import { initializeApp } from "firebase/app";
 //VARIABLES DE PRODUCCION
 export const environment = {
   production: true,
