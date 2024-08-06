@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { ReportesI } from '../interfaces/reportes.interface';
 import { FotoI } from '../interfaces/fotos.interface';
+import { UsuarioI } from '../interfaces/usuarios.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -102,10 +103,29 @@ export class FireStoreService {
     });
   }
 
+  //CONSULTA COMPUESTA. TRAER USUARIO POR CORREO
+  getUsuarioPorCorreoEnLogin<tipoModeloUs>(correoLogin:string):Observable<tipoModeloUs>{
+    const coleccionBuscar = collection(this.firestore, "Usuarios");
+    const consulta = query(coleccionBuscar, where("correoUsuario", "==", correoLogin));
+    return new Observable<tipoModeloUs>((observador)=>{
+      const unsubscribe = onSnapshot(consulta,(querySnapshot)=>{
+        if(!querySnapshot.empty){
+          const docCorreo = querySnapshot.docs[0];
+          const resultadoDocumentoCorreo = docCorreo.data() as tipoModeloUs;
+          observador.next(resultadoDocumentoCorreo);
+          observador.complete();
+        }
+        else {
+          observador.next(null);
+          observador.complete();
+        }
+      });
+      return unsubscribe;
+    });
+  }
 
 
-
-  //CONSULTA COMPUESTA DE REPORTES SEGUN ID DE USUARIO
+  //CONSULTA COMPUESTA. TRAER REPORTES SEGUN ID DE USUARIO
   //TRAE LOS REPORTES REALIZADOS POR EL USUARIO QUE INICIÓ SESION
   getReportesParaUsuariosObservable(idUsuarioPresente:any): Observable<ReportesI[]> {
     const coll =  collection(this.firestore, "Reportes");
@@ -122,7 +142,7 @@ export class FireStoreService {
     });
   }
 
-  //CONSULTA COMPUESTA DE TRAER FOTOS, SEGUN ID DEL REPORTE
+  //CONSULTA COMPUESTA. TRAER FOTOS, SEGUN ID DEL REPORTE
   //TRAE LAS FOTOS PERTENECIENTES AL REPORTE SELECCIONADO.
   getFotosSegunReporteObservable(idReportePresente: any): Observable<FotoI[]>{
     const coleccionNecesaria = collection(this.firestore, "Fotos");

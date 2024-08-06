@@ -3,7 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
 import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { AuthServices } from 'src/app/common/services/auth.service';
+import { FireStoreService } from 'src/app/common/services/fire-store.service';
 import { InteractionService } from 'src/app/common/services/interaction.service';
+import { LocalStorageService } from 'src/app/common/services/local-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -14,22 +16,29 @@ export class LoginComponent  implements OnInit {
 
   //OBJETOS Y CLASES
   formLogin: FormGroup;
-  usuario:UsuarioI
 
 
   //VARIABVLES
   correoUsuarioLogin:string="";
   paseUsuarioLogin:string="";
   alertarError: boolean=false;
+  //documentoLocal:UsuarioI;
 
 
   constructor(
+    //FORMULARIO
     private formBuilderLogin: FormBuilder,
+    //CONSULTAS
     private llamaServiciosAut: AuthServices,
+    private servicioFireStore: FireStoreService,
+    //LOCAL STORAGE
+    private servicioLocalStorage: LocalStorageService,
+    //INTERACCION CON USUARIO
     private serviciosInteraccion: InteractionService,
     //INYECCION DE ROUTER. NAVEGACIONES
     private router: Router
   ) {
+    this.servicioLocalStorage.cargarLocalStorage();
     this.inicializarCamposLogin()
   }
 
@@ -52,8 +61,6 @@ export class LoginComponent  implements OnInit {
     if(this.formLogin.valid){
       const resp= await this.llamaServiciosAut.iniciarSesionAuthServices(this.correoUsuarioLogin, this.paseUsuarioLogin)
       .catch((er)=>{
-        const errorCode = er.code;
-        const errorMessage = er.message;
         console.log("Error auth")
         this.serviciosInteraccion.mensajeGeneral("Inicio incorrecto. Correo o constraseña invalido");
         this.serviciosInteraccion.cerrarCargando();
@@ -61,7 +68,11 @@ export class LoginComponent  implements OnInit {
         this.paseUsuarioLogin=""
       });
       if(resp){
-        this.goToMenu();
+        this.servicioFireStore.getUsuarioPorCorreoEnLogin<UsuarioI>(this.correoUsuarioLogin).subscribe({
+          next:documentoCorreo=>{
+            this.servicioLocalStorage.guardarDatosEnLocalStorage(documentoCorreo);
+          }
+        })
         this.serviciosInteraccion.mensajeGeneral("Inicio correcto");
         this.serviciosInteraccion.cerrarCargando();
         this.inicializarCamposLogin();

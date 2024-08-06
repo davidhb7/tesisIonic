@@ -6,6 +6,7 @@ import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { AuthServices } from 'src/app/common/services/auth.service';
 import { FireStoreService } from 'src/app/common/services/fire-store.service';
 import { InteractionService } from 'src/app/common/services/interaction.service';
+import { LocalStorageService } from 'src/app/common/services/local-storage.service';
 
 @Component({
   selector: 'app-menu',
@@ -17,7 +18,6 @@ export class MenuComponent  implements OnInit {
   //OBJETOS
   usuarioLog:UsuarioI;
   operarioLog:OperarioI;
-
 
   //VARIABLES
   visibleReportes: boolean=true;
@@ -67,10 +67,10 @@ export class MenuComponent  implements OnInit {
     private serviciosUsAth: AuthServices,
     private serviciosInteracion: InteractionService,
     private serviciosAuth: AuthServices,
-    private serviciosFirestore: FireStoreService
+    private serviciosFirestore: FireStoreService,
+    private servicioLocalStorage: LocalStorageService
   ) {
     this.inicializarUSVacioMen();
-
     //VERIFICA ESTADO DEL USUARIO
     this.serviciosAuth.estadoLogUsuario().subscribe(res =>{
       if(res){
@@ -99,6 +99,8 @@ export class MenuComponent  implements OnInit {
   cerrarSesion(){
     this.serviciosUsAth.servicioCerrarSesion();
     this.serviciosInteracion.cerrarCargando();
+    this.servicioLocalStorage.eliminarDatoEnLocalStorage();
+    this.servicioLocalStorage.limpiarTodoLocalStorage();
     this.serviciosInteracion.mensajeGeneral("Salió correctamente");
     this.router.navigate(['/login']);
   }
@@ -125,8 +127,9 @@ export class MenuComponent  implements OnInit {
 
   //CONSULTA EL USUARIO Y OTORGA/QUITA PERMISOS DE ROL
   async traerUS(){
-    const response= await this.serviciosFirestore.getDocumentSolo("Usuarios", this.idQuienInicia);
-    const usuarioData: DocumentData = response.data();
+    const response= await this.servicioLocalStorage.getDatosDeLocalStorage();
+    const usuarioData: DocumentData = response;
+
     this.usuarioLog= {
       idUsuario: usuarioData['idUsuario'] ||'',
       identificacionUsuario: usuarioData['cedulausuario'] ||'',
@@ -143,9 +146,7 @@ export class MenuComponent  implements OnInit {
       asignacionesActivas:usuarioData['esActivo'] || 0,
       fechaRegistro: usuarioData['fechaRegistro'] || ''
     }
-
-
-    this.idQuienInicia= this.usuarioLog.idUsuario
+    this.idQuienInicia= this.usuarioLog.idUsuario;
     console.log("ROL: ",this.usuarioLog.idRol);
 
 
