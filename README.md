@@ -7,3 +7,4 @@
 ## ICONOS:
   https://www.flaticon.es/
   
+## LOCAL STOGRAGE
