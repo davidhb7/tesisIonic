@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ReportesI } from '../interfaces/reportes.interface';
 import { FotoI } from '../interfaces/fotos.interface';
 import { UsuarioI } from '../interfaces/usuarios.interface';
+import { OPERADOR } from '../constant/constantes';
 
 @Injectable({
   providedIn: 'root'
@@ -158,6 +159,21 @@ export class FireStoreService {
       return unsubscribe;
     });
   }
+
+  //CONSULTA COMPUESTA. TRAER OPERARIOS PARA ASIGNACIONES
+  //ARREGLO DE OPERADORES
+  async getUsuariosOperariosParaAsignaciones():Promise<UsuarioI[]>{
+    const coleccionUsuarios = collection(this.firestore, 'Usuarios');
+    const consulta = query(coleccionUsuarios, where('idRol', '==', OPERADOR));
+    const querySnapshot = await getDocs(consulta);
+    const operadores:UsuarioI[]=[];
+    querySnapshot.forEach((doc)=>{
+      operadores.push(doc.data() as UsuarioI);
+    });
+    return operadores;
+  }
+
+
 
 
 

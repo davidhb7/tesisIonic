@@ -42,6 +42,7 @@ export class CrearReporteComponent  implements OnInit {
   enlacesFotos:string[] =[];
   idsFotosSeleccionadas:string[]=[];
   contadorFotosNombre=0;
+  idOperadorElegidoMenorAsignciones:string="";
 
   constructor(
     private serviciosFireStore: FireStoreService,
@@ -55,10 +56,11 @@ export class CrearReporteComponent  implements OnInit {
     //RECIBIENDO ID IDREPORTE
     this.idPresenteDeReporte=route.snapshot.params['idReporte'];
     this.inicializarUsuarioVacio();
-
     this.inicializarFotoVacio();
 
 
+
+    //TODO cambiar la consulta por el localStorage para el usuario login
     //OBTENCION DE ID USUARIO
     this.serviciosAuth.estadoLogUsuario().subscribe(res =>{
       if(res){
@@ -81,7 +83,10 @@ export class CrearReporteComponent  implements OnInit {
     //FIN CONTEO REPORTES
     this.inicializarReporteEnVacio();
     this.cargando=false;
+
+
     this.editar_o_Crear();
+
   }
 
   ngOnInit() {
@@ -130,7 +135,7 @@ export class CrearReporteComponent  implements OnInit {
       fechaRegistroReporte:'',
       fechaAtencionReporte: '',
       fechaFinReporte:'',
-      idUsuario:  '',
+      idUsuario: '',
       idOperador:  '',
       idEmpresa: '',
       idFoto:  '',
@@ -142,7 +147,6 @@ export class CrearReporteComponent  implements OnInit {
   inicializarNuevoReporteDatosBasicos(){
     this.getOperarioAsignar();
     let fechaHoyString: string = `${this.fechaHoy.getDate()}/${this.fechaHoy.getMonth() + 1}/${this.fechaHoy.getFullYear()} ${this.fechaHoy.getHours()}:${this.fechaHoy.getMinutes()}`;
-
     this.nuevoReporte={
       idReporte: this.serviciosFireStore.crearIDUnico(),
       numeroReporte: this.asignableNuevo,
@@ -151,7 +155,7 @@ export class CrearReporteComponent  implements OnInit {
       fechaRegistroReporte: fechaHoyString,
       fechaAtencionReporte: "",
       fechaFinReporte: "",
-      idUsuario: this.usuarioOperarioAsignar.idUsuario,
+      idUsuario: '',
       idOperador: '',
       idEmpresa: '',
       idFoto: '',
@@ -159,16 +163,24 @@ export class CrearReporteComponent  implements OnInit {
     }
   }
 
-  //FUNCION GUARDAR
+  //FUNCION CREAR - GUARDAR
   async guardarRegistro(){
-    this.cargando=true;
-    this.serviciosInteraccion.cargandoConMensaje("Guardando Reportes")//Interacciones del proceso
-    //Crea y guarda el objeto de reporte
-    await this.serviciosFireStore.crearDocumentoGeneralPorID(this.nuevoReporte,'Reportes',this.nuevoReporte.idReporte);
-    this.cargando=false;
-    this.serviciosInteraccion.mensajeGeneral("Reporte enviado");
-    this.serviciosInteraccion.cerrarCargando();
-    await this.router.navigate(["/reportes",this.idPresenteDeUsuario]);
+    try{
+      this.cargando=true;
+      this.serviciosInteraccion.cargandoConMensaje("Guardando Reportes")//Interacciones del proceso
+      //VEALO
+      this.getOperarioAsignar();
+      this.nuevoReporte.idOperador=this.idOperadorElegidoMenorAsignciones;
+      //Crea y guarda el objeto de reporte
+      await this.serviciosFireStore.crearDocumentoGeneralPorID(this.nuevoReporte,'Reportes',this.nuevoReporte.idReporte);
+      this.cargando=false;
+      this.serviciosInteraccion.mensajeGeneral("Reporte enviado");
+      this.serviciosInteraccion.cerrarCargando();
+      await this.router.navigate(["/reportes",this.idPresenteDeUsuario]);
+    }
+    catch(err){
+      console.log("Error al crear el reporte",err);
+    }
   }
 
   //EDITAR O CREAR SEGUN DEFINICION DE ID
@@ -304,23 +316,31 @@ export class CrearReporteComponent  implements OnInit {
     }
     this.serviciosInteraccion.cerrarCargando();
   }
+
   //TODO
   // ASIGNACION AUTOMATICA DE OPERARIOS
-  getOperarioAsignar(){
-    this.serviciosFireStore.getUsuariosSegunRol<UsuarioI>(OPERADOR).subscribe({
-      next:documentoOperario=>{
-        //TODO VALIDAR QUE ESTÉ DISPONIBLE Y QUE TENGA MENOS NUMERO DE ASIGNACIONES
-        //TODO DENTRO DE LA VALIDACION ANTERIOR, ASIGNAR EL PRIMERO QUE CUMPLA LOS REQUERIMIENTOS
-        if(documentoOperario && documentoOperario.length>0){
-          this.usuarioOperarioAsignar=documentoOperario[0];
+  async getOperarioAsignar(){
+    try{
+      const operadoresAsignaciones= await this.serviciosFireStore.getUsuariosOperariosParaAsignaciones();
+      let operadoresConMenosAsignaciones= operadoresAsignaciones[0];
+      operadoresAsignaciones.forEach((operador)=>{
+        if(operador.asignacionesActivas<operadoresConMenosAsignaciones.asignacionesActivas){
+          operadoresConMenosAsignaciones=operador;
         }
-      }
-    })
+      });
+      this.idOperadorElegidoMenorAsignciones=operadoresConMenosAsignaciones.idUsuario;
+      console.log("vea: ",this.idOperadorElegidoMenorAsignciones,  "rol ", operadoresConMenosAsignaciones.idRol);
+      return operadoresConMenosAsignaciones;
+    }catch(error){
+      console.log("error al buscar con menor asignaciones: ", error);
+      return error;
+    }
+
   }
 
   //TODO
   //CATEGORIZAR REPORTE DESDE LA EMPRESA DE 1 A 5
 
   //TODO
-  //EN EDITAR, VOLVER A PONER LA FOTO ASIGNADA AL REPORTE
+  //EN EDITAR, VOLVER A PONER LA FOTO ASIGNADA AL REPORTE AL EDITAR
 }
