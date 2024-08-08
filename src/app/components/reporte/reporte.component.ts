@@ -29,11 +29,13 @@ export class ReporteComponent  implements OnInit {
   ) {
     //RECIBE EL ID QUE TRAE EL NAVEGADOR DE COMPONENTE: poner el id tal cual la interfazS
     this.idPresenteReporte=route.snapshot.params['idReporte'];
-    this.serviciosInteraccion.cargandoConMensaje("Cargando reporte.")
     this.inicializarEnVacio();
-    this.getReporteSoloVer();
-    this.getFotosPorIdReporte();
-    this.serviciosInteraccion.cerrarCargando();
+    this.serviciosInteraccion.cargandoConMensaje("Cargando reporte.").then(()=>{
+      this.getReporteSoloVer();
+      this.getFotosPorIdReporte();
+      this.serviciosInteraccion.cerrarCargando();
+    });
+
   }
 
   ngOnInit() {

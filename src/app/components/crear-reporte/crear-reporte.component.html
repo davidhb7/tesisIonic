@@ -31,9 +31,6 @@
       <ion-icon name="location-outline" color="danger" (click)="tomarubicacion()"></ion-icon>
     </ion-item>
 
-
-
-
     <ion-item>
       <ion-label>Fotos de galeria:</ion-label>
       <ion-buttons slot="end">
@@ -45,31 +42,21 @@
       </ion-buttons>
     </ion-item>
 
-
-    <!-- <ion-item>
-      <p>Fotos Seleccionadas</p>
-    </ion-item>
-    <ion-item class="imagen" *ngFor="let urlFoto of enlacesFotos">
-      <img src="{{urlFoto}}" alt=""  style="margin: 10px; border-radius: 10px; height: 10; width: 20;">
-      <ion-icon name="close-circle-outline" color="danger" (click)="eliminarFoto(urlFoto)"></ion-icon>
-    </ion-item> -->
-
+    <!-- FOTOS AL CREAR EL REPORTE -->
     <ion-item class="imagen" *ngFor="let urlFoto of enlacesFotos">
       <div style="display: flex; flex-direction: column; align-items: center;">
         <img src="{{urlFoto}}" alt="" style="margin: 10px; border-radius: 10px; height: 100px; width: 200px;">
         <ion-icon name="close-circle-outline" color="danger" (click)="eliminarFoto(urlFoto)" style="margin-top: 5px; margin-bottom: 10px;"></ion-icon>
       </div>
     </ion-item>
-    <!-- <ion-item>
-      <ion-label (click)="tomarFoto()">
-        Camara:
-      </ion-label>
-      <ion-icon name="camera" (click)="tomarFoto()"></ion-icon>
-    </ion-item> -->
 
-    <!-- <ion-item>
-      <img [src]="nuevaFoto" alt="Sin fotos de reporte">
-    </ion-item> -->
+    <!-- MUESTRA FOTOS A EDITAR -->
+    <ion-item class="imagen" *ngFor="let foto of fotosEditar">
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="{{foto.urlFoto}}" alt="" style="margin: 10px; border-radius: 10px; height: 100px; width: 200px;">
+        <ion-icon name="close-circle-outline" color="danger" (click)="eliminarFoto(foto.urlFoto)" style="margin-top: 5px; margin-bottom: 10px;"></ion-icon>
+      </div>
+    </ion-item>
 
 
 

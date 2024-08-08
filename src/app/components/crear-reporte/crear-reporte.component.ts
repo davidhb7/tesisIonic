@@ -26,6 +26,7 @@ export class CrearReporteComponent  implements OnInit {
   //------------------OBJETOS
   reportes: ReportesI[]=[];
   nuevaFotoI:FotoI;
+  fotosEditar:FotoI[]=[];
   nuevoReporte:ReportesI;
   usuarioLog: UsuarioI;
   fechaHoy: Date = new Date();
@@ -197,7 +198,8 @@ export class CrearReporteComponent  implements OnInit {
         idEmpresa: reporteData['idEmpresa'] || 0,
         idFoto: reporteData['idFoto'] || 0,
         estado: reporteData['estado'] || ''
-      }
+      };
+      this.getFotosPorIdReporte();
     }
     else{
       //PARA CREAR
@@ -331,9 +333,22 @@ export class CrearReporteComponent  implements OnInit {
     }
   }
 
-  //TODO
-  //EN EDITAR, VOLVER A PONER LA FOTO ASIGNADA AL REPORTE AL EDITAR
+  //TRAER FOTOS POR ID DE REPORTE
+  getFotosPorIdReporte(){
+    try{
+      this.serviciosFireStore.getFotosSegunReporteObservable(this.idPresenteDeReporte).subscribe({
 
+        next: documentosFotos=>{
+          console.log("idPresente: ", this.idPresenteDeReporte)
+          this.fotosEditar=documentosFotos;
+          console.log(this.fotosEditar)
+        }
+      });
+    }
+    catch(e){
+      console.log("Error foto editar: ",e)
+    }
+  }
 
 
 }

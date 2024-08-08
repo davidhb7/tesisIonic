@@ -9,7 +9,6 @@ import { OperariosComponent } from './operadores/operadores.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GoogleMapsComponent } from './google-maps/google-maps.component';
 import { FormularioUsuarioComponent } from './formulario-usuario/formulario-usuario.component';
 import { AsignacionesOperadorComponent } from './asignaciones-operador/asignaciones-operador.component';
 
@@ -29,8 +28,6 @@ import { AsignacionesOperadorComponent } from './asignaciones-operador/asignacio
     UsuariosComponent,
     //FORMULARIO-USUARIO
     FormularioUsuarioComponent,
-    //MAPA
-    GoogleMapsComponent,
     //ASIGNACIONES
     AsignacionesOperadorComponent
   ],
@@ -47,8 +44,6 @@ import { AsignacionesOperadorComponent } from './asignaciones-operador/asignacio
     UsuariosComponent,
     //FORMULARIO COMPONENT
     FormularioUsuarioComponent,
-    //MAPA
-    GoogleMapsComponent,
     //ASIGNACIONES
     AsignacionesOperadorComponent
 
