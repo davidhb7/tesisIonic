@@ -19,25 +19,27 @@ export class LocalStorageService  {
 
   async guardarDatosEnLocalStorage(valor:any ){
     await this.localStorage.set("USUARIO",valor);
-    console.log("Dato guardado en Local storage.")
-    console.log(valor);
+    console.log("Dato guardado en Local storage.", valor);
   }
 
   async getDatosDeLocalStorage(){
-    const item = await this.localStorage.get("USUARIO");
-    console.log("Item obtenido: ", item)
-    return item;
+    try{
+      const item = await this.localStorage.get("USUARIO");
+      console.log("Item obtenido: ", item)
+      return item;
+    }catch(e){
+      console.log("Error get local storage",e)
+    }
   }
 
   async eliminarDatoEnLocalStorage(){
-    console.log("Dato eliminado del Local storage.")
+    console.log("Dato eliminado del Local storage.");
     await this.localStorage.remove("USUARIO");
   }
 
   async limpiarTodoLocalStorage(){
-    console.log("Local storage limpia.")
+    console.log("Local storage limpia.");
     await this.localStorage.clear();
-
   }
 
 

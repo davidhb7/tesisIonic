@@ -16,6 +16,7 @@
 
     <ion-item *ngFor="let nuevoReporte of documentosReportes, let index" >
       <ion-label>
+        <!-- REPORTES CREADOS POR EL USUARIO LOGUEADO -->
         Reporte numero: {{nuevoReporte.numeroReporte}}
         <p>Descripcipon: {{nuevoReporte.descripcion}}</p>
         <p>Estado:</p><p style="color: green;"> {{nuevoReporte.estado}}</p>
@@ -37,7 +38,6 @@
         Reporte numero: {{repGenerales.numeroReporte}}
         <p>Descripcipon: {{repGenerales.descripcion}}</p>
         <p>Estado:</p><p style="color: green;"> {{repGenerales.estado}}</p>
-
       </ion-label>
 
 
@@ -51,11 +51,5 @@
       <ion-button color="success" (click)="navegarConIDVerReporte(repGenerales.idReporte)" style="font-size: 8px;">Ver</ion-button>
       <ion-button color="warning" (click)="navegarConIDEditarReporte(repGenerales.idReporte)" style="font-size: 8px;">Editar</ion-button>
     </ion-item>
-
-
-
   </ion-list>
-
-
-
 </ion-content>

@@ -1,9 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collectionData, deleteDoc, doc, getDoc, getDocFromServer, getDocs, getDocsFromServer, onSnapshot, setDoc, updateDoc } from '@angular/fire/firestore';
-import { DocumentReference, QuerySnapshot, collection, getCountFromServer, query, where } from 'firebase/firestore';
+import { Firestore, collectionData, deleteDoc, doc, getDocFromServer, getDocs, onSnapshot, setDoc, updateDoc } from '@angular/fire/firestore';
+import { collection, getCountFromServer, query, where } from 'firebase/firestore';
 
 import { Observable } from 'rxjs';
-//import { v4 as uuidv4 } from 'uuid';
 
 //DECLARACION UNICA DE ID PARA FIRESTORE
 import { v4 as uuidv4 } from 'uuid';
@@ -51,7 +50,7 @@ export class FireStoreService {
     return collectionData(itemColection) as Observable<tipo[]>;//observable: pendiente de los cambios, segun el <tipo> de variable
   }
 
-  //CREATE TODO GENERAL
+  //CREATE EN GENERAL
   crearDocumentoGeneral(data: any, enlace: string){
     const documento = doc(this.firestore, enlace);
     return setDoc(documento,data);
@@ -63,12 +62,29 @@ export class FireStoreService {
     return await setDoc(documento,data);//setDoc, es el encargado de ordenar la creacion del documento en Firestore
   }
 
-  //UPDATE. ACTUALIZAR DOCUMENTO TENIENDO UN ID DE REFERENCIA
+  //UPDATE DOCUMENTO. ACTUALIZAR DOCUMENTO COMPLETO TENIENDO UN ID DE REFERENCIA
   async actualizarDocumentoPorID(data:any, enlace:string, idDoc:number){
     const documento = doc(this.firestore, `${enlace}/${idDoc}`);
     return updateDoc(documento,data);
   }
 
+  //UPDATE CAMPO DE DOCUMENTO. ACTUALIZA UN CAMPO EN ESPECIFICO DE UN DOCUMENTO ESPECIFICO POR ID
+  actualizarCampoDocumento(coleccion:string, idDocumento:string, campo:string, nuevovalor:any):Observable<void>{
+    const referenciaColeccion = doc(this.firestore,`${coleccion}/${idDocumento}`);
+    return new Observable<void>((observable)=>{
+      updateDoc(referenciaColeccion,{
+        [campo]:nuevovalor
+      }).then(()=>{
+        console.log("docID",referenciaColeccion)
+        console.log("Campo actualizado, nuevo valor: ", nuevovalor);
+        observable.next();
+        observable.complete();
+      }).catch(e=>{
+        console.log("Erro al actualizar campo: ", e);
+        observable.error();
+      })
+    });
+  }
   //DELETE
   eliminarDocPorID( enlace:string, idDoc:string){
     const documento = doc(this.firestore, `${enlace}/${idDoc}`);
@@ -87,7 +103,7 @@ export class FireStoreService {
   // ************************************************************* CONSULTAS COMPUESTAS ************************************************************************
   // ***********************************************************************************************************************************************************
 
-
+  // ************************************************************* USUARIOS
   //CONSULTA COMPUESTA. TRAER USUARIOS CON ROL DE OPERADORES
   getUsuariosSegunRol<tipoModeloObjeto>(rol:  string): Observable<tipoModeloObjeto[]>{
     const coleccionBuscar = collection(this.firestore, "Usuarios");
@@ -125,12 +141,25 @@ export class FireStoreService {
     });
   }
 
+  //CONSULTA COMPUESTA. TRAER OPERARIOS PARA ASIGNACIONES
+  //ARREGLO DE OPERADORES
+  async getUsuariosOperariosParaAsignaciones():Promise<UsuarioI[]>{
+    const coleccionUsuarios = collection(this.firestore, 'Usuarios');
+    const consulta = query(coleccionUsuarios, where('idRol', '==', OPERADOR));
+    const querySnapshot = await getDocs(consulta);
+    const operadores:UsuarioI[]=[];
+    querySnapshot.forEach((doc)=>{
+      operadores.push(doc.data() as UsuarioI);
+    });
+    return operadores;
+  }
 
-  //CONSULTA COMPUESTA. TRAER REPORTES SEGUN ID DE USUARIO
-  //TRAE LOS REPORTES REALIZADOS POR EL USUARIO QUE INICIÓ SESION
-  getReportesParaUsuariosObservable(idUsuarioPresente:any): Observable<ReportesI[]> {
+  // ************************************************************* REPORTES
+
+  //CONSULTA COMPUESTA. TRAE LOS REPORTES ASIGNADOS AL OPERADOR PRESENTE/LOGEUADO
+  getReportesAsignadosAlOperador(idUsuarioOperadorPresente:string): Observable<ReportesI[]> {
     const coll =  collection(this.firestore, "Reportes");
-    const q = query(coll, where("idUsuario", "==", idUsuarioPresente));
+    const q = query(coll, where("idOperador", "==", idUsuarioOperadorPresente));
     return new Observable<ReportesI[]>((observer) => {
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const documentosReportes: ReportesI[] = [];
@@ -145,7 +174,7 @@ export class FireStoreService {
 
   //CONSULTA COMPUESTA. TRAER FOTOS, SEGUN ID DEL REPORTE
   //TRAE LAS FOTOS PERTENECIENTES AL REPORTE SELECCIONADO.
-  getFotosSegunReporteObservable(idReportePresente: any): Observable<FotoI[]>{
+  getFotosSegunReporteObservable(idReportePresente: string): Observable<FotoI[]>{
     const coleccionNecesaria = collection(this.firestore, "Fotos");
     const consulta = query(coleccionNecesaria, where("idReporte", "==", idReportePresente));
     return new Observable<FotoI[]>((observer)=>{
@@ -160,20 +189,39 @@ export class FireStoreService {
     });
   }
 
-  //CONSULTA COMPUESTA. TRAER OPERARIOS PARA ASIGNACIONES
-  //ARREGLO DE OPERADORES
-  async getUsuariosOperariosParaAsignaciones():Promise<UsuarioI[]>{
-    const coleccionUsuarios = collection(this.firestore, 'Usuarios');
-    const consulta = query(coleccionUsuarios, where('idRol', '==', OPERADOR));
-    const querySnapshot = await getDocs(consulta);
-    const operadores:UsuarioI[]=[];
-    querySnapshot.forEach((doc)=>{
-      operadores.push(doc.data() as UsuarioI);
+  //CONSULTA COMPUESTA. TRAER REPORTES SEGUN ID DE USUARIO
+  //TRAE LOS REPORTES REALIZADOS POR EL USUARIO QUE INICIÓ SESION
+  //ES PARA TRAER REPORTES REALIZADOS POR EL USUARIO LOGUEADO
+  getReportesParaUsuariosObservable(idUsuarioPresente:string): Observable<ReportesI[]> {
+    const coll =  collection(this.firestore, "Reportes");
+    const q = query(coll, where("idUsuario", "==", idUsuarioPresente));
+    return new Observable<ReportesI[]>((observer) => {
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const documentosReportes: ReportesI[]=[];
+        querySnapshot.forEach((doc)=>{
+          documentosReportes.push(doc.data() as ReportesI);
+        });
+        observer.next(documentosReportes);
+      });
+      return unsubscribe;
     });
-    return operadores;
   }
 
-
+  //CONSULTA COMPUESTA. TRAE LOS REPORTES SEGUN SU ESTADO
+  getReportesSegunEstado(estado:string, idUsuario:string):Observable<ReportesI[]>{
+    const colleccion = collection(this.firestore, "Reportes");
+    const consulta = query(colleccion, where("estado", "==", estado), where("idUsuario", "==",idUsuario ));
+    return new Observable<ReportesI[]>((observador)=>{
+      const unsubscribe=onSnapshot(consulta,(querySnapShot)=>{
+        const documentoSegunEstado: ReportesI[]=[];
+        querySnapShot.forEach((documento)=>{
+          documentoSegunEstado.push(documento.data() as ReportesI);
+        });
+        observador.next(documentoSegunEstado);
+      });
+      return unsubscribe;
+    });
+  }
 
 
 

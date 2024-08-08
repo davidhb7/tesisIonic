@@ -14,6 +14,12 @@
           </ion-label>
         </ion-item>
 
+        <ion-item *ngIf="visibleAsignaciones">
+          <ion-label (click)="irAsignacionesDelOperador()">
+            Reportes Asignados
+          </ion-label>
+        </ion-item>
+
         <ion-item *ngIf="visibleUsuarios">
           <ion-label (click)="irTodosLosUsuarios()">
             Usuarios

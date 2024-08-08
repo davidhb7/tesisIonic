@@ -38,8 +38,9 @@ export class LoginComponent  implements OnInit {
     //INYECCION DE ROUTER. NAVEGACIONES
     private router: Router
   ) {
-    this.servicioLocalStorage.cargarLocalStorage();
-    this.inicializarCamposLogin()
+
+    this.inicializarCamposLogin();
+
   }
 
   ngOnInit() {
@@ -61,22 +62,23 @@ export class LoginComponent  implements OnInit {
     if(this.formLogin.valid){
       const resp= await this.llamaServiciosAut.iniciarSesionAuthServices(this.correoUsuarioLogin, this.paseUsuarioLogin)
       .catch((er)=>{
-        console.log("Error auth")
+        console.log("Error autenticacion: ", er)
         this.serviciosInteraccion.mensajeGeneral("Inicio incorrecto. Correo o constraseña invalido");
         this.serviciosInteraccion.cerrarCargando();
-        this.correoUsuarioLogin=""
-        this.paseUsuarioLogin=""
+        this.formLogin.reset();
       });
       if(resp){
         this.servicioFireStore.getUsuarioPorCorreoEnLogin<UsuarioI>(this.correoUsuarioLogin).subscribe({
-          next:documentoCorreo=>{
-            this.servicioLocalStorage.guardarDatosEnLocalStorage(documentoCorreo);
+          next:async documentoCorreo=>{
+            await this.servicioLocalStorage.guardarDatosEnLocalStorage(documentoCorreo);
+            this.serviciosInteraccion.mensajeGeneral("Inicio correcto");
+            this.serviciosInteraccion.cerrarCargando();
+            this.inicializarCamposLogin();
+            this.servicioLocalStorage.cargarLocalStorage();
+            this.goToMenu();
           }
         })
-        this.serviciosInteraccion.mensajeGeneral("Inicio correcto");
-        this.serviciosInteraccion.cerrarCargando();
-        this.inicializarCamposLogin();
-        this.goToMenu();
+
       }
 
 
@@ -87,6 +89,8 @@ export class LoginComponent  implements OnInit {
   goToMenu(){
     this.router.navigate(['/menu']);
   }
+
+
 
 
 

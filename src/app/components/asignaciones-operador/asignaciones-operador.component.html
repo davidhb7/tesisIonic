@@ -1,0 +1,49 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Mis Asignaciones
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <h3 style="text-align: center;">Asignaciones pendientes.</h3>
+    <ion-item *ngFor="let reporte of reportesAsignadosPendientes">
+      <ion-label>
+        <!-- REPORTES ASIGNADOS PARA EL USUARIO LOGUEADO -->
+        Reporte numero: {{reporte.numeroReporte}}
+        <p>Descripcipon: {{reporte.descripcion}}</p>
+        <p>Id: {{reporte.idReporte}}</p>
+        <p>Estado:</p><p style="color: orange;"><strong> {{reporte.estado}}</strong></p>
+      </ion-label>
+      @if (cargando) {
+        <div style="text-align:center;">
+          <ion-spinner name="bubbles"></ion-spinner>
+        </div>
+      }
+      <ion-button color="success" (click)="verReporte(reporte.idReporte)" style="font-size: 8px;">Ver</ion-button>
+      <ion-button color="warning" style="font-size: 8px;" (click)="presentAlertConfirm(reporte.idReporte)">Terminar reporte</ion-button>
+    </ion-item>
+
+
+    <hr color="blue">
+
+
+    <h3 style="text-align: center;">Asignaciones realizadas.</h3>
+    <ion-item *ngFor="let reporte of reportesSolucionados let i">
+      <ion-label>
+        <!-- REPORTES ASIGNADOS PARA EL USUARIO LOGUEADO -->
+        Reporte numero: {{reporte.numeroReporte}}
+        <p>Descripcipon: {{reporte.descripcion}}</p>
+        <p>Id: {{reporte.idReporte}}</p>
+        <p>Estado:</p><p style="color: green;"><strong> {{reporte.estado}}</strong></p>
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

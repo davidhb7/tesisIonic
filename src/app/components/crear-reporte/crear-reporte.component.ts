@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EN_PROCESO, OPERADOR } from 'src/app/common/constant/constantes';
+import { EN_PROCESO } from 'src/app/common/constant/constantes';
 import { ReportesI } from 'src/app/common/interfaces/reportes.interface';
 import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { FireStorageService } from 'src/app/common/services/fire-storage.service';
@@ -51,14 +51,11 @@ export class CrearReporteComponent  implements OnInit {
     private router: Router,
     private serviciosAuth: AuthServices,
     private route: ActivatedRoute,
-    //private geolocation: Geolocation
   ) {
     //RECIBIENDO ID IDREPORTE
     this.idPresenteDeReporte=route.snapshot.params['idReporte'];
     this.inicializarUsuarioVacio();
     this.inicializarFotoVacio();
-
-
 
     //TODO cambiar la consulta por el localStorage para el usuario login
     //OBTENCION DE ID USUARIO
@@ -83,8 +80,6 @@ export class CrearReporteComponent  implements OnInit {
     //FIN CONTEO REPORTES
     this.inicializarReporteEnVacio();
     this.cargando=false;
-
-
     this.editar_o_Crear();
 
   }
@@ -317,7 +312,7 @@ export class CrearReporteComponent  implements OnInit {
     this.serviciosInteraccion.cerrarCargando();
   }
 
-  //TODO
+
   // ASIGNACION AUTOMATICA DE OPERARIOS
   async getOperarioAsignar(){
     try{
@@ -329,18 +324,16 @@ export class CrearReporteComponent  implements OnInit {
         }
       });
       this.idOperadorElegidoMenorAsignciones=operadoresConMenosAsignaciones.idUsuario;
-      console.log("vea: ",this.idOperadorElegidoMenorAsignciones,  "rol ", operadoresConMenosAsignaciones.idRol);
       return operadoresConMenosAsignaciones;
     }catch(error){
-      console.log("error al buscar con menor asignaciones: ", error);
+      console.log("Error al buscar con menor asignaciones: ", error);
       return error;
     }
-
   }
 
   //TODO
-  //CATEGORIZAR REPORTE DESDE LA EMPRESA DE 1 A 5
-
-  //TODO
   //EN EDITAR, VOLVER A PONER LA FOTO ASIGNADA AL REPORTE AL EDITAR
+
+
+
 }

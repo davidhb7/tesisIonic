@@ -6,8 +6,7 @@ import { LoadingController, ToastController } from '@ionic/angular';
 })
 export class InteractionService {
 
-  cargando:any;
-
+  private cargando: HTMLIonLoadingElement | null = null;
 
   constructor(
     public toastController: ToastController,
@@ -31,6 +30,9 @@ export class InteractionService {
   }
 
   async cerrarCargando() {
-    await this.cargando.dismiss();
+    if (this.cargando) {
+      await this.cargando.dismiss();
+      this.cargando = null;
+    }
   }
 }

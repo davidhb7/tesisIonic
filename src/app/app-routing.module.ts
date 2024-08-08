@@ -5,8 +5,11 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { FormularioUsuarioComponent } from './components/formulario-usuario/formulario-usuario.component';
 import { OperariosComponent } from './components/operadores/operadores.component';
 import { OperarioComponent } from './components/operador/operador.component';
+import { AsignacionesOperadorComponent } from './components/asignaciones-operador/asignaciones-operador.component';
 
 const routes: Routes = [
+  //CUANDO EL COMPONENTE TIENE MODULE INDIVIDUAL, USAR LOADCHILDREN
+  //CUANDO NO TIENE MODULE, SOLO USAR COMPONENT. DECLARAR Y EXPORTAR EN MODULE COMUNITARIO
 
   //VACIO Y POR DEFECTO A LOGIN
   {
@@ -110,6 +113,11 @@ const routes: Routes = [
   {
     path: 'formulario-operador/:idUsuario',
     loadChildren: ()=> import('./components/formulario-operador/formulario-operador.module').then(m=>m.FormularioOperadorModule)
+  },
+  //RUTA PARA QUE EL OPERADOR VEA SUS REPORTES ASIGNADOS
+  {
+    path:'asignaciones-operador',
+    component: AsignacionesOperadorComponent
   }
 
 

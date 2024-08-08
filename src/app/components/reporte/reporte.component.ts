@@ -5,6 +5,7 @@ import { FireStoreService } from 'src/app/common/services/fire-store.service';
 import { ReportesComponent } from '../reportes/reportes.component';
 import { DocumentData } from '@angular/fire/firestore';
 import { FotoI } from 'src/app/common/interfaces/fotos.interface';
+import { InteractionService } from 'src/app/common/services/interaction.service';
 
 @Component({
   selector: 'app-reporte',
@@ -23,13 +24,16 @@ export class ReporteComponent  implements OnInit {
 
   constructor(
     private servicioFireStore: FireStoreService,//INYECTANDO DEPENDENCIA
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private serviciosInteraccion: InteractionService,
   ) {
     //RECIBE EL ID QUE TRAE EL NAVEGADOR DE COMPONENTE: poner el id tal cual la interfazS
     this.idPresenteReporte=route.snapshot.params['idReporte'];
+    this.serviciosInteraccion.cargandoConMensaje("Cargando reporte.")
     this.inicializarEnVacio();
     this.getReporteSoloVer();
     this.getFotosPorIdReporte();
+    this.serviciosInteraccion.cerrarCargando();
   }
 
   ngOnInit() {
@@ -76,7 +80,7 @@ export class ReporteComponent  implements OnInit {
 
 
   //TRAER FOTOS POR ID DE REPORTE
-  async getFotosPorIdReporte(){
+  getFotosPorIdReporte(){
     this.servicioFireStore.getFotosSegunReporteObservable(this.idPresenteReporte).subscribe({
       next: documentosFotos=>{
         this.fotosDeReporte=documentosFotos;

@@ -78,7 +78,7 @@ export class ReportesComponent  implements OnInit {
     })
   }
 
-  //CREAR REPORTE CON ID DE PAAMETRO EN RUTA
+  //CREAR REPORTE CON ID DE PARAMETRO EN RUTA
   navegarFormularioCrearReporte(){
     this.router.navigate(['/crear-reporte']);
     console.log("sin id")
@@ -118,7 +118,6 @@ export class ReportesComponent  implements OnInit {
       direccionUsuario: usuarioData['direccionUsuario'] || '',
       telefonoUsuario: usuarioData['telefonoUsuario'] || '',
       clave: usuarioData['clave'] || '',
-
       idRol: usuarioData['idRol'] || '',
       disponibleOperario: usuarioData['esActivo'] || true,
       esActivo: usuarioData['esActivo'] || true,
