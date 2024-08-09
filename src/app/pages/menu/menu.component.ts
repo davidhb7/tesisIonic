@@ -27,35 +27,7 @@ export class MenuComponent implements OnInit {
   idLogOperario: string = "";
   otroId: string;
 
-  x: any;
 
-  //OBJETO DE RUTAS
-  opcionesMenu: any[] = [
-    {
-      idMen: 1,
-      nombre: 'Reportes',
-      url: '/reportes',
-      permiso: true
-    },
-    {
-      idMen: 2,
-      nombre: 'Usuarios',
-      url: '/usuarios',
-      permiso: true
-    },
-    {
-      idMen: 3,
-      nombre: 'Operarios',
-      url: '/operarios',
-      permiso: true
-    },
-    {
-      idMen: 4,
-      nombre: 'Perfil',
-      url: '/usuario',
-      permiso: true
-    }
-  ];
 
   constructor(
     private router: Router,

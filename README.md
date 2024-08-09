@@ -8,3 +8,7 @@
   https://www.flaticon.es/
   
 ## LOCAL STOGRAGE
+
+## CAPACITOR GOOGLEE MAPS
+  https://capacitorjs.com/docs/apis/google-maps
+  

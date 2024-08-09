@@ -6,6 +6,7 @@ import { FormularioUsuarioComponent } from './components/formulario-usuario/form
 import { OperariosComponent } from './components/operadores/operadores.component';
 import { OperarioComponent } from './components/operador/operador.component';
 import { AsignacionesOperadorComponent } from './components/asignaciones-operador/asignaciones-operador.component';
+import { GoogleMapsComponent } from './components/google-maps/google-maps.component';
 
 const routes: Routes = [
   //CUANDO EL COMPONENTE TIENE MODULE INDIVIDUAL, USAR LOADCHILDREN
@@ -118,6 +119,10 @@ const routes: Routes = [
   {
     path:'asignaciones-operador',
     component: AsignacionesOperadorComponent
+  },
+  {
+    path:'mapa',
+    component:GoogleMapsComponent
   }
 
 

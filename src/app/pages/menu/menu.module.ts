@@ -5,6 +5,7 @@ import { MenuRoutingModule } from './menu-routing.module';
 import { IonicModule } from '@ionic/angular';
 import { MenuComponent } from './menu.component';
 import { FormsModule } from '@angular/forms';
+import { ComponentModule } from "../../components/component.module";
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { FormsModule } from '@angular/forms';
     MenuRoutingModule,
     IonicModule,
     FormsModule,
-  ]
+    ComponentModule
+]
 })
 export class MenuPageModule { }

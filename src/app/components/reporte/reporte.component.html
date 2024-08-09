@@ -9,7 +9,6 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
   <ion-list>
     <ion-card>
@@ -18,8 +17,7 @@
         <ion-card-subtitle style="font-weight: bold; color: white; ">Identificacion del reporte:</ion-card-subtitle>
         <p>{{idPresenteReporte}}</p>
       </ion-card-header>
-
-
+      <!-- CONTENIDO DEL REPORTE Y SUS CAMPOS -->
       <ion-card-content>
         <strong>Reporte numero: {{reporte.numeroReporte}}</strong>
         <p>Descripcipon expecifica: {{reporte.descripcion}}</p>
@@ -31,4 +29,17 @@
       </ion-card-content>
     </ion-card>
   </ion-list>
+
+  <!-- SECCION DE GOOGLE MAPS -->
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Mapa Acua Reportes</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <app-google-maps></app-google-maps>
+  </ion-content>
+  <!-- FIN SECCION GOOGLE MAPS -->
+
 </ion-content>
+
