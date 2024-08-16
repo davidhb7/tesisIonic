@@ -103,7 +103,6 @@ export class AsignacionesOperadorComponent  implements OnInit {
         this.reportesSolucionados=documentoPorEstado;
       }
     });
-    console.log(this.contador);
   }
 
   //VER REPORTE EN CONCRETO

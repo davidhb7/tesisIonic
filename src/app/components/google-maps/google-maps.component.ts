@@ -1,4 +1,7 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, Input } from '@angular/core';
+import { Geolocation } from '@capacitor/geolocation';
+import { InteractionService } from 'src/app/common/services/interaction.service';
+
 declare var google: any;
 
 @Component({
@@ -7,58 +10,103 @@ declare var google: any;
   styleUrls: ['./google-maps.component.scss'],
 })
 export class GoogleMapsComponent implements AfterViewInit {
+  @Input() coordinates: { lat: number; lng: number };
+
   map: any;
   directionsService = new google.maps.DirectionsService();
   directionsRenderer = new google.maps.DirectionsRenderer();
+  userMarker: any;
 
-  constructor() {}
+  constructor(
+    private serviciosInteraccion: InteractionService,
+  ) {
+
+  }
+
+
 
   ngAfterViewInit() {
     this.initMap();
+    this.trackLocation();
+
   }
 
-  initMap() {
+
+  async initMap() {
     const mapRef = document.getElementById('map');
 
-    this.map = new google.maps.Map(mapRef, {
+    this.map = await new google.maps.Map(mapRef, {
       center: { lat: 3.523303, lng: -76.712034 },
       zoom: 14,
     });
 
     this.directionsRenderer.setMap(this.map);
-
-    // Añadir marcadores
-    const marker1 = new google.maps.Marker({
-      position: { lat: 3.523303, lng: -76.712034 },
-      map: this.map,
-    });
-
-    const marker2 = new google.maps.Marker({
-      position: { lat: 3.524479, lng: -76.712030 },
-      map: this.map,
-    });
-
-    // Crear una ruta entre los dos marcadores
-    this.calculateAndDisplayRoute();
   }
 
-  calculateAndDisplayRoute() {
-    const start = { lat: 3.523303, lng: -76.712034 };
-    const end = { lat: 3.524479, lng: -76.712030 };
+  async trackLocation() {
+    // Obtener la ubicación inicial del usuario
+    const position = await Geolocation.getCurrentPosition();
+    const userLocation = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude,
+    };
 
-    this.directionsService.route(
-      {
-        origin: start,
-        destination: end,
-        travelMode: google.maps.TravelMode.DRIVING,
-      },
-      (response: any, status: string) => {
-        if (status === 'OK') {
-          this.directionsRenderer.setDirections(response);
-        } else {
-          window.alert('Directions request failed due to ' + status);
-        }
+    // Agregar un marcador en la ubicación actual del usuario
+    this.userMarker = new google.maps.Marker({
+      position: userLocation,
+      map: this.map,
+      title: "Mi ubicación",
+    });
+
+    // Centrar el mapa en la ubicación actual del usuario
+    this.map.setCenter(userLocation);
+
+    // Calcular y mostrar la ruta desde la ubicación actual del usuario
+    this.calculateAndDisplayRoute(userLocation);
+
+    // Seguir actualizando la ubicación del usuario en tiempo real
+    Geolocation.watchPosition({}, (position, err) => {
+      if (position) {
+        const updatedLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        this.updateUserLocation(updatedLocation);
       }
-    );
+    });
+  }
+
+  updateUserLocation(newLocation: { lat: number; lng: number }) {
+    if (this.userMarker) {
+      this.userMarker.setPosition(newLocation);
+    }
+    this.map.setCenter(newLocation);
+    this.calculateAndDisplayRoute(newLocation);
+  }
+
+  calculateAndDisplayRoute(start: { lat: number; lng: number }) {
+    this.serviciosInteraccion.cargandoConMensaje("Cargando ruta").then(()=>{
+      if(this.coordinates){
+        const end = { lat: this.coordinates.lat, lng: this.coordinates.lng };
+
+      this.directionsService.route(
+        {
+          origin: start,
+          destination: end,
+          travelMode: google.maps.TravelMode.DRIVING,
+          optimizeWaypoints: true,
+        },
+        (response: any, status: string) => {
+          if (status === 'OK') {
+            this.directionsRenderer.setDirections(response);
+          } else {
+            window.alert('La solicitud de direcciones falló debido a ' + status);
+          }
+        }
+      );
+      }
+      this.serviciosInteraccion.cerrarCargando();
+    });
+
   }
 }

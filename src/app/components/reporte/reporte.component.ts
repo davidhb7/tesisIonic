@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReportesI } from 'src/app/common/interfaces/reportes.interface';
 import { FireStoreService } from 'src/app/common/services/fire-store.service';
-import { ReportesComponent } from '../reportes/reportes.component';
 import { DocumentData } from '@angular/fire/firestore';
 import { FotoI } from 'src/app/common/interfaces/fotos.interface';
 import { InteractionService } from 'src/app/common/services/interaction.service';
@@ -20,6 +19,17 @@ export class ReporteComponent  implements OnInit {
 
   //VARIABLES
   idPresenteReporte:string;
+  //UBICACION INICIAL DE DESTINO 3.523144, -76.712316
+
+
+  //COORDENADA POR DEFECTO DE DESTINO
+
+
+  destinationLocation: { lat: number; lng: number; };
+
+
+
+
 
 
   constructor(
@@ -37,6 +47,8 @@ export class ReporteComponent  implements OnInit {
     });
 
   }
+
+
 
   ngOnInit() {
     return;
@@ -78,8 +90,8 @@ export class ReporteComponent  implements OnInit {
       idFoto: reporteData['idFoto'] || '',
       estado: reporteData['estado'] || ''
     }
+    this.actualizarUbicacionReporte(this.reporte.ubicacion);
   }
-
 
   //TRAER FOTOS POR ID DE REPORTE
   getFotosPorIdReporte(){
@@ -88,6 +100,16 @@ export class ReporteComponent  implements OnInit {
         this.fotosDeReporte=documentosFotos;
       }
     });
+  }
+
+
+  //TOMA LA UBICACION DEL REPORTE, LA SEPARA A COORDENADAS LEGIBLES
+  actualizarUbicacionReporte(coordenadas:string){
+    const [latStr, lngStr] = coordenadas.split(' ');
+    const lat = parseFloat(latStr);
+    const lng = parseFloat(lngStr);
+    console.log("Destino desde reporte",lat, lng);
+    this.destinationLocation = { lat, lng };
   }
 
 
