@@ -1,4 +1,3 @@
-import { initializeApp } from "firebase/app";
 //VARIABLES DE PRODUCCION
 export const environment = {
   production: true,
@@ -11,5 +10,5 @@ export const environment = {
     messagingSenderId: "1053661105256",
     appId: "1:1053661105256:web:66d9999b5cdd683631ffdd"
   },
-  ak:"AIzaSyAFNy4BqdVggOknb2Qz9eaPEHrbv_7ddjc"
+  ak:"AIzaSyAEg4LYp3RqblvzMTvJZNPIGIAPGzbYnaw"
 };
