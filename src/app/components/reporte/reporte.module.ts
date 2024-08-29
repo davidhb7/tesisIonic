@@ -5,6 +5,7 @@ import { ReporteRoutingModule } from './reporte-routing.module';
 import { ReporteComponent } from './reporte.component';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { ComponentModule } from "../component.module";
 
 
 @NgModule({
@@ -16,7 +17,7 @@ import { IonicModule } from '@ionic/angular';
     ReporteRoutingModule,
     IonicModule,
     FormsModule,
-
-  ]
+    ComponentModule
+]
 })
 export class ReportePageModule { }

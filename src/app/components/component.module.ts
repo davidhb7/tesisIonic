@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
@@ -11,11 +11,15 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormularioUsuarioComponent } from './formulario-usuario/formulario-usuario.component';
 import { AsignacionesOperadorComponent } from './asignaciones-operador/asignaciones-operador.component';
+import { GoogleMapsComponent } from './google-maps/google-maps.component';
 
 
 
 
 @NgModule({
+  schemas:[
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
   declarations: [
     //EMPRESA
     EmpresaComponent,
@@ -29,7 +33,9 @@ import { AsignacionesOperadorComponent } from './asignaciones-operador/asignacio
     //FORMULARIO-USUARIO
     FormularioUsuarioComponent,
     //ASIGNACIONES
-    AsignacionesOperadorComponent
+    AsignacionesOperadorComponent,
+    //GOOGLE MAPS
+    GoogleMapsComponent
   ],
 
   exports:[
@@ -45,8 +51,9 @@ import { AsignacionesOperadorComponent } from './asignaciones-operador/asignacio
     //FORMULARIO COMPONENT
     FormularioUsuarioComponent,
     //ASIGNACIONES
-    AsignacionesOperadorComponent
-
+    AsignacionesOperadorComponent,
+    //GOOGLE MAPS
+    GoogleMapsComponent
 
 
 

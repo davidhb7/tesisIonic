@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentData } from '@angular/fire/firestore';
 import { FireStoreService } from 'src/app/common/services/fire-store.service';
-import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { OperarioI } from 'src/app/common/interfaces/operario.interface';
 
 @Component({

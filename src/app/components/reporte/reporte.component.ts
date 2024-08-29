@@ -20,6 +20,7 @@ export class ReporteComponent  implements OnInit {
 
   //VARIABLES
   idPresenteReporte:string;
+  destinationLocation: { lat: number; lng: number; };
 
 
   constructor(
@@ -30,11 +31,8 @@ export class ReporteComponent  implements OnInit {
     //RECIBE EL ID QUE TRAE EL NAVEGADOR DE COMPONENTE: poner el id tal cual la interfazS
     this.idPresenteReporte=route.snapshot.params['idReporte'];
     this.inicializarEnVacio();
-    this.serviciosInteraccion.cargandoConMensaje("Cargando reporte.").then(()=>{
-      this.getReporteSoloVer();
-      this.getFotosPorIdReporte();
-      this.serviciosInteraccion.cerrarCargando();
-    });
+    this.getReporteSoloVer();
+    this.getFotosPorIdReporte();
 
   }
 
@@ -78,6 +76,7 @@ export class ReporteComponent  implements OnInit {
       idFoto: reporteData['idFoto'] || '',
       estado: reporteData['estado'] || ''
     }
+    this.actualizarUbicacionReporte(this.reporte.ubicacion);
   }
 
 
@@ -88,6 +87,15 @@ export class ReporteComponent  implements OnInit {
         this.fotosDeReporte=documentosFotos;
       }
     });
+  }
+
+  //TOMA LA UBICACION DEL REPORTE, LA SEPARA A COORDENADAS LEGIBLES
+  actualizarUbicacionReporte(coordenadas:string){
+    const [latStr, lngStr] = coordenadas.split(' ');
+    const lat = parseFloat(latStr);
+    const lng = parseFloat(lngStr);
+    console.log("Destino desde reporte",lat, lng);
+    this.destinationLocation = { lat, lng };
   }
 
 
