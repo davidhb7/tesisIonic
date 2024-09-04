@@ -40,7 +40,6 @@ export class LoginComponent  implements OnInit {
   ) {
 
     this.inicializarCamposLogin();
-
   }
 
   ngOnInit() {
@@ -70,7 +69,8 @@ export class LoginComponent  implements OnInit {
       if(resp){
         this.servicioFireStore.getUsuarioPorCorreoEnLogin<UsuarioI>(this.correoUsuarioLogin).subscribe({
           next:async documentoCorreo=>{
-            await this.servicioLocalStorage.guardarDatosEnLocalStorage(documentoCorreo);
+            this.servicioLocalStorage.limpiarTodoLocalStorage();
+            this.servicioLocalStorage.guardarDatosEnLocalStorage(documentoCorreo);
             this.serviciosInteraccion.mensajeGeneral("Inicio correcto");
             this.serviciosInteraccion.cerrarCargando();
             this.inicializarCamposLogin();

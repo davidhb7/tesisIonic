@@ -19,7 +19,12 @@
         <!-- REPORTES CREADOS POR EL USUARIO LOGUEADO -->
         Reporte numero: {{nuevoReporte.numeroReporte}}
         <p>Descripcipon: {{nuevoReporte.descripcion}}</p>
-        <p>Estado:</p><p style="color: green;"> {{nuevoReporte.estado}}</p>
+        @if(nuevoReporte.estado==="SOLUCIONADO"){
+          <p style="color: green;"> SOLUCIONADO</p>
+        }@else {
+          <p style="color: orange;">EN PROCESO</p>
+        }
+        <!-- <p>Estado:</p><p style="color: green;"> {{nuevoReporte.estado}}</p> -->
 
       </ion-label>
       @if (cargando) {
@@ -37,7 +42,12 @@
       <ion-label>
         Reporte numero: {{repGenerales.numeroReporte}}
         <p>Descripcipon: {{repGenerales.descripcion}}</p>
-        <p>Estado:</p><p style="color: green;"> {{repGenerales.estado}}</p>
+        <!-- <p>Estado:</p><p style="color: green;"> {{repGenerales.estado}}</p> -->
+        @if(repGenerales.estado==="SOLUCIONADO"){
+          <p style="color: green;"> SOLUCIONADO</p>
+        }@else {
+          <p style="color: orange;">EN PROCESO</p>
+        }
       </ion-label>
 
 

@@ -8,3 +8,8 @@
   https://www.flaticon.es/
   
 ## LOCAL STOGRAGE
+
+## URL DEL DESPLIEGUE:
+  https://ionic-gest-rep-all.web.app/login
+
+### Despliegue

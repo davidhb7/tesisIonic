@@ -32,14 +32,16 @@ export class LocalStorageService  {
     }
   }
 
-  async eliminarDatoEnLocalStorage(){
+  eliminarDatoEnLocalStorage(){
     console.log("Dato eliminado del Local storage.");
-    await this.localStorage.remove("USUARIO");
+    this.localStorage.remove("USUARIO");
   }
 
-  async limpiarTodoLocalStorage(){
+  limpiarTodoLocalStorage(){
+
     console.log("Local storage limpia.");
-    await this.localStorage.clear();
+    this.localStorage.clear();
+    // window.location.reload();
   }
 
 

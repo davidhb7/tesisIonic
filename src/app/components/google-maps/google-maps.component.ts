@@ -102,7 +102,6 @@ export class GoogleMapsComponent {
     );
     }
     // this.serviciosInteraccion.cargandoConMensaje("Cargando ruta").then(()=>{
-
     //   this.serviciosInteraccion.cerrarCargando();
     // });
 

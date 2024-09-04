@@ -24,7 +24,13 @@
         <strong>Reporte numero: {{reporte.numeroReporte}}</strong>
         <p>Descripcipon expecifica: {{reporte.descripcion}}</p>
         <p>Coordenadas {{reporte.ubicacion}}</p>
-        <p style="color: green;">{{reporte.estado}}</p>
+        <p>Operario asignado: {{reporte.idOperador}}</p>
+        <!-- <p style="color: green;">{{reporte.estado}}</p> -->
+        @if(reporte.estado==="SOLUCIONADO"){
+          <p style="color: green;"> SOLUCIONADO</p>
+        }@else {
+          <p style="color: orange;">EN PROCESO</p>
+        }
         <ion-item *ngFor="let foto of fotosDeReporte">
           <img src="{{foto.urlFoto}}" alt="Fotos del reporte" style="border-radius: 10px;">
         </ion-item>

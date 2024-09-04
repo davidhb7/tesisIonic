@@ -27,35 +27,7 @@ export class MenuComponent implements OnInit {
   idLogOperario: string = "";
   otroId: string;
 
-  x: any;
 
-  //OBJETO DE RUTAS
-  opcionesMenu: any[] = [
-    {
-      idMen: 1,
-      nombre: 'Reportes',
-      url: '/reportes',
-      permiso: true
-    },
-    {
-      idMen: 2,
-      nombre: 'Usuarios',
-      url: '/usuarios',
-      permiso: true
-    },
-    {
-      idMen: 3,
-      nombre: 'Operarios',
-      url: '/operarios',
-      permiso: true
-    },
-    {
-      idMen: 4,
-      nombre: 'Perfil',
-      url: '/usuario',
-      permiso: true
-    }
-  ];
 
   constructor(
     private router: Router,
@@ -67,16 +39,18 @@ export class MenuComponent implements OnInit {
   ) {
     this.inicializarUSVacioMen();
     //VERIFICA ESTADO DEL USUARIO
-    this.serviciosAuth.estadoLogUsuario().subscribe(res => {
-      if (res) {
-        this.idQuienInicia = res.uid;
-        console.log("SI LOG: ", this.idQuienInicia);
-        this.traerUS();
-      } else {
-        console.log("NO LOG");
-        this.cerrarSesion();
-      }
-    });
+
+    this.traerUS();
+    // this.serviciosAuth.estadoLogUsuario().subscribe(res => {
+    //   if (res) {
+    //     this.idQuienInicia = res.uid;
+    //     console.log("SI LOG: ", this.idQuienInicia);
+    //     this.traerUS();
+    //   } else {
+    //     console.log("NO LOG");
+    //     this.cerrarSesion();
+    //   }
+    // });
   }
 
   ngOnInit() {
@@ -95,7 +69,11 @@ export class MenuComponent implements OnInit {
     this.servicioLocalStorage.eliminarDatoEnLocalStorage();
     this.servicioLocalStorage.limpiarTodoLocalStorage();
     this.serviciosInteracion.mensajeGeneral("Salió correctamente");
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then(()=>{
+      window.location.reload();
+    });
+
+
   }
 
   //INICIALIZAR USUARIO VACIO
@@ -197,4 +175,5 @@ export class MenuComponent implements OnInit {
       this.visibleAsignaciones = false;
     }
   }
+
 }

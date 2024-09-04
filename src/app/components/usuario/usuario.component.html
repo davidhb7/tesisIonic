@@ -23,8 +23,13 @@
         <p>Nombre:{{usuario.nombreUsuario}} </p>
         <p>Correo: {{usuario.correoUsuario}} </p>
         <p>Celular: {{usuario.celularUsuario}}</p>
-        <p>Estado: {{usuario.esActivo}}</p>
+        @if(usuario.esActivo===true){
+          <p style="color: green;"> Empleado ACTIVO</p>
+        }@else {
+          <p style="color: red;">Empleado INACTIVO</p>
+        }
         <p>Direccion-Sector del Queremal</p>
+
       </ion-card-content>
 
     </ion-card>
