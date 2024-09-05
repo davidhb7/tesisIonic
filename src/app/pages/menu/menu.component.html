@@ -26,12 +26,18 @@
           </ion-label>
         </ion-item>
 
-
         <ion-item *ngIf="visibleOperarios">
           <ion-label (click)="irTodosLosOperarios()">
             Operarios
           </ion-label>
         </ion-item>
+
+        <ion-item *ngIf="visibleEstadisticas">
+          <ion-label (click)="irEstadisticasDeOperarios()">
+            Estadisticas de Operarios
+          </ion-label>
+        </ion-item>
+
         <ion-item>
           <ion-label (click)="paraverPerfilconId(usuarioLog.idUsuario)">
             Perfil

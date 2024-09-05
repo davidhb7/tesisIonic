@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormularioUsuarioComponent } from './formulario-usuario/formulario-usuario.component';
 import { AsignacionesOperadorComponent } from './asignaciones-operador/asignaciones-operador.component';
 import { GoogleMapsComponent } from './google-maps/google-maps.component';
+import { StaticsComponent } from './statics/statics.component';
 
 
 
@@ -35,7 +36,9 @@ import { GoogleMapsComponent } from './google-maps/google-maps.component';
     //ASIGNACIONES
     AsignacionesOperadorComponent,
     //GOOGLE MAPS
-    GoogleMapsComponent
+    GoogleMapsComponent,
+    //ESTADISTICAS
+    StaticsComponent
   ],
 
   exports:[
@@ -53,7 +56,9 @@ import { GoogleMapsComponent } from './google-maps/google-maps.component';
     //ASIGNACIONES
     AsignacionesOperadorComponent,
     //GOOGLE MAPS
-    GoogleMapsComponent
+    GoogleMapsComponent,
+    //ESTADISTICAS
+    StaticsComponent
 
 
 

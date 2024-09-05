@@ -23,6 +23,7 @@ export class MenuComponent implements OnInit {
   visibleOperarios: boolean = true;
   visibleUsuarios: boolean = true;
   visibleAsignaciones: boolean = true;
+  visibleEstadisticas:boolean=true;
   idQuienInicia: string = "";
   idLogOperario: string = "";
   otroId: string;
@@ -150,6 +151,14 @@ export class MenuComponent implements OnInit {
     this.router.navigate(['/asignaciones-operador']);
   }
 
+  //VER ESTADISTICAS DE OPERARIO
+  irEstadisticasDeOperarios(){
+    this.router.navigate(['/estadisticas']);
+  }
+
+
+
+  //DISPONIBILIDAD DE VISTAS Y FUNCIONALIDADES SEGUN EL ROL
   clasificarRolSegunStorage(idRol: string) {
     if (idRol == "4") {
       console.log("Us-Cons");
@@ -157,24 +166,29 @@ export class MenuComponent implements OnInit {
       this.visibleOperarios = false;
       this.visibleUsuarios = false;
       this.visibleAsignaciones = false;
+      this.visibleEstadisticas=false;
     } else if (idRol == "1" || idRol == "2") {
       console.log("Adm - Empr");
       this.visibleReportes = true;
       this.visibleOperarios = true;
       this.visibleUsuarios = true;
+      this.visibleEstadisticas=true;
       this.visibleAsignaciones = false;
+
     } else if (idRol == "3") {
       console.log("Op");
       this.visibleReportes = true;
       this.visibleOperarios = false;
       this.visibleUsuarios = false;
       this.visibleAsignaciones = true;
+      this.visibleEstadisticas=false;
     } else {
       console.log("ROL DESCONOCIDO");
       this.visibleReportes = false;
       this.visibleOperarios = false;
       this.visibleUsuarios = false;
       this.visibleAsignaciones = false;
+      this.visibleEstadisticas=false;
     }
   }
 
