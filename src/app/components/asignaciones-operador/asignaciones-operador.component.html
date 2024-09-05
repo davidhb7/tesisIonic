@@ -27,7 +27,7 @@
         </div>
       }
       <ion-button color="success" (click)="verReporte(reporte.idReporte)" style="font-size: 8px;">Ver</ion-button>
-      <ion-button color="warning" style="font-size: 8px;" (click)="presentAlertConfirm(reporte.idReporte)">Terminar reporte</ion-button>
+      <ion-button color="warning" style="font-size: 8px;" (click)="presentAlertConDesplegable(reporte.idReporte)">Terminar reporte</ion-button>
     </ion-item>
 
 
@@ -41,6 +41,21 @@
         Reporte numero: {{reporte.numeroReporte}}
         <p>Descripcipon: {{reporte.descripcion}}</p>
         <p>Id: {{reporte.idReporte}}</p>
+
+        @if(reporte.comentarioOperario===""){
+          <p>Comentario Operario: Sin comentario.</p>
+        }
+        @else {
+          <p>Comentario Operario: {{reporte.comentarioOperario}}</p>
+        }
+        @if(reporte.tipoAsuntoPorOperario===""){
+          <p>Tipo problema: Sin asignar</p>
+        }
+        @else {
+          <p>Tipo problema: {{reporte.tipoAsuntoPorOperario}}</p>
+        }
+
+
         <p>Estado:</p><p style="color: green;"><strong> {{reporte.estado}}</strong></p>
       </ion-label>
     </ion-item>

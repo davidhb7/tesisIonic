@@ -135,7 +135,9 @@ export class CrearReporteComponent  implements OnInit {
       idOperador:  '',
       idEmpresa: '',
       idFoto:  '',
-      estado: ''
+      estado: '',
+      comentarioOperario:'',
+      tipoAsuntoPorOperario:''
     }
   }
 
@@ -155,7 +157,9 @@ export class CrearReporteComponent  implements OnInit {
       idOperador: '',
       idEmpresa: '',
       idFoto: '',
-      estado:EN_PROCESO
+      estado:EN_PROCESO,
+      comentarioOperario:'',
+      tipoAsuntoPorOperario:''
     }
   }
 
@@ -197,7 +201,9 @@ export class CrearReporteComponent  implements OnInit {
         idOperador: reporteData['idOperador'] || 0,
         idEmpresa: reporteData['idEmpresa'] || 0,
         idFoto: reporteData['idFoto'] || 0,
-        estado: reporteData['estado'] || ''
+        estado: reporteData['estado'] || '',
+        comentarioOperario:reporteData['comentarioOperario'] || '',
+        tipoAsuntoPorOperario:reporteData['tipoAsuntoPorOperario'] || ''
       };
       this.getFotosPorIdReporte();
     }

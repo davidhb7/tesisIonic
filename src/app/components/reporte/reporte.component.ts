@@ -54,7 +54,9 @@ export class ReporteComponent  implements OnInit {
       idOperador:  '',
       idEmpresa: '',
       idFoto:  '',
-      estado: ''
+      estado: '',
+      comentarioOperario:'',
+      tipoAsuntoPorOperario:''
     }
   }
 
@@ -74,7 +76,9 @@ export class ReporteComponent  implements OnInit {
       idOperador: reporteData['idOperador'] || '',
       idEmpresa: reporteData['idEmpresa'] || '',
       idFoto: reporteData['idFoto'] || '',
-      estado: reporteData['estado'] || ''
+      estado: reporteData['estado'] || '',
+      comentarioOperario:reporteData['comentarioOperario'] || '',
+      tipoAsuntoPorOperario:reporteData['tipoAsuntoPorOperario'] || '',
     }
     this.actualizarUbicacionReporte(this.reporte.ubicacion);
   }

@@ -12,4 +12,7 @@ export interface ReportesI {
   idEmpresa: string,
   idFoto: string
   estado:string
+  comentarioOperario:string,
+  tipoAsuntoPorOperario:string
+
 }

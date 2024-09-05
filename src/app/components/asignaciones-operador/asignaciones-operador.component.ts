@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { DocumentData } from 'firebase/firestore';
-import { EN_PROCESO, SOLUCIONADO } from 'src/app/common/constant/constantes';
+import { EN_PROCESO, SOLUCIONADO, SIN_REVISION, INFRAESTRUCTURA_DOMICILIO, INFRAESTRUCTURA_EXTERIOR, INFRAESTRUCTURA_INTERIOR, CONTADOR_DOMICILIO,  MANTENIMIENTO_DOMICILIO, MANTENIMIENTO_EXTERIOR, MANTENIMIENTO_INTERIOR, OTRO_ASUNTO } from 'src/app/common/constant/constantes';
 import { ReportesI } from 'src/app/common/interfaces/reportes.interface';
 import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { FireStoreService } from 'src/app/common/services/fire-store.service';
@@ -22,11 +22,29 @@ export class AsignacionesOperadorComponent  implements OnInit {
   reportesSolucionados:ReportesI[]=[]
   fechaHoy: Date = new Date();
 
+
   //VARIABLES
   hayReportesPendientes:boolean=false;
   hayReportesSolucionados:boolean=false;
   cargando:boolean=false;
   contador:number=0;
+  operarioAsignar="";
+
+  retroalimentacion="";
+  solucionSeleccionada: string = SIN_REVISION;
+
+  opcionesSolucion = [
+    SIN_REVISION,
+    INFRAESTRUCTURA_DOMICILIO,
+    INFRAESTRUCTURA_EXTERIOR,
+    INFRAESTRUCTURA_INTERIOR,
+    CONTADOR_DOMICILIO,
+    MANTENIMIENTO_DOMICILIO,
+    MANTENIMIENTO_EXTERIOR,
+    MANTENIMIENTO_INTERIOR,
+    OTRO_ASUNTO
+  ];
+
 
   constructor(
     private serviciosFireStoreDatabase: FireStoreService,
@@ -61,6 +79,7 @@ export class AsignacionesOperadorComponent  implements OnInit {
       asignacionesActivas:0,
       fechaRegistro: ''
     };
+
   }
 
   //GUARDA EL OPERADOR DEL STORAGE
@@ -83,13 +102,14 @@ export class AsignacionesOperadorComponent  implements OnInit {
       asignacionesActivas:usuarioData['esActivo'] || 0,
       fechaRegistro: usuarioData['fechaRegistro'] || ''
     }
+    this.operarioAsignar=this.usuarioLog.idUsuario;
     this.getReportesAsignados();
     this.getReportesSolucionados();
   }
 
   //TRAE REPORTES ASIGNADOS AL OPERADOR
   getReportesAsignados(){
-    this.serviciosFireStoreDatabase.getReportesSegunEstado(EN_PROCESO, this.usuarioLog.idUsuario).subscribe({
+    this.serviciosFireStoreDatabase.getReportesSegunEstado(EN_PROCESO, this.operarioAsignar).subscribe({
       next:documento=>{
         this.reportesAsignadosPendientes=documento;
       }
@@ -98,7 +118,7 @@ export class AsignacionesOperadorComponent  implements OnInit {
 
   //TRAE REPORTES SOLUCIONADOS
   getReportesSolucionados(){
-    this.serviciosFireStoreDatabase.getReportesSegunEstado(SOLUCIONADO, this.usuarioLog.idUsuario).subscribe({
+    this.serviciosFireStoreDatabase.getReportesSegunEstado(SOLUCIONADO, this.operarioAsignar).subscribe({
       next: documentoPorEstado=>{
         this.reportesSolucionados=documentoPorEstado;
       }
@@ -111,7 +131,88 @@ export class AsignacionesOperadorComponent  implements OnInit {
     this.router.navigate(['/reporte',idReporte]);
   }
 
-  //CONFIRMACION DE TERMINACION DE REPORTE
+  //ALLERT DE SELECCION DE SOLUCION
+   // Método para abrir el alert con el desplegable
+  async presentAlertConDesplegable(idReporte:string) {
+    const alert = await this.alertController.create({
+      header: 'Seleccione la solución de reporte',
+      inputs: this.opcionesSolucion.map(opcion => ({
+        type: 'radio',
+        label: opcion,
+        value: opcion,
+        checked: opcion === this.solucionSeleccionada
+      })),
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Selección cancelada');
+          }
+        },
+        {
+          text: 'Guardar',
+          handler: (data) => {
+            this.solucionSeleccionada = data;
+            console.log('Solución seleccionada: ', this.solucionSeleccionada);
+            this.serviciosFireStoreDatabase.actualizarCampoDocumento("Reportes", idReporte,"tipoAsuntoPorOperario",this.solucionSeleccionada).subscribe(()=>{
+              console.log("Solución guardada...");
+            });
+            this.presentAlertConCampoObligatorio(idReporte);
+          }
+        }
+      ]
+    });
+    await alert.present();
+
+  }
+
+  //ALLERT DE RETROALIMENTACION
+  async presentAlertConCampoObligatorio(idReporte:string) {
+    const alert = await this.alertController.create({
+      header: 'Ingrese un valor',
+      inputs: [
+        {
+          name: 'inputTexto',
+          type: 'text',
+          placeholder: 'Escribe algo aquí',
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Operación cancelada');
+            return true; // Se debe devolver un valor
+          }
+        },
+        {
+          text: 'Guardar',
+          handler: (data) => {
+            if (!data.inputTexto || data.inputTexto.trim() === '') {
+              // Validar si el campo está vacío
+              console.log('Campo de texto vacío, no se puede guardar');
+              return false; // Mantiene el alert abierto
+            } else {
+              // Guardar si el campo tiene contenido
+              console.log('Texto ingresado: ', data.inputTexto);
+              this.retroalimentacion= data.inputTexto;
+              this.serviciosFireStoreDatabase.actualizarCampoDocumento("Reportes", idReporte,"comentarioOperario",this.retroalimentacion).subscribe(()=>{
+                console.log("Solución guardada...");
+              });
+              return this.presentAlertConfirm(idReporte);; // Cierra el alert
+
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
+
+  }
+
+  // ALLERT DE CONFIRMACION DE TERMINACION DE REPORTE
   async presentAlertConfirm(idReporte: string) {
     const alert = await this.alertController.create({
       header: 'Confirmar!',
@@ -131,7 +232,7 @@ export class AsignacionesOperadorComponent  implements OnInit {
             let fechaHoyString: string = `${this.fechaHoy.getDate()}/${this.fechaHoy.getMonth() + 1}/${this.fechaHoy.getFullYear()} ${this.fechaHoy.getHours()}:${this.fechaHoy.getMinutes()}`;
             // Lógica para terminar el reporte
             this.serviciosFireStoreDatabase.actualizarCampoDocumento("Reportes", idReporte,"estado",SOLUCIONADO).subscribe(()=>{
-              console.log("Actualziado...");
+              console.log("Actualizado...");
             });
             this.serviciosFireStoreDatabase.actualizarCampoDocumento("Reportes", idReporte,"fechaFinReporte",fechaHoyString).subscribe(()=>{
               console.log("Fecha fin...");
@@ -142,5 +243,11 @@ export class AsignacionesOperadorComponent  implements OnInit {
     });
     await alert.present();
   }
+
+
+
+
+
+
 
 }

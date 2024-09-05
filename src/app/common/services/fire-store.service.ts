@@ -210,7 +210,7 @@ export class FireStoreService {
   //CONSULTA COMPUESTA. TRAE LOS REPORTES SEGUN SU ESTADO
   getReportesSegunEstado(estado:string, idUsuario:string):Observable<ReportesI[]>{
     const colleccion = collection(this.firestore, "Reportes");
-    const consulta = query(colleccion, where("estado", "==", estado), where("idUsuario", "==",idUsuario ));
+    const consulta = query(colleccion, where("estado", "==", estado), where("idOperador", "==",idUsuario ));
     return new Observable<ReportesI[]>((observador)=>{
       const unsubscribe=onSnapshot(consulta,(querySnapShot)=>{
         const documentoSegunEstado: ReportesI[]=[];
