@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { FireStoreService } from 'src/app/common/services/fire-store.service';
 import { InteractionService } from 'src/app/common/services/interaction.service';
+import { FireStorageService } from 'src/app/common/services/fire-storage.service';
 
 @Component({
   selector: 'app-usuario',
@@ -18,9 +19,11 @@ export class UsuarioComponent  implements OnInit {
   //VARIABLES
   idPresenteDeUsuario:string="";//VARIABLE A USAR ÁRA EL ID DEL USUARIO
   nombrePresente:string="";
+  urlFotoAvatar="";
 
   constructor(
-    private fireStoreService: FireStoreService,//INYECTANDO DEPENDENCIA
+    private servicioFireStore: FireStoreService,//INYECTANDO DEPENDENCIA
+    private servicioFireStorage: FireStorageService,
     private route: ActivatedRoute,
     private serviciosInteraccion: InteractionService,
   ) {
@@ -52,13 +55,14 @@ export class UsuarioComponent  implements OnInit {
       disponibleOperario:true,
       esActivo: true,
       asignacionesActivas:0,
-      fechaRegistro: ''
+      fechaRegistro: '',
+      fotoAvatar:''
     }
   }
 
   async getUsuarioPorID(){
     this.serviciosInteraccion.cargandoConMensaje("Cargando");
-    const response = await this.fireStoreService.getDocumentSolo('Usuarios',this.idPresenteDeUsuario);
+    const response = await this.servicioFireStore.getDocumentSolo('Usuarios',this.idPresenteDeUsuario);
     const usuarioData: DocumentData = response.data();
     this.usuario = {
       idUsuario: usuarioData['idUsuario'] || '',
@@ -74,8 +78,26 @@ export class UsuarioComponent  implements OnInit {
       disponibleOperario: usuarioData['esActivo'] || true,
       esActivo: usuarioData['esActivo'] || true,
       asignacionesActivas: usuarioData['esActivo'] || 0,
-      fechaRegistro: usuarioData['fechaRegistro'] || ''
+      fechaRegistro: usuarioData['fechaRegistro'] || '',
+      fotoAvatar:usuarioData['fotoAvatar'] || ''
     }
+    this.serviciosInteraccion.cerrarCargando();
+  }
+
+  async subirFotoAvatar(event:any){
+    const nombreRutaCarpetaStorage=this.usuario.correoUsuario;
+    const nombreFotoEnStorage="fotoAvatar"+this.usuario.nombreUsuario;
+    const archivo= event.target.files[0];
+    this.serviciosInteraccion.cargandoConMensaje("Cargando foto.")
+    const res = await this.servicioFireStorage.cargarFotoFireStorage(archivo, nombreRutaCarpetaStorage, nombreFotoEnStorage );
+    this.usuario.fotoAvatar=res;
+    this.urlFotoAvatar=res.toString();
+    console.log(this.usuario.fotoAvatar);
+    console.log("link", res, "id: ", this.idPresenteDeUsuario)
+    this.servicioFireStore.actualizarCampoDocumento("Usuarios", this.idPresenteDeUsuario,"fotoAvatar",this.urlFotoAvatar).subscribe(()=>{
+      console.log("Foto guardada...");
+    });
+    this.serviciosInteraccion.mensajeGeneral("Listo");
     this.serviciosInteraccion.cerrarCargando();
   }
 

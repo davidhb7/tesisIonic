@@ -15,11 +15,30 @@
       <ion-card-header>
         <ion-card-title></ion-card-title>
         <ion-card-subtitle style="font-weight: bold; color: white; ">Identificacion del Usuario</ion-card-subtitle>
+
         <p>{{usuario.identificacionUsuario}}</p>
+
         <p>{{usuario.idUsuario}}</p>
       </ion-card-header>
 
       <ion-card-content>
+        <ion-avatar style="margin-bottom: 20px;">
+          @if(usuario.fotoAvatar===""){
+            <img alt="Foto de usuario" src="../../../assets/icon/avatarDef.png" />
+          }
+          @else {
+            <img alt="Foto de usuario" src="{{usuario.fotoAvatar}}" />
+          }
+
+
+        </ion-avatar>
+        <p style="margin: 10px;">Cambiar foto
+
+          <label for="carga-archivo">
+            <ion-icon name="add-circle-outline" style="color: yellow;"></ion-icon>
+          </label>
+          <input type="file" accept="image/*" style="display: none;" id="carga-archivo" (change)="subirFotoAvatar($event)">
+        </p>
         <p>Nombre:{{usuario.nombreUsuario}} </p>
         <p>Correo: {{usuario.correoUsuario}} </p>
         <p>Celular: {{usuario.celularUsuario}}</p>

@@ -14,7 +14,7 @@ import { FireStoreService } from 'src/app/common/services/fire-store.service';
 export class OperariosComponent  implements OnInit {
 
   //OBJETOS
-  operariosRegistrdos:OperarioI[]=[];
+  operariosRegistrdos:UsuarioI[]=[];
 
 
   //VARIABLES

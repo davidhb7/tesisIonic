@@ -208,9 +208,25 @@ export class FireStoreService {
   }
 
   //CONSULTA COMPUESTA. TRAE LOS REPORTES SEGUN SU ESTADO
-  getReportesSegunEstado(estado:string, idUsuario:string):Observable<ReportesI[]>{
+  getReportesSegunEstado(estado:string, idOperario:string):Observable<ReportesI[]>{
     const colleccion = collection(this.firestore, "Reportes");
-    const consulta = query(colleccion, where("estado", "==", estado), where("idOperador", "==",idUsuario ));
+    const consulta = query(colleccion, where("estado", "==", estado), where("idOperador", "==",idOperario ));
+    return new Observable<ReportesI[]>((observador)=>{
+      const unsubscribe=onSnapshot(consulta,(querySnapShot)=>{
+        const documentoSegunEstado: ReportesI[]=[];
+        querySnapShot.forEach((documento)=>{
+          documentoSegunEstado.push(documento.data() as ReportesI);
+        });
+        observador.next(documentoSegunEstado);
+      });
+      return unsubscribe;
+    });
+  }
+
+  //CONSULTA COMPUESTA. TRAE LOS REPORTES SEGUN SU ESTADO PARA EL USUARIO CONSUMIDOR
+  getReportesSegunEstadoUsuarioConsumidor(estado:string, idOperario:string):Observable<ReportesI[]>{
+    const colleccion = collection(this.firestore, "Reportes");
+    const consulta = query(colleccion, where("estado", "==", estado), where("idUsuario", "==",idOperario ));
     return new Observable<ReportesI[]>((observador)=>{
       const unsubscribe=onSnapshot(consulta,(querySnapShot)=>{
         const documentoSegunEstado: ReportesI[]=[];

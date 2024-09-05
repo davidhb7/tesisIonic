@@ -64,7 +64,8 @@ export class RegistroComponent  implements OnInit {
       disponibleOperario:true,
       esActivo: true,
       asignacionesActivas:0,
-      fechaRegistro: ''
+      fechaRegistro: '',
+      fotoAvatar:''
     };
     this.formGroupRegistro = this.formBuilderRegistro.group({
       cedulausuario:['', (Validators.required, Validators.pattern('[0-9]*'))],
@@ -93,7 +94,8 @@ export class RegistroComponent  implements OnInit {
       disponibleOperario:true,
       esActivo: true,
       asignacionesActivas:0,
-      fechaRegistro: fechaHoyString
+      fechaRegistro: fechaHoyString,
+      fotoAvatar:''
     };
   }
 
@@ -117,7 +119,9 @@ export class RegistroComponent  implements OnInit {
         disponibleOperario:usuarioData['esActivo'] || '',
         esActivo: usuarioData['esActivo'] || '',
         asignacionesActivas:usuarioData['esActivo'] || 0,
-        fechaRegistro: usuarioData['fechaRegistro'] || ''
+        fechaRegistro: usuarioData['fechaRegistro'] || '',
+        fotoAvatar:usuarioData['fotoAvatar'] || ''
+
       }
       this.serviciosInteraccion.cerrarCargando();
     }

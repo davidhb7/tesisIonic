@@ -12,5 +12,6 @@ export interface UsuarioI {
   disponibleOperario:boolean,
   esActivo: boolean,
   asignacionesActivas: number,
-  fechaRegistro: string
+  fechaRegistro: string,
+  fotoAvatar:string
 };

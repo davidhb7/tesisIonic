@@ -15,11 +15,18 @@
     <ion-button (click)="navegarFormulario()" style="margin-left: 10px; ">Crear usuario</ion-button>
     <ion-item *ngFor="let usuario of usuarios, let index">
       <ion-label>
+        <ion-avatar style="margin-bottom: 20px;">
+          @if(usuario.fotoAvatar===""){
+            <img alt="Foto de usuario" src="../../../assets/icon/avatarDef.png" />
+          }
+          @else {
+            <img alt="Foto de usuario" src="{{usuario.fotoAvatar}}" />
+          }
+        </ion-avatar>
         Nombre: {{usuario.nombreUsuario}}
         <p>Correo: {{usuario.correoUsuario}}</p>
         <p>Celular:</p><p> {{usuario.celularUsuario}}</p>
         <p>Estado: </p><p style="color: green;"> {{usuario.esActivo}}</p>
-
       </ion-label>
       @if (cargando) {
         <div style="text-align:center;">

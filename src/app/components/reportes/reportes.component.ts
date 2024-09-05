@@ -122,7 +122,8 @@ export class ReportesComponent  implements OnInit {
       disponibleOperario: usuarioData['esActivo'] || true,
       esActivo: usuarioData['esActivo'] || true,
       asignacionesActivas:usuarioData['esActivo'] || 0,
-      fechaRegistro: usuarioData['fechaRegistro'] || ''
+      fechaRegistro: usuarioData['fechaRegistro'] || '',
+      fotoAvatar:usuarioData['fotoAvatar'] || ''
     }
     console.log(this.usuarioPresente);
     this.serviciosInteraccion.cerrarCargando();

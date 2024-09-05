@@ -22,6 +22,16 @@
       <h1>{{mensajeNoHay}}</h1>
       <ion-item *ngFor="let operario of operariosRegistrdos">
         <ion-label>
+          <ion-avatar style="margin-bottom: 20px;">
+            @if(operario.fotoAvatar===""){
+              <img alt="Foto de usuario" src="../../../assets/icon/avatarDef.png" />
+            }
+            @else {
+              <img alt="Foto de usuario" src="{{operario.fotoAvatar}}" />
+            }
+
+
+          </ion-avatar>
           <strong>Operario: </strong>{{operario.nombreUsuario}}
           @if (operario.esActivo===true) {
             <p style="color: green;">ACTIVO - DISPONIBLE </p>

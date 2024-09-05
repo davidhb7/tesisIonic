@@ -77,7 +77,8 @@ export class AsignacionesOperadorComponent  implements OnInit {
       disponibleOperario:true,
       esActivo: true,
       asignacionesActivas:0,
-      fechaRegistro: ''
+      fechaRegistro: '',
+      fotoAvatar:''
     };
 
   }
@@ -100,7 +101,8 @@ export class AsignacionesOperadorComponent  implements OnInit {
       disponibleOperario: usuarioData['esActivo'] || true,
       esActivo: usuarioData['esActivo'] ||true,
       asignacionesActivas:usuarioData['esActivo'] || 0,
-      fechaRegistro: usuarioData['fechaRegistro'] || ''
+      fechaRegistro: usuarioData['fechaRegistro'] || '',
+      fotoAvatar:usuarioData['fotoAvatar'] || ''
     }
     this.operarioAsignar=this.usuarioLog.idUsuario;
     this.getReportesAsignados();
