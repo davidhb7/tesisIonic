@@ -134,7 +134,7 @@ export class AsignacionesOperadorComponent  implements OnInit {
   }
 
   //ALLERT DE SELECCION DE SOLUCION
-   // Método para abrir el alert con el desplegable
+  // Método para abrir el alert con el desplegable
   async presentAlertConDesplegable(idReporte:string) {
     const alert = await this.alertController.create({
       header: 'Seleccione la solución de reporte',
@@ -244,6 +244,7 @@ export class AsignacionesOperadorComponent  implements OnInit {
       ]
     });
     await alert.present();
+
   }
 
 

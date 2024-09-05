@@ -20,6 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { IonicStorageModule } from '@ionic/storage-angular';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     IonicStorageModule.forRoot(),
-
+    NgApexchartsModule,
 
 
     provideFirebaseApp(()=>initializeApp(environment.firebase)),

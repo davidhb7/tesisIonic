@@ -13,6 +13,7 @@ import { FormularioUsuarioComponent } from './formulario-usuario/formulario-usua
 import { AsignacionesOperadorComponent } from './asignaciones-operador/asignaciones-operador.component';
 import { GoogleMapsComponent } from './google-maps/google-maps.component';
 import { StaticsComponent } from './statics/statics.component';
+import { NgApexchartsModule } from "ng-apexcharts";
 
 
 
@@ -38,7 +39,7 @@ import { StaticsComponent } from './statics/statics.component';
     //GOOGLE MAPS
     GoogleMapsComponent,
     //ESTADISTICAS
-    StaticsComponent
+    StaticsComponent,
   ],
 
   exports:[
@@ -58,7 +59,8 @@ import { StaticsComponent } from './statics/statics.component';
     //GOOGLE MAPS
     GoogleMapsComponent,
     //ESTADISTICAS
-    StaticsComponent
+    StaticsComponent,
+    NgApexchartsModule
 
 
 
@@ -69,6 +71,7 @@ import { StaticsComponent } from './statics/statics.component';
     IonicModule,
     FormsModule,
     ReactiveFormsModule,
+    NgApexchartsModule
     //MAPA
     //GoogleMapsComponent,
 

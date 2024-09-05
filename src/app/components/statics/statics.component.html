@@ -10,8 +10,41 @@
 </ion-header>
 <ion-content>
   <ion-card>
-    <ion-card-content>
-      <h2>Grafico Tipos</h2>
+    <ion-card-content >
+      <h1><strong>GRAFICO DE DESEMPEÑO POR TIPO DE ATENCIÓN/ARREGLO</strong></h1>
+      <ion-grid [fixed]="true">
+        <ion-row >
+          <ion-col *ngFor="let item of arregloProblemasFull">{{item}}</ion-col>
+        </ion-row>
+        <ion-row >
+          <ion-col *ngFor="let item of arregloProblemasAbreviado">{{item}}</ion-col>
+        </ion-row>
+      </ion-grid>
+      <div id="chart">
+        <apx-chart
+          [series]="chartOptions.series"
+          [chart]="chartOptions.chart"
+          [dataLabels]="chartOptions.dataLabels"
+          [plotOptions]="chartOptions.plotOptions"
+          [yaxis]="chartOptions.yaxis"
+          [xaxis]="chartOptions.xaxis"
+          [legend]="chartOptions.legend"
+          [colors]="chartOptions.colors"
+          [grid]="chartOptions.grid"
+        ></apx-chart>
+      </div>
+
     </ion-card-content>
   </ion-card>
+  <!-- //TODO añade otro card para el segundo GRAFICO -->
+  <hr color="blue">
+
+
+  <!-- //TODO añade 3er card para el mapa de calor -->
+  <ion-card>
+    <ion-card-content>
+      <h1><strong>MAPA DE CALOR DE REPORTES</strong></h1>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
