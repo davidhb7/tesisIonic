@@ -14,6 +14,7 @@ import { AsignacionesOperadorComponent } from './asignaciones-operador/asignacio
 import { GoogleMapsComponent } from './google-maps/google-maps.component';
 import { StaticsComponent } from './statics/statics.component';
 import { NgApexchartsModule } from "ng-apexcharts";
+import { HeatmapComponent } from './heatmap/heatmap.component';
 
 
 
@@ -40,6 +41,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
     GoogleMapsComponent,
     //ESTADISTICAS
     StaticsComponent,
+    HeatmapComponent
   ],
 
   exports:[
@@ -60,7 +62,8 @@ import { NgApexchartsModule } from "ng-apexcharts";
     GoogleMapsComponent,
     //ESTADISTICAS
     StaticsComponent,
-    NgApexchartsModule
+    NgApexchartsModule,
+    HeatmapComponent
 
 
 

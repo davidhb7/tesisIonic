@@ -16,10 +16,16 @@
         <ion-row >
           <ion-col *ngFor="let item of arregloProblemasFull">{{item}}</ion-col>
         </ion-row>
+
         <ion-row >
           <ion-col *ngFor="let item of arregloProblemasAbreviado">{{item}}</ion-col>
         </ion-row>
+
+        <ion-row >
+          <ion-col *ngFor="let item of nuevoArra">{{item}}</ion-col>
+        </ion-row>
       </ion-grid>
+
       <div id="chart">
         <apx-chart
           [series]="chartOptions.series"
@@ -36,15 +42,15 @@
 
     </ion-card-content>
   </ion-card>
-  <!-- //TODO añade otro card para el segundo GRAFICO -->
+
   <hr color="blue">
 
-
-  <!-- //TODO añade 3er card para el mapa de calor -->
   <ion-card>
     <ion-card-content>
       <h1><strong>MAPA DE CALOR DE REPORTES</strong></h1>
     </ion-card-content>
   </ion-card>
+  <app-heatmap ></app-heatmap>
+
 
 </ion-content>

@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collectionData, deleteDoc, doc, getDocFromServer, getDocs, onSnapshot, setDoc, updateDoc } from '@angular/fire/firestore';
-import { collection, getCountFromServer, query, where } from 'firebase/firestore';
+import { Firestore, collectionData, collection, deleteDoc, doc, getDocFromServer, getDocs, onSnapshot, setDoc, updateDoc } from '@angular/fire/firestore';
+import { getCountFromServer, query, where } from 'firebase/firestore';
 
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 //DECLARACION UNICA DE ID PARA FIRESTORE
 import { v4 as uuidv4 } from 'uuid';
@@ -11,7 +11,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { ReportesI } from '../interfaces/reportes.interface';
 import { FotoI } from '../interfaces/fotos.interface';
 import { UsuarioI } from '../interfaces/usuarios.interface';
-import { OPERADOR } from '../constant/constantes';
+import {OPERADOR
+} from 'src/app/common/constant/constantes';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,11 @@ import { OPERADOR } from '../constant/constantes';
 
 
 
+
+
 export class FireStoreService {
   private firestore: Firestore = inject(Firestore);
+
 
   constructor(
 
@@ -241,7 +245,7 @@ export class FireStoreService {
 
 
 
-
+///prueba
 
 
 

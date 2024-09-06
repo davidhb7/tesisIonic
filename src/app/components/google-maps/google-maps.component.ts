@@ -9,7 +9,7 @@ declare var google: any;
   templateUrl: './google-maps.component.html',
   styleUrls: ['./google-maps.component.scss'],
 })
-export class GoogleMapsComponent {
+export class GoogleMapsComponent{
 
   @Input() coordinates: { lat: number; lng: number };
 
