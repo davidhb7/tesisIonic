@@ -5,3 +5,25 @@ capacitor-google-map {
   border-radius: 10px;
   margin: 10px;
 }
+
+//NUEVO PARA LA ESCALA
+#heatmap-legend {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
+
+.scale {
+  display: flex;
+}
+
+.color-block {
+  width: 50px;
+  height: 20px;
+  margin: 0 5px;
+}
+

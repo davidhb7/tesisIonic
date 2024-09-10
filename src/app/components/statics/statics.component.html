@@ -3,15 +3,20 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/menu"></ion-back-button>
     </ion-buttons>
+
     <ion-title>
-      Estadisticas
+      Estadísticas
     </ion-title>
   </ion-toolbar>
 </ion-header>
+
+
+
 <ion-content>
   <ion-card>
     <ion-card-content >
-      <h1><strong>GRAFICO DE DESEMPEÑO POR TIPO DE ATENCIÓN/ARREGLO</strong></h1>
+      <h1><strong>GRÁFICO DE DESEMPEÑO POR TIPO DE ATENCIÓN/ARREGLO</strong></h1>
+      <p>En este grafico, se muestran los distintos tipos de estados del reporte en cuanto a su atención. Cada reporte cuenta con un tipo de situacion al ser atendido por un Operario.</p>
       <ion-grid [fixed]="true">
         <ion-row >
           <ion-col *ngFor="let item of arregloProblemasFull">{{item}}</ion-col>
@@ -26,19 +31,35 @@
         </ion-row>
       </ion-grid>
 
-      <div id="chart">
-        <apx-chart
-          [series]="chartOptions.series"
-          [chart]="chartOptions.chart"
-          [dataLabels]="chartOptions.dataLabels"
-          [plotOptions]="chartOptions.plotOptions"
-          [yaxis]="chartOptions.yaxis"
-          [xaxis]="chartOptions.xaxis"
-          [legend]="chartOptions.legend"
-          [colors]="chartOptions.colors"
-          [grid]="chartOptions.grid"
-        ></apx-chart>
-      </div>
+
+
+        <div id="chart">
+          <div>
+            <h1 style="margin-left: 150px; color: black; font-weight: bold ;">Número de reportes clasificados.</h1>
+          </div>
+          <apx-chart
+            style="width: 1000px;"
+
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [dataLabels]="chartOptions.dataLabels"
+            [plotOptions]="chartOptions.plotOptions"
+            [yaxis]="chartOptions.yaxis"
+            [xaxis]="chartOptions.xaxis"
+            [legend]="chartOptions.legend"
+            [colors]="chartOptions.colors"
+            [grid]="chartOptions.grid"
+          ></apx-chart>
+          <div>
+            <h2 style="margin-left: 250px;">Tipos de Categorías</h2>
+          </div>
+        </div>
+
+
+
+
+
+
 
     </ion-card-content>
   </ion-card>
@@ -48,6 +69,7 @@
   <ion-card>
     <ion-card-content>
       <h1><strong>MAPA DE CALOR DE REPORTES</strong></h1>
+      <p>En este mapa, se apreciarán las ubicaciones de los distintos reportes, tipo de situación y el comentario del Operario en caso de que este ya sea atentido y solucionado</p>
     </ion-card-content>
   </ion-card>
   <app-heatmap ></app-heatmap>

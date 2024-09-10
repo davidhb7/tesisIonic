@@ -108,7 +108,7 @@ export class FireStoreService {
   // ***********************************************************************************************************************************************************
 
   // ************************************************************* USUARIOS
-  //CONSULTA COMPUESTA. TRAER USUARIOS CON ROL DE OPERADORES
+  //CONSULTA COMPUESTA. TRAER USUARIOS SEGUN EL ROL
   getUsuariosSegunRol<tipoModeloObjeto>(rol:  string): Observable<tipoModeloObjeto[]>{
     const coleccionBuscar = collection(this.firestore, "Usuarios");
     const consulta = query(coleccionBuscar, where("idRol", "==", rol));
@@ -123,6 +123,24 @@ export class FireStoreService {
       return unsubscribe;
     });
   }
+  //CONSULTA PARA TRAER UN USUARIO SEGUN SU ROL
+  getUsuarioSegunRol<tipoModeloObjeto>(rol: string): Observable<tipoModeloObjeto | null> {
+    const coleccionBuscar = collection(this.firestore, "Usuarios");
+    const consulta = query(coleccionBuscar, where("idRol", "==", rol));
+
+    return new Observable<tipoModeloObjeto | null>((observador) => {
+      const unsubscribe = onSnapshot(consulta, (querySnapshot) => {
+        if (!querySnapshot.empty) {
+          const doc = querySnapshot.docs[0]; // Toma el primer documento que coincida
+          observador.next(doc.data() as tipoModeloObjeto);
+        } else {
+          observador.next(null); // Retorna null si no hay documentos coincidentes
+        }
+      });
+      return unsubscribe;
+    });
+  }
+
 
   //CONSULTA COMPUESTA. TRAER USUARIO POR CORREO
   getUsuarioPorCorreoEnLogin<tipoModeloUs>(correoLogin:string):Observable<tipoModeloUs>{

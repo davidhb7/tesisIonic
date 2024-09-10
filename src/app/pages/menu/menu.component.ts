@@ -24,9 +24,9 @@ export class MenuComponent implements OnInit {
   visibleUsuarios: boolean = true;
   visibleAsignaciones: boolean = true;
   visibleEstadisticas:boolean=true;
+  visibleInfoEmpresa:boolean=true;
   idQuienInicia: string = "";
   idLogOperario: string = "";
-  otroId: string;
 
 
 
@@ -42,16 +42,6 @@ export class MenuComponent implements OnInit {
     //VERIFICA ESTADO DEL USUARIO
 
     this.traerUS();
-    // this.serviciosAuth.estadoLogUsuario().subscribe(res => {
-    //   if (res) {
-    //     this.idQuienInicia = res.uid;
-    //     console.log("SI LOG: ", this.idQuienInicia);
-    //     this.traerUS();
-    //   } else {
-    //     console.log("NO LOG");
-    //     this.cerrarSesion();
-    //   }
-    // });
   }
 
   ngOnInit() {
@@ -156,6 +146,9 @@ export class MenuComponent implements OnInit {
     this.router.navigate(['/estadisticas']);
   }
 
+  irInformacionEmpresa(){
+    this.router.navigate(['/infor-empresa']);
+  }
 
 
   //DISPONIBILIDAD DE VISTAS Y FUNCIONALIDADES SEGUN EL ROL
@@ -167,6 +160,7 @@ export class MenuComponent implements OnInit {
       this.visibleUsuarios = false;
       this.visibleAsignaciones = false;
       this.visibleEstadisticas=false;
+      this.visibleInfoEmpresa=true;
     } else if (idRol == "1" || idRol == "2") {
       console.log("Adm - Empr");
       this.visibleReportes = true;
@@ -174,6 +168,7 @@ export class MenuComponent implements OnInit {
       this.visibleUsuarios = true;
       this.visibleEstadisticas=true;
       this.visibleAsignaciones = false;
+      this.visibleInfoEmpresa= true;
 
     } else if (idRol == "3") {
       console.log("Op");
@@ -181,14 +176,16 @@ export class MenuComponent implements OnInit {
       this.visibleOperarios = false;
       this.visibleUsuarios = false;
       this.visibleAsignaciones = true;
-      this.visibleEstadisticas=false;
+      this.visibleEstadisticas= false;
+      this.visibleInfoEmpresa= true;
     } else {
       console.log("ROL DESCONOCIDO");
       this.visibleReportes = false;
       this.visibleOperarios = false;
       this.visibleUsuarios = false;
       this.visibleAsignaciones = false;
-      this.visibleEstadisticas=false;
+      this.visibleEstadisticas= false;
+      this.visibleInfoEmpresa= false;
     }
   }
 

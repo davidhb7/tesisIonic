@@ -1,7 +1,7 @@
 <ion-menu contentId="main-content">
   <ion-header>
     <ion-toolbar>
-      <ion-title>Menu</ion-title>
+      <ion-title>Menú</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
@@ -34,19 +34,26 @@
 
         <ion-item *ngIf="visibleEstadisticas">
           <ion-label (click)="irEstadisticasDeOperarios()">
-            Estadisticas de Operarios
+            Estadísticas de Operarios
           </ion-label>
         </ion-item>
 
+        <ion-item *ngIf="visibleInfoEmpresa">
+          <ion-label (click)="irInformacionEmpresa()">
+            Sobre nosotros
+          </ion-label>
+        </ion-item>
+
+
         <ion-item>
           <ion-label (click)="paraverPerfilconId(usuarioLog.idUsuario)">
-            Perfil
+            Perfíl
           </ion-label>
         </ion-item>
 
         <ion-item>
           <ion-label (click)="cerrarSesion()">
-            Cerrar Sesion
+            Cerrar Sesión
           </ion-label>
         </ion-item>
 
@@ -62,16 +69,88 @@
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
-      <ion-title>Gestion Reportes </ion-title>
+      <ion-title>Gestión Reportes </ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
-    <p>{{usuarioLog.nombreUsuario}}</p>
-    <p>
+    <ion-card style="border-radius: 20px;">
+      <ion-card-title>
+        <div style="margin-left: 20px;">
+          <h1>Bienvenido {{usuarioLog.nombreUsuario}}</h1>
+        </div>
 
-      Bienvenido a su aplicacion de confianza de atencion al cliente.
-      Sí necesita realizar un reporte, dirijase a las 3 lineas de la parte superior izquierda.
-    </p>
+      </ion-card-title>
+      <ion-card-content>
+        <div>
+          <h1><ion-icon name="information-circle-outline"></ion-icon>
+            Bienvenido a su aplicación de confianza de atención al cliente.
+            <strong>Sí necesita realizar un reporte, diríjase a las 3 lineas de la parte superior izquierda.</strong>
+          </h1>
+        </div>
+
+        <br>
+        <hr color="green">
+        <br>
+        <ion-row>
+          <ion-col>
+            <ion-item style="margin-left: 100px;">
+              <img src="../../../assets/img/decoration/cascada.png" alt=""
+              style="border-radius: 10px; height: 600; width: 600; ">
+            </ion-item>
+          </ion-col>
+
+
+          <ion-col>
+            <h1><strong>El Aporte de esta aplicación móvil y web.</strong></h1>
+            <br>
+            <h1>Para quienes usan nuestros servicios públicos hídricos en el sector del Quereaml central, habitantes y comerciantes de la localidad, tendrán ahora una herramienta que facilitará sus derechos en la prestación de servicios publico hídrico, donde tambien serán escuchados en solicitudes que los afecte en la comunidad o de manera individual de su domicilio o sector residencial.
+            </h1>
+            <br>
+            <h1>
+              Este proyecto abarca actividades para el debido mantenimiento de infraestructura local, empresarial, alcantarillado y reparacion de daños publicos y contratados.
+            </h1>
+            <br>
+            <p>
+
+            </p>
+
+
+          </ion-col>
+        </ion-row>
+
+        <br>
+        <hr color="green" >
+        <br>
+
+        <ion-row>
+          <ion-col>
+            <h1><strong>El aporte que ofrece la tecnología</strong></h1>
+            <br>
+            <h1>
+              La automatizacion de los reportes y solicitudes que se generen en esta aplicación, mejorarán el tiempo de respuesta y solución de daños y atenciones para con el usuario cliente de los servicios públicos hídricos.
+            </h1>
+            <br>
+            <h1>
+              Esta implementacion tecnológica esta pensada para mejorar la atencion al cliente, el cuidado de los recursos e impulsar el cuidado del recurso hidrico a travezde la tecnología.
+            </h1>
+
+
+
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <img src="../../../assets/img/decoration/mantoVirgen.png" alt="" style="border-radius: 10px; margin: 30px; height: 400px; width: 300px;">
+              <img src="../../../assets/img/decoration/Danubio.png" alt="" style="border-radius: 10px; margin: 30px; height: 400px; width: 300px;">
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+
+
+
+      </ion-card-content>
+    </ion-card>
 
   </ion-content>
 </div>
+

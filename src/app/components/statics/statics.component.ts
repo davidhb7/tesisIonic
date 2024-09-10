@@ -11,7 +11,7 @@ import {
   ApexGrid
 } from "ng-apexcharts";
 import { ARREGLO_CONSTANTES, ARREGLO_CONSTANTES_ABREVIADO, CONTADOR_DOMICILIO_A, INFRAESTRUCTURA_DOMICILIO_A, INFRAESTRUCTURA_INTERIOR_A, MANTENIMIENTO_DOMICILIO_A, MANTENIMIENTO_EXTERIOR_A, MANTENIMIENTO_INTERIOR_A, OTRO_ASUNTO_A, SIN_REVISION_A, SIN_REVISION,
-  INFRAESTRUCTURA_DOMICILIO, INFRAESTRUCTURA_EXTERIOR, INFRAESTRUCTURA_INTERIOR, CONTADOR_DOMICILIO, MANTENIMIENTO_DOMICILIO, MANTENIMIENTO_EXTERIOR, MANTENIMIENTO_INTERIOR,OTRO_ASUNTO
+  INFRAESTRUCTURA_DOMICILIO, INFRAESTRUCTURA_EXTERIOR, INFRAESTRUCTURA_INTERIOR, CONTADOR_DOMICILIO, MANTENIMIENTO_DOMICILIO, MANTENIMIENTO_EXTERIOR, MANTENIMIENTO_INTERIOR,OTRO_ASUNTO,INFRAESTRUCTURA_EXTERIOR_A
 } from 'src/app/common/constant/constantes';
 import { ReportesI } from 'src/app/common/interfaces/reportes.interface';
 
@@ -80,7 +80,6 @@ export class StaticsComponent implements OnInit{
     }
   }
 
-  arr=[21, 22, 10, 28, 16, 21, 13, 30]
   nuevoArra:number[]=[];
 
 
@@ -101,7 +100,8 @@ export class StaticsComponent implements OnInit{
     this.chartOptions = {
       series: [
         {
-          name: "distibuted",
+
+          name: "Cantidad de registros por situación",
           data:this.nuevoArra
         }
       ],
@@ -131,18 +131,23 @@ export class StaticsComponent implements OnInit{
         }
       },
       dataLabels: {
-        enabled: false
+
+        enabled: true,
+
       },
       legend: {
-        show: false
+
+        show: true
       },
       grid: {
         show: true
+
       },
       xaxis: {
         categories: [
           SIN_REVISION_A,
           INFRAESTRUCTURA_DOMICILIO_A,
+          INFRAESTRUCTURA_EXTERIOR_A,
           INFRAESTRUCTURA_INTERIOR_A,
           CONTADOR_DOMICILIO_A,
           MANTENIMIENTO_DOMICILIO_A,

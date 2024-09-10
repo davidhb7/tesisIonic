@@ -31,12 +31,17 @@ export class HeatmapComponent implements AfterViewInit {
     this.map = new google.maps.Map(mapRef, {
       center: { lat: 3.522996, lng: -76.711889 },
       zoom: 15,
+      scaleControl: true,
     });
 
     this.heatmap = new google.maps.visualization.HeatmapLayer({
       data: this.getPoints(),
       map: this.map,
     });
+
+    // Agregar leyenda personalizada al mapa
+    const legend = document.getElementById('heatmap-legend');
+    this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
   }
 
   getPoints() {
@@ -75,7 +80,8 @@ export class HeatmapComponent implements AfterViewInit {
     this.localizaciones.forEach(loc => {
       const marker = new google.maps.Marker({
         position: { lat: loc.lat, lng: loc.lng },
-        map: this.map
+        map: this.map,
+
       });
 
       // Verificar que tipoAsuntoPorOperario y comentarioOperario no estén vacíos o nulos

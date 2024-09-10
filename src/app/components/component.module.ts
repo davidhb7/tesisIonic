@@ -15,6 +15,7 @@ import { GoogleMapsComponent } from './google-maps/google-maps.component';
 import { StaticsComponent } from './statics/statics.component';
 import { NgApexchartsModule } from "ng-apexcharts";
 import { HeatmapComponent } from './heatmap/heatmap.component';
+import { InformacionEmpresaComponent } from './informacion-empresa/informacion-empresa.component';
 
 
 
@@ -41,7 +42,10 @@ import { HeatmapComponent } from './heatmap/heatmap.component';
     GoogleMapsComponent,
     //ESTADISTICAS
     StaticsComponent,
-    HeatmapComponent
+    //MAPA DE CALOR
+    HeatmapComponent,
+    //INFO EMPRESA
+    InformacionEmpresaComponent
   ],
 
   exports:[
@@ -62,8 +66,12 @@ import { HeatmapComponent } from './heatmap/heatmap.component';
     GoogleMapsComponent,
     //ESTADISTICAS
     StaticsComponent,
+    //GRAFICOS
     NgApexchartsModule,
-    HeatmapComponent
+    //MAPA DE CALOR
+    HeatmapComponent,
+    //INFO EMPRESA
+    InformacionEmpresaComponent
 
 
 
@@ -74,9 +82,8 @@ import { HeatmapComponent } from './heatmap/heatmap.component';
     IonicModule,
     FormsModule,
     ReactiveFormsModule,
+    //GRAFICOS
     NgApexchartsModule
-    //MAPA
-    //GoogleMapsComponent,
 
   ]
 

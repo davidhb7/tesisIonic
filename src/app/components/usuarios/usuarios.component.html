@@ -26,7 +26,11 @@
         Nombre: {{usuario.nombreUsuario}}
         <p>Correo: {{usuario.correoUsuario}}</p>
         <p>Celular:</p><p> {{usuario.celularUsuario}}</p>
-        <p>Estado: </p><p style="color: green;"> {{usuario.esActivo}}</p>
+        @if(usuario.esActivo===true){
+          <p>Estado: <strong style="color: green;">Activo</strong></p>
+        }@else {
+          <p>Estado: <strong style="color: red;">inactivo</strong></p>
+        }
       </ion-label>
       @if (cargando) {
         <div style="text-align:center;">

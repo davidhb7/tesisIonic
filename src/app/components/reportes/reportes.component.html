@@ -17,7 +17,7 @@
     <ion-item *ngFor="let nuevoReporte of documentosReportes, let index" >
       <ion-label>
         <!-- REPORTES CREADOS POR EL USUARIO LOGUEADO -->
-        Reporte numero: {{nuevoReporte.numeroReporte}}
+        Reporte número: {{nuevoReporte.numeroReporte}}
         <p>Descripcipon: {{nuevoReporte.descripcion}}</p>
         @if(nuevoReporte.estado==="SOLUCIONADO"){
           <p style="color: green;"> SOLUCIONADO</p>
@@ -40,8 +40,8 @@
     <!-- REPORTES GENERALES -->
     <ion-item *ngFor="let repGenerales of documentosGeneralesReportes, let index" >
       <ion-label>
-        Reporte numero: {{repGenerales.numeroReporte}}
-        <p>Descripcipon: {{repGenerales.descripcion}}</p>
+        Reporte número: {{repGenerales.numeroReporte}}
+        <p>Descripción: {{repGenerales.descripcion}}</p>
         <!-- <p>Estado:</p><p style="color: green;"> {{repGenerales.estado}}</p> -->
         @if(repGenerales.estado==="SOLUCIONADO"){
           <p style="color: green;"> SOLUCIONADO</p>
