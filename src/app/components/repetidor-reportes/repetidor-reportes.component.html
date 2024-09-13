@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>
+      Repetidor de reportes
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <h1>Fomulario masivo</h1>
+      <form [formGroup]="formGroupCrearReportes">
+        <ion-item>
+          <ion-label position="floating">Cantidad de reportes</ion-label>
+          <ion-input type="number" formControlName="cantidadReportes" required></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="formGroupCrearReportes.get('cantidadReportes').invalid && formGroupCrearReportes.get('cantidadReportes').touched">
+          <p *ngIf="formGroupCrearReportes.get('cantidadReportes').errors?.['required']">La cantidad es obligatoria.</p>
+          <p *ngIf="formGroupCrearReportes.get('cantidadReportes').errors?.['min']">Debe ser un número mayor que 0.</p>
+        </ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Latitud ubicación central</ion-label>
+          <ion-input type="number" formControlName="latitud" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Longitud ubicación central</ion-label>
+          <ion-input type="number" formControlName="longitud" required></ion-input>
+        </ion-item>
+        <!-- [disabled]="formGroupCrearReportes.invalid" -->
+
+        <ion-button (click)="crearReportes()" >Crear Reportes</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

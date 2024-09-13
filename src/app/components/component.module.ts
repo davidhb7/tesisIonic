@@ -8,7 +8,7 @@ import { OperarioComponent } from './operador/operador.component';
 import { OperariosComponent } from './operadores/operadores.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormularioUsuarioComponent } from './formulario-usuario/formulario-usuario.component';
 import { AsignacionesOperadorComponent } from './asignaciones-operador/asignaciones-operador.component';
 import { GoogleMapsComponent } from './google-maps/google-maps.component';
@@ -16,6 +16,7 @@ import { StaticsComponent } from './statics/statics.component';
 import { NgApexchartsModule } from "ng-apexcharts";
 import { HeatmapComponent } from './heatmap/heatmap.component';
 import { InformacionEmpresaComponent } from './informacion-empresa/informacion-empresa.component';
+import { RepetidorReportesComponent } from './repetidor-reportes/repetidor-reportes.component';
 
 
 
@@ -45,7 +46,9 @@ import { InformacionEmpresaComponent } from './informacion-empresa/informacion-e
     //MAPA DE CALOR
     HeatmapComponent,
     //INFO EMPRESA
-    InformacionEmpresaComponent
+    InformacionEmpresaComponent,
+    //REPETIDOR
+    RepetidorReportesComponent
   ],
 
   exports:[
@@ -71,7 +74,9 @@ import { InformacionEmpresaComponent } from './informacion-empresa/informacion-e
     //MAPA DE CALOR
     HeatmapComponent,
     //INFO EMPRESA
-    InformacionEmpresaComponent
+    InformacionEmpresaComponent,
+    //REPETIDOR
+    RepetidorReportesComponent
 
 
 

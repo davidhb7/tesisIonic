@@ -19,6 +19,10 @@
   * ionic build --prod
   * firebase deploy
 
+## Comando sincronización/creación Android
+  * ionic capacitor build android (sincronizacion y creacion)
+  * npx ionic cap run android (compilacion y ejecucion)
+
 ## GRAFICOS:
   * Base: https://www.youtube.com/watch?v=MwWzSJnkrgQ&t=59s
   * Implementación ApexCharts: https://github.com/apexcharts/ng-apexcharts/tree/master

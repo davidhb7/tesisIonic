@@ -10,56 +10,138 @@
 </ion-header>
 
 <ion-content>
-  <h3 *ngIf="!hayReportes" style="margin-left: 10px;">No hay reportes...</h3>
-  <ion-list>
-    <ion-button (click)="navegarFormularioCrearReporte()" style="margin-left: 10px; ">Crear nuevo reporte</ion-button>
+  <ion-card>
+    <ion-card-content>
+      <h3 *ngIf="!hayReportes" style="margin-left: 10px;">No hay reportes...</h3>
+      <h1><ion-icon name="information-circle-outline"></ion-icon>
+        Realiza tus reportes aqui. Una vez realices tu solicitud, el operario asignado atenderá la situacón en la mayor brevedad posible.
+      </h1>
+      <br>
+      <ion-button (click)="navegarFormularioCrearReporte()" style="margin-left: 10px; ">Crear nuevo reporte</ion-button>
+    </ion-card-content>
+  </ion-card>
 
-    <ion-item *ngFor="let nuevoReporte of documentosReportes, let index" >
-      <ion-label>
-        <!-- REPORTES CREADOS POR EL USUARIO LOGUEADO -->
-        Reporte número: {{nuevoReporte.numeroReporte}}
-        <p>Descripcipon: {{nuevoReporte.descripcion}}</p>
-        @if(nuevoReporte.estado==="SOLUCIONADO"){
-          <p style="color: green;"> SOLUCIONADO</p>
-        }@else {
-          <p style="color: orange;">EN PROCESO</p>
-        }
-        <!-- <p>Estado:</p><p style="color: green;"> {{nuevoReporte.estado}}</p> -->
+  <ion-card>
+    <ion-card-content>
+      <div  *ngIf="usuarioPresente.idRol==='2'">
+        <ion-list>
+          <ion-item *ngFor="let nuevoReporte of documentosReportes, let index" >
+            <ion-label>
+              <!-- REPORTES CREADOS POR EL USUARIO LOGUEADO -->
+              Reporte número: {{nuevoReporte.numeroReporte}}
+              <p>Descripcipon: {{nuevoReporte.descripcion}}</p>
+              @if(nuevoReporte.estado==="SOLUCIONADO"){
+                <p style="color: green;"> SOLUCIONADO</p>
+              }@else {
+                <p style="color: orange;">EN PROCESO</p>
+              }
+              <!-- <p>Estado:</p><p style="color: green;"> {{nuevoReporte.estado}}</p> -->
 
-      </ion-label>
-      @if (cargando) {
-        <div style="text-align:center;">
-          <ion-spinner name="bubbles"></ion-spinner>
-        </div>
-      }
-      <ion-button color="danger" (click)="eliminarReporte(nuevoReporte)" style="font-size: 8px;">Eliminar</ion-button>
-      <ion-button color="success" (click)="navegarConIDVerReporte(nuevoReporte.idReporte)" style="font-size: 8px;">Ver</ion-button>
-      <ion-button color="warning" (click)="navegarConIDEditarReporte(nuevoReporte.idReporte)" style="font-size: 8px;">Editar</ion-button>
-    </ion-item>
+            </ion-label>
+            @if (cargando) {
+              <div style="text-align:center;">
+                <ion-spinner name="bubbles"></ion-spinner>
+              </div>
+            }
+            <ion-button color="danger" (click)="eliminarReporte(nuevoReporte)" style="font-size: 8px;">Eliminar</ion-button>
+            <ion-button color="success" (click)="navegarConIDVerReporte(nuevoReporte.idReporte)" style="font-size: 8px;">Ver</ion-button>
+            <ion-button color="warning" (click)="navegarConIDEditarReporte(nuevoReporte.idReporte)" style="font-size: 8px;">Editar</ion-button>
+          </ion-item>
 
-    <!-- REPORTES GENERALES -->
-    <ion-item *ngFor="let repGenerales of documentosGeneralesReportes, let index" >
-      <ion-label>
-        Reporte número: {{repGenerales.numeroReporte}}
-        <p>Descripción: {{repGenerales.descripcion}}</p>
-        <!-- <p>Estado:</p><p style="color: green;"> {{repGenerales.estado}}</p> -->
-        @if(repGenerales.estado==="SOLUCIONADO"){
-          <p style="color: green;"> SOLUCIONADO</p>
-        }@else {
-          <p style="color: orange;">EN PROCESO</p>
-        }
-      </ion-label>
+          <!-- REPORTES GENERALES -->
+          <ion-item *ngFor="let repGenerales of documentosGeneralesReportes, let index" >
+            <ion-label>
+              Reporte número: {{repGenerales.numeroReporte}}
+              <p>Descripción: {{repGenerales.descripcion}}</p>
+              <!-- <p>Estado:</p><p style="color: green;"> {{repGenerales.estado}}</p> -->
+              @if(repGenerales.estado==="SOLUCIONADO"){
+                <p style="color: green;"> SOLUCIONADO</p>
+              }@else {
+                <p style="color: orange;">EN PROCESO</p>
+              }
+            </ion-label>
 
 
 
-      @if (cargando) {
-        <div style="text-align:center;">
-          <ion-spinner name="bubbles"></ion-spinner>
-        </div>
-      }
-      <ion-button color="danger" (click)="eliminarReporte(repGenerales)" style="font-size: 8px;">Eliminar</ion-button>
-      <ion-button color="success" (click)="navegarConIDVerReporte(repGenerales.idReporte)" style="font-size: 8px;">Ver</ion-button>
-      <ion-button color="warning" (click)="navegarConIDEditarReporte(repGenerales.idReporte)" style="font-size: 8px;">Editar</ion-button>
-    </ion-item>
-  </ion-list>
+            @if (cargando) {
+              <div style="text-align:center;">
+                <ion-spinner name="bubbles"></ion-spinner>
+              </div>
+            }
+            <ion-button color="danger" (click)="eliminarReporte(repGenerales)" style="font-size: 8px;">Eliminar</ion-button>
+            <ion-button color="success" (click)="navegarConIDVerReporte(repGenerales.idReporte)" style="font-size: 8px;">Ver</ion-button>
+            <ion-button color="warning" (click)="navegarConIDEditarReporte(repGenerales.idReporte)" style="font-size: 8px;">Editar</ion-button>
+          </ion-item>
+        </ion-list>
+      </div>
+
+
+
+      <div *ngIf="usuarioPresente.idRol==='4'">
+        <ion-list >
+          <h3 style="text-align: center;">Reportes Pendientes.</h3>
+          <ion-item *ngFor="let repUsCli of documentosReportes" >
+            <ion-label *ngIf="repUsCli.estado==='EN PROCESO' ">
+              <!-- REPORTES ASIGNADOS PARA EL USUARIO LOGUEADO -->
+              Reporte numero: {{repUsCli.numeroReporte}}
+              <p>Descripcipon: {{repUsCli.descripcion}}</p>
+              <p>Id: {{repUsCli.idReporte}}</p>
+
+              @if(repUsCli.comentarioOperario===""){
+                <p>Comentario Operario: Sin comentario.</p>
+              }
+              @else {
+                <p>Comentario Operario: {{repUsCli.comentarioOperario}}</p>
+              }
+              @if(repUsCli.tipoAsuntoPorOperario===""){
+                <p>Tipo problema: Sin asignar</p>
+              }
+              @else {
+                <p>Tipo problema: {{repUsCli.tipoAsuntoPorOperario}}</p>
+              }
+              <p>Estado:</p><p style="color: orange;"><strong> {{repUsCli.estado}}</strong></p>
+            </ion-label>
+            @if (cargando) {
+              <div style="text-align:center;">
+                <ion-spinner name="bubbles"></ion-spinner>
+              </div>
+            }
+            <ion-button color="danger" (click)="eliminarReporte(repUsCli)" style="font-size: 8px;">Eliminar</ion-button>
+            <ion-button color="success" (click)="navegarConIDVerReporte(repUsCli.idReporte)" style="font-size: 8px;">Ver</ion-button>
+            <ion-button color="warning" (click)="navegarConIDEditarReporte(repUsCli.idReporte)" style="font-size: 8px;">Editar</ion-button>
+
+          </ion-item>
+        </ion-list>
+        <hr color=" blue">
+        <ion-list >
+          <h3 style="text-align: center;">Reportes Solucionados.</h3>
+          <ion-item *ngFor="let repUsCli of documentosReportes" >
+            <ion-label *ngIf="repUsCli.estado==='SOLUCIONADO'">
+              <!-- REPORTES ASIGNADOS PARA EL USUARIO LOGUEADO -->
+              Reporte numero: {{repUsCli.numeroReporte}}
+              <p>Descripcipon: {{repUsCli.descripcion}}</p>
+              <p>Id: {{repUsCli.idReporte}}</p>
+
+              @if(repUsCli.comentarioOperario===""){
+                <p>Comentario Operario: Sin comentario.</p>
+              }
+              @else {
+                <p>Comentario Operario: {{repUsCli.comentarioOperario}}</p>
+              }
+              @if(repUsCli.tipoAsuntoPorOperario===""){
+                <p>Tipo problema: Sin asignar</p>
+              }
+              @else {
+                <p>Tipo problema: {{repUsCli.tipoAsuntoPorOperario}}</p>
+              }
+              <p>Estado:</p><p style="color: green;"><strong> {{repUsCli.estado}}</strong></p>
+
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+
 </ion-content>

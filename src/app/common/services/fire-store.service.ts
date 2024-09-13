@@ -141,7 +141,6 @@ export class FireStoreService {
     });
   }
 
-
   //CONSULTA COMPUESTA. TRAER USUARIO POR CORREO
   getUsuarioPorCorreoEnLogin<tipoModeloUs>(correoLogin:string):Observable<tipoModeloUs>{
     const coleccionBuscar = collection(this.firestore, "Usuarios");
@@ -171,6 +170,7 @@ export class FireStoreService {
     const querySnapshot = await getDocs(consulta);
     const operadores:UsuarioI[]=[];
     querySnapshot.forEach((doc)=>{
+
       operadores.push(doc.data() as UsuarioI);
     });
     return operadores;
@@ -261,9 +261,6 @@ export class FireStoreService {
     });
   }
 
-
-
-///prueba
 
 
 

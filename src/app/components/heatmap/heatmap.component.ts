@@ -54,17 +54,16 @@ export class HeatmapComponent implements AfterViewInit {
         this.reportes = data;
         this.reportes.forEach(reporte => {
           if (reporte.ubicacion && reporte.tipoAsuntoPorOperario && reporte.comentarioOperario) {
-            this.separadorubicacion(reporte.ubicacion, reporte.tipoAsuntoPorOperario, reporte.comentarioOperario);
+            this.separadorUbicacion(reporte.ubicacion, reporte.tipoAsuntoPorOperario, reporte.comentarioOperario);
           }
         });
-
         this.updateHeatmap();
         this.addMarkers();
       }
     });
   }
 
-  separadorubicacion(coordenadas: string, tipoAsuntoPorOperario: string, comentarioOperario: string) {
+  separadorUbicacion(coordenadas: string, tipoAsuntoPorOperario: string, comentarioOperario: string) {
     const [latStr, lngStr] = coordenadas.split(' ');
     const lat = parseFloat(latStr);
     const lng = parseFloat(lngStr);

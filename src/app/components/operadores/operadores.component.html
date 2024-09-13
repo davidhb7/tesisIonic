@@ -13,11 +13,16 @@
 <ion-content>
   <ion-card>
     <ion-card-content style="margin: 1px;">
+      <h1><ion-icon name="information-circle-outline"></ion-icon>
+        Aqui se muestran y se pueden registrar los Operarios-Contratistas-Fontaneros registrados dentro de la empresa con relacion al servicio publico de acueducto local del Queremal.
+      </h1>
+      <br>
+
       <ion-button (click)="irFormularioOperador()">
         <ion-icon slot="start" name="add"></ion-icon>
         Agregar operario
       </ion-button>
-      <hr color="blue">
+      <hr color="green">
       <h2>OPERARIOS REGISTRADOS:</h2>
       <h1>{{mensajeNoHay}}</h1>
       <ion-item *ngFor="let operario of operariosRegistrdos">

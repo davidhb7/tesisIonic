@@ -85,23 +85,4 @@ export class FormularioUsuarioComponent  implements OnInit {
       fotoAvatar:''
     };
   }
-
-  //GUARDAR USUARIO
-  async guardarUsuario(){
-    this.cargando=true;
-    //await this.fireStroreService.crearDocumentoGeneralPorID(this.nuevoUsuario,'Usuarios', this.nuevoUsuario.idUsuario);
-    console.log("si sirve")
-    this.cargando=false;
-    //this.router.navigate(["/usuarios"]);
-  }
-
-  //GUARDAR?
-  submitForm() {
-    if (this.form.valid) {
-      console.log("ES VALIDO");
-      //this.guardarUsuario();
-    }
-  }
-
-
 }

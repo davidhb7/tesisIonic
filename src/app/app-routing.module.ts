@@ -8,6 +8,7 @@ import { OperarioComponent } from './components/operador/operador.component';
 import { AsignacionesOperadorComponent } from './components/asignaciones-operador/asignaciones-operador.component';
 import { StaticsComponent } from './components/statics/statics.component';
 import { InformacionEmpresaComponent } from './components/informacion-empresa/informacion-empresa.component';
+import { RepetidorReportesComponent } from './components/repetidor-reportes/repetidor-reportes.component';
 
 const routes: Routes = [
   //CUANDO EL COMPONENTE TIENE MODULE INDIVIDUAL, USAR LOADCHILDREN
@@ -126,9 +127,15 @@ const routes: Routes = [
     path:'estadisticas',
     component: StaticsComponent
   },
+  //QUIENES SOMOS - INFORMACION DE EMPRESA
   {
     path:'infor-empresa',
     component:InformacionEmpresaComponent
+  },
+  //CREAR REPORTES EN MASA
+  {
+    path:'repetidor',
+    component:RepetidorReportesComponent
   }
 
 

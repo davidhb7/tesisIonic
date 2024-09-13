@@ -6,6 +6,8 @@ import { FireStoreService } from 'src/app/common/services/fire-store.service';
 import { InteractionService } from 'src/app/common/services/interaction.service';
 import { DocumentData } from '@angular/fire/firestore';
 import { MenuComponent } from 'src/app/pages/menu/menu.component';
+import { EN_PROCESO } from 'src/app/common/constant/constantes';
+import { LocalStorageService } from 'src/app/common/services/local-storage.service';
 
 @Component({
   selector: 'app-reportes',
@@ -18,6 +20,9 @@ export class ReportesComponent  implements OnInit {
   documentosReportes:ReportesI[]=[];
   documentosGeneralesReportes: ReportesI[]=[];
   usuarioPresente:UsuarioI;
+  //CUANDO ES-CLI
+  reportresUsuarioPendientes:ReportesI[]=[];
+  reportresUsuarioSolucionado:ReportesI[]=[];
 
 
   //VARIABLES
@@ -32,8 +37,12 @@ export class ReportesComponent  implements OnInit {
     private route: ActivatedRoute,
     private serviciosFireStoreDatabase: FireStoreService,//INYECTANDO DEPENDENCIA
     private serviciosInteraccion: InteractionService,
+    private servicioLocalStorage: LocalStorageService
   ) {
+    this.inicializarUSVacio()
     this.idUsuarioPresente=route.snapshot.params['idUsuario'];//DECLARAR EL PASO DE ID EN EL ROUTING
+
+
     this.avisoExisteReporte();
 
     //CONDICIONAL PARA ESTOS...
@@ -44,6 +53,27 @@ export class ReportesComponent  implements OnInit {
 
   ngOnInit() {
     return;
+  }
+  //INICIALIZAR USUARIO VACIO
+  inicializarUSVacio(){
+    this.usuarioPresente = {
+      idUsuario: '',
+      identificacionUsuario:'',
+      numeroReferenciaUsuarioConsumidor: 0,
+      nombreUsuario: '',
+      correoUsuario: '',
+      celularUsuario: '',
+      direccionUsuario: '',
+      telefonoUsuario: '',
+      clave: '',
+      idRol: '',
+      disponibleOperario:true,
+      esActivo: true,
+      asignacionesActivas:0,
+      fechaRegistro: '',
+      fotoAvatar:''
+    };
+
   }
 
 
@@ -78,6 +108,7 @@ export class ReportesComponent  implements OnInit {
     })
   }
 
+
   //CREAR REPORTE CON ID DE PARAMETRO EN RUTA
   navegarFormularioCrearReporte(){
     this.router.navigate(['/crear-reporte']);
@@ -105,22 +136,21 @@ export class ReportesComponent  implements OnInit {
 
   //CONSULTAR USUARIO
   async tipoUsuario(){
-    this.serviciosInteraccion.cargandoConMensaje("Cargando");
-    const response = await this.serviciosFireStoreDatabase.getDocumentSolo('Usuarios',this.idUsuarioPresente);
-    const usuarioData: DocumentData = response.data();
-    this.usuarioPresente = {
-      idUsuario: usuarioData['idUsuario'] || '',
-      identificacionUsuario:  usuarioData['cedulausuario'] ||'',
+    const response= await this.servicioLocalStorage.getDatosDeLocalStorage();
+    const usuarioData: DocumentData = response;
+    this.usuarioPresente= {
+      idUsuario: usuarioData['idUsuario'] ||'',
+      identificacionUsuario: usuarioData['cedulausuario'] ||'',
       numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuario'] || 0,
-      nombreUsuario: usuarioData['nombreUsuario'] || '',
+      nombreUsuario: usuarioData['nombreUsuario'] ||'',
       correoUsuario: usuarioData['correoUsuario'] || '',
-      celularUsuario: usuarioData['celularUsuario'] || '',
-      direccionUsuario: usuarioData['direccionUsuario'] || '',
-      telefonoUsuario: usuarioData['telefonoUsuario'] || '',
-      clave: usuarioData['clave'] || '',
-      idRol: usuarioData['idRol'] || '',
+      celularUsuario: usuarioData['celularUsuario'] ||'',
+      direccionUsuario: usuarioData['direccionUsuario'] ||'',
+      telefonoUsuario: usuarioData['telefonoUsuario'] ||'',
+      clave: usuarioData['clave'] ||'',
+      idRol: usuarioData['idRol'] ||'',
       disponibleOperario: usuarioData['esActivo'] || true,
-      esActivo: usuarioData['esActivo'] || true,
+      esActivo: usuarioData['esActivo'] ||true,
       asignacionesActivas:usuarioData['esActivo'] || 0,
       fechaRegistro: usuarioData['fechaRegistro'] || '',
       fotoAvatar:usuarioData['fotoAvatar'] || ''

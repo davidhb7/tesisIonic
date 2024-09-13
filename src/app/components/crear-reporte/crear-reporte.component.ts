@@ -44,6 +44,7 @@ export class CrearReporteComponent  implements OnInit {
   idsFotosSeleccionadas:string[]=[];
   contadorFotosNombre=0;
   idOperadorElegidoMenorAsignciones:string="";
+  contadorAsignaciones=0;
 
   constructor(
     private serviciosFireStore: FireStoreService,
@@ -172,6 +173,7 @@ export class CrearReporteComponent  implements OnInit {
       //VEALO
       this.getOperarioAsignar();
       this.nuevoReporte.idOperador=this.idOperadorElegidoMenorAsignciones;
+      this.sumarAsignacion(this.idOperadorElegidoMenorAsignciones,this.contadorAsignaciones)
       //Crea y guarda el objeto de reporte
       await this.serviciosFireStore.crearDocumentoGeneralPorID(this.nuevoReporte,'Reportes',this.nuevoReporte.idReporte);
       this.cargando=false;
@@ -334,11 +336,23 @@ export class CrearReporteComponent  implements OnInit {
         }
       });
       this.idOperadorElegidoMenorAsignciones=operadoresConMenosAsignaciones.idUsuario;
+      this.contadorAsignaciones=operadoresConMenosAsignaciones.asignacionesActivas
+      console.log(operadoresConMenosAsignaciones.asignacionesActivas+1);
       return operadoresConMenosAsignaciones;
     }catch(error){
       console.log("Error al buscar con menor asignaciones: ", error);
       return error;
     }
+  }
+
+  sumarAsignacion(idOp:string, cant:number){
+    this.serviciosFireStore.actualizarCampoDocumento(
+      "Usuarios",
+      idOp,
+      "asignacionesActivas",
+      cant+1).subscribe(()=>{
+        console.log("Aumento asignacion", idOp);
+      });
   }
 
   //TRAER FOTOS POR ID DE REPORTE

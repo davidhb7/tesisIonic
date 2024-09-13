@@ -25,6 +25,7 @@ export class MenuComponent implements OnInit {
   visibleAsignaciones: boolean = true;
   visibleEstadisticas:boolean=true;
   visibleInfoEmpresa:boolean=true;
+  visibleRepetidor:boolean=true;
   idQuienInicia: string = "";
   idLogOperario: string = "";
 
@@ -150,6 +151,10 @@ export class MenuComponent implements OnInit {
     this.router.navigate(['/infor-empresa']);
   }
 
+  irRepetidor(){
+    this.router.navigate(['repetidor']);
+  }
+
 
   //DISPONIBILIDAD DE VISTAS Y FUNCIONALIDADES SEGUN EL ROL
   clasificarRolSegunStorage(idRol: string) {
@@ -161,6 +166,7 @@ export class MenuComponent implements OnInit {
       this.visibleAsignaciones = false;
       this.visibleEstadisticas=false;
       this.visibleInfoEmpresa=true;
+      this.visibleRepetidor=false;
     } else if (idRol == "1" || idRol == "2") {
       console.log("Adm - Empr");
       this.visibleReportes = true;
@@ -169,6 +175,7 @@ export class MenuComponent implements OnInit {
       this.visibleEstadisticas=true;
       this.visibleAsignaciones = false;
       this.visibleInfoEmpresa= true;
+      this.visibleRepetidor=true;
 
     } else if (idRol == "3") {
       console.log("Op");
@@ -178,6 +185,7 @@ export class MenuComponent implements OnInit {
       this.visibleAsignaciones = true;
       this.visibleEstadisticas= false;
       this.visibleInfoEmpresa= true;
+      this.visibleRepetidor=false;
     } else {
       console.log("ROL DESCONOCIDO");
       this.visibleReportes = false;
@@ -186,6 +194,7 @@ export class MenuComponent implements OnInit {
       this.visibleAsignaciones = false;
       this.visibleEstadisticas= false;
       this.visibleInfoEmpresa= false;
+      this.visibleRepetidor=false;
     }
   }
 

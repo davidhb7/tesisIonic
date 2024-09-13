@@ -10,9 +10,15 @@
   </ion-toolbar>
 </ion-header>
 
-
-
 <ion-content>
+  <ion-card>
+    <ion-card-content>
+      <h1><ion-icon name="information-circle-outline"></ion-icon>
+        Seccion de informacion y análisis empresarial con los reportes atendidos por los usuarios.
+      </h1>
+    </ion-card-content>
+  </ion-card>
+
   <ion-card>
     <ion-card-content >
       <h1><strong>GRÁFICO DE DESEMPEÑO POR TIPO DE ATENCIÓN/ARREGLO</strong></h1>
@@ -30,8 +36,6 @@
           <ion-col *ngFor="let item of nuevoArra">{{item}}</ion-col>
         </ion-row>
       </ion-grid>
-
-
 
         <div id="chart">
           <div>
@@ -54,13 +58,6 @@
             <h2 style="margin-left: 250px;">Tipos de Categorías</h2>
           </div>
         </div>
-
-
-
-
-
-
-
     </ion-card-content>
   </ion-card>
 
@@ -68,10 +65,24 @@
 
   <ion-card>
     <ion-card-content>
-      <h1><strong>MAPA DE CALOR DE REPORTES</strong></h1>
-      <p>En este mapa, se apreciarán las ubicaciones de los distintos reportes, tipo de situación y el comentario del Operario en caso de que este ya sea atentido y solucionado</p>
+
     </ion-card-content>
   </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <h1><strong>MAPA DE CALOR DE REPORTES</strong></h1>
+      <p>En este mapa, se apreciarán las ubicaciones de los distintos reportes, tipo de situación y el comentario del Operario en caso de que este ya sea atentido y solucionado</p>
+      <br>
+      <h1><ion-icon name="information-circle-outline"></ion-icon>
+        SOLO LOS REPORTES QUE HAN SIDO DIAGNOSTICADOS Y ATENDIDOS POR EL OPERARIO APARECERÁN EN EL MAPA.
+      </h1>
+      <p>Los análisis de los reportes , contribuirá a una retroalimentacion de reparacion y prevención de daños.</p>
+      <br>
+      <p>Reportes "Sin revisión", no se graficarán en el mapa.</p>
+    </ion-card-content>
+  </ion-card>
+
   <app-heatmap ></app-heatmap>
 
 

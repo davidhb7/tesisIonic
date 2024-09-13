@@ -251,8 +251,6 @@ clasificacionTipoLogro(){
 
 
 
-  //TODO SEGUNDO GRAFICO
-
 
 
 
