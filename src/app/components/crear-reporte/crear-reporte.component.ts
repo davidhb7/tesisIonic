@@ -12,6 +12,7 @@ import { InteractionService } from 'src/app/common/services/interaction.service'
 import { Camera, CameraResultType } from '@capacitor/camera';
 
 import { Geolocation } from '@capacitor/geolocation';
+import { LocalStorageService } from 'src/app/common/services/local-storage.service';
 
 
 
@@ -38,13 +39,14 @@ export class CrearReporteComponent  implements OnInit {
   cargando:boolean=false;
   numeroActualReportes:number;
   asignableNuevo:number;
-  idPresenteDeReporte:string;
-  idPresenteDeUsuario:string;
+  idPresenteDeReporte:string="";
+  idPresenteDeUsuario:string="";
   enlacesFotos:string[] =[];
   idsFotosSeleccionadas:string[]=[];
   contadorFotosNombre=0;
   idOperadorElegidoMenorAsignciones:string="";
   contadorAsignaciones=0;
+  paraEditar:boolean=false;
 
   constructor(
     private serviciosFireStore: FireStoreService,
@@ -53,9 +55,11 @@ export class CrearReporteComponent  implements OnInit {
     private router: Router,
     private serviciosAuth: AuthServices,
     private route: ActivatedRoute,
+    private servicioLocalStorage: LocalStorageService
   ) {
     //RECIBIENDO ID IDREPORTE
     this.idPresenteDeReporte=route.snapshot.params['idReporte'];
+    this.paraEdit();
     this.inicializarUsuarioVacio();
     this.inicializarFotoVacio();
 
@@ -66,7 +70,7 @@ export class CrearReporteComponent  implements OnInit {
         this.usuarioLog.idUsuario=res.uid;
         this.idPresenteDeUsuario=res.uid;
         this.nuevoReporte.idUsuario=res.uid;
-        this.getUsuarioPorID();
+        this.traerUS();
       }
       else{
         console.log("NO LOG")
@@ -165,7 +169,7 @@ export class CrearReporteComponent  implements OnInit {
     }
   }
 
-  //FUNCION CREAR - GUARDAR
+  //FUNCION CREAR
   async guardarRegistro(){
     try{
       this.cargando=true;
@@ -182,15 +186,36 @@ export class CrearReporteComponent  implements OnInit {
       await this.router.navigate(["/reportes",this.idPresenteDeUsuario]);
     }
     catch(err){
-      console.log("Error al crear el reporte",err);
+      console.log("Error al crear el reporte");
+      console.log(err);
+    }
+  }
+
+  //FUNCION EDITAR
+  async guardarRegistroEditar(){
+    console.log("id presente rep: ",this.idPresenteDeReporte)
+    try{
+      this.cargando=true;
+      this.serviciosInteraccion.cargandoConMensaje("Guardando Reportes")//Interacciones del proceso
+      //Crea y guarda el objeto de reporte
+      await this.serviciosFireStore.actualizarDocumentoPorID(this.nuevoReporte,'Reportes',this.idPresenteDeReporte);
+      this.cargando=false;
+      this.serviciosInteraccion.mensajeGeneral("Reporte enviado");
+      this.serviciosInteraccion.cerrarCargando();
+      await this.router.navigate(["/reportes",this.idPresenteDeUsuario]);
+    }
+    catch(err){
+      console.log("Error al editar el reporte");
+      console.log(err);
     }
   }
 
   //EDITAR O CREAR SEGUN DEFINICION DE ID
   async editar_o_Crear(){
     if(this.idPresenteDeReporte!=null || this.idPresenteDeReporte!=undefined ){
+
       //PARA EDITAR
-      const response = await this.serviciosFireStore.getDocumentSolo( 'Reportes',this.idPresenteDeReporte);
+      const response = await this.serviciosFireStore.getDocumentSolo('Reportes',this.idPresenteDeReporte);
       const reporteData: DocumentData = response.data();
       this.nuevoReporte ={
         idReporte: reporteData['idReporte'] || '',
@@ -217,6 +242,16 @@ export class CrearReporteComponent  implements OnInit {
     }
   }
 
+
+
+  paraEdit(){
+    if(this.idPresenteDeReporte=="" || this.idPresenteDeReporte==undefined){
+      this.paraEditar=false;
+    }
+    else{
+      this.paraEditar=true;
+    }
+  }
   //CONSUMO DE SERVICIO SUBIR FOTOS AL STORAGE MIENTRAS SE CREA EL REPORTE
   async subirFotoCrearReporte(event:any){
     const nombreRutaCarpetaStorage=this.usuarioLog.correoUsuario;
@@ -299,30 +334,6 @@ export class CrearReporteComponent  implements OnInit {
     console.log("foto",fotoUrl);
   }
 
-  //OBTENER USUARIO QUE HACE REGISTRO
-  async getUsuarioPorID(){
-    this.serviciosInteraccion.cargandoConMensaje("Cargando");
-    const response = await this.serviciosFireStore.getDocumentSolo('Usuarios',this.usuarioLog.idUsuario);
-    const usuarioData: DocumentData = response.data();
-    this.usuarioLog = {
-      idUsuario: usuarioData['idUsuario'] || '',
-      identificacionUsuario:  usuarioData['cedulausuario'] ||'',
-      numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuario'] || 0,
-      nombreUsuario: usuarioData['nombreUsuario'] || '',
-      correoUsuario: usuarioData['correoUsuario'] || '',
-      celularUsuario: usuarioData['celularUsuario'] || '',
-      direccionUsuario: usuarioData['direccionUsuario'] || '',
-      telefonoUsuario: usuarioData['telefonoUsuario'] || '',
-      clave: usuarioData['clave'] || '',
-      idRol: usuarioData['idRol'] || '',
-      disponibleOperario:usuarioData['esActivo'] || true,
-      esActivo: usuarioData['esActivo'] || true,
-      asignacionesActivas: usuarioData['esActivo'] || 0,
-      fechaRegistro: usuarioData['fechaRegistro'] || '',
-      fotoAvatar:usuarioData['fotoAvatar'] || ''
-    }
-    this.serviciosInteraccion.cerrarCargando();
-  }
 
 
   // ASIGNACION AUTOMATICA DE OPERARIOS
@@ -337,7 +348,6 @@ export class CrearReporteComponent  implements OnInit {
       });
       this.idOperadorElegidoMenorAsignciones=operadoresConMenosAsignaciones.idUsuario;
       this.contadorAsignaciones=operadoresConMenosAsignaciones.asignacionesActivas
-      console.log(operadoresConMenosAsignaciones.asignacionesActivas+1);
       return operadoresConMenosAsignaciones;
     }catch(error){
       console.log("Error al buscar con menor asignaciones: ", error);
@@ -359,11 +369,8 @@ export class CrearReporteComponent  implements OnInit {
   getFotosPorIdReporte(){
     try{
       this.serviciosFireStore.getFotosSegunReporteObservable(this.idPresenteDeReporte).subscribe({
-
         next: documentosFotos=>{
-          console.log("idPresente: ", this.idPresenteDeReporte)
           this.fotosEditar=documentosFotos;
-          console.log(this.fotosEditar)
         }
       });
     }
@@ -371,6 +378,40 @@ export class CrearReporteComponent  implements OnInit {
       console.log("Error foto editar: ",e)
     }
   }
+
+  //CONSULTA EL USUARIO Y OTORGA/QUITA PERMISOS DE ROL
+  async traerUS() {
+    try {
+      const response = await this.servicioLocalStorage.getDatosDeLocalStorage();
+      if (response) {
+        const usuarioData: DocumentData = response;
+        this.usuarioLog = {
+          idUsuario: usuarioData['idUsuario'] || '',
+          identificacionUsuario: usuarioData['identificacionUsuario'] || '',
+          numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuarioConsumidor'] || 0,
+          nombreUsuario: usuarioData['nombreUsuario'] || '',
+          correoUsuario: usuarioData['correoUsuario'] || '',
+          celularUsuario: usuarioData['celularUsuario'] || '',
+          direccionUsuario: usuarioData['direccionUsuario'] || '',
+          telefonoUsuario: usuarioData['telefonoUsuario'] || '',
+          clave: usuarioData['clave'] || '',
+          idRol: usuarioData['idRol'] || '',
+          disponibleOperario: usuarioData['disponibleOperario'] || true,
+          esActivo: usuarioData['esActivo'] || true,
+          asignacionesActivas: usuarioData['asignacionesActivas'] || 0,
+          fechaRegistro: usuarioData['fechaRegistro'] || '',
+          fotoAvatar:usuarioData['fotoAvatar'] || ''
+        };
+        console.log("ROL: ", this.usuarioLog.idRol);
+        this.idPresenteDeUsuario=this.usuarioLog.idUsuario
+      }
+    } catch (error) {
+      console.error('Error al traer el usuario del LocalStorage:', error);
+    }
+  }
+
+
+
 
 
 }

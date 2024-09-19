@@ -62,7 +62,10 @@
 
 
     <!-- Botón para enviar el formulario -->
-    <ion-button type="submit" (click)="guardarRegistro()" style="margin-left: 10px; margin-top: 10px; font-size: 9px;" color="success">Enviar</ion-button>
+    <ion-button type="submit" (click)="guardarRegistro()" style="margin-left: 10px; margin-top: 10px; font-size: 9px;" color="success" *ngIf="paraEditar===false">Enviar</ion-button>
+
+    <!-- Botón para enviar el formulario -->
+    <ion-button type="submit" (click)="guardarRegistroEditar()" style="margin-left: 10px; margin-top: 10px; font-size: 9px;" color="warning" *ngIf="paraEditar===true">Guardar Edición</ion-button>
 
     @if (cargando) {
       <div style="text-align:center;">

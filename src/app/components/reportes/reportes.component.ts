@@ -6,7 +6,7 @@ import { FireStoreService } from 'src/app/common/services/fire-store.service';
 import { InteractionService } from 'src/app/common/services/interaction.service';
 import { DocumentData } from '@angular/fire/firestore';
 import { MenuComponent } from 'src/app/pages/menu/menu.component';
-import { EN_PROCESO } from 'src/app/common/constant/constantes';
+import { EN_PROCESO, SOLUCIONADO } from 'src/app/common/constant/constantes';
 import { LocalStorageService } from 'src/app/common/services/local-storage.service';
 
 @Component({
@@ -41,12 +41,10 @@ export class ReportesComponent  implements OnInit {
   ) {
     this.inicializarUSVacio()
     this.idUsuarioPresente=route.snapshot.params['idUsuario'];//DECLARAR EL PASO DE ID EN EL ROUTING
-
-
     this.avisoExisteReporte();
-
     //CONDICIONAL PARA ESTOS...
     this.tipoUsuario();
+    console.log(this.documentosReportes)
 
 
   }
@@ -54,6 +52,8 @@ export class ReportesComponent  implements OnInit {
   ngOnInit() {
     return;
   }
+
+
   //INICIALIZAR USUARIO VACIO
   inicializarUSVacio(){
     this.usuarioPresente = {
@@ -75,6 +75,8 @@ export class ReportesComponent  implements OnInit {
     };
 
   }
+
+
 
 
   //SI ES EMPRESA U OPERARIO, TRAER TODOS LOS REPORTES
@@ -104,8 +106,17 @@ export class ReportesComponent  implements OnInit {
     this.serviciosFireStoreDatabase.getReportesParaUsuariosObservable(this.idUsuarioPresente).subscribe({
       next: documentos => {
         this.documentosReportes=documentos;
+        // Distribuir los reportes en los arrays correspondientes
+      for (let reporte of this.documentosReportes) {
+        if (reporte.estado === EN_PROCESO) {
+          this.reportresUsuarioPendientes.push(reporte);
+        } else if (reporte.estado === SOLUCIONADO) {
+          this.reportresUsuarioSolucionado.push(reporte);
+        }
+      }
       },
-    })
+
+    });
   }
 
 
@@ -173,6 +184,9 @@ export class ReportesComponent  implements OnInit {
       this.hayReportes=false;
     }
   }
+
+
+
 
 
 

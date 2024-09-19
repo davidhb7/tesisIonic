@@ -135,14 +135,16 @@ export class AsignacionesOperadorComponent  implements OnInit {
 
   //ALLERT DE SELECCION DE SOLUCION
   // Método para abrir el alert con el desplegable
-  async presentAlertConDesplegable(idReporte:string) {
+  async presentAlertConDesplegable(idReporte: string) {
+
     const alert = await this.alertController.create({
       header: 'Seleccione la solución de reporte',
       inputs: this.opcionesSolucion.map(opcion => ({
         type: 'radio',
         label: opcion,
         value: opcion,
-        checked: opcion === this.solucionSeleccionada
+        // "Sin revisión" siempre será la opción seleccionada por defecto
+        checked: opcion === 'Sin revisión' || opcion === this.solucionSeleccionada
       })),
       buttons: [
         {
@@ -157,27 +159,28 @@ export class AsignacionesOperadorComponent  implements OnInit {
           handler: (data) => {
             this.solucionSeleccionada = data;
             console.log('Solución seleccionada: ', this.solucionSeleccionada);
-            this.serviciosFireStoreDatabase.actualizarCampoDocumento("Reportes", idReporte,"tipoAsuntoPorOperario",this.solucionSeleccionada).subscribe(()=>{
+            // Actualiza el campo "tipoAsuntoPorOperario" en el reporte correspondiente
+            this.serviciosFireStoreDatabase.actualizarCampoDocumento("Reportes", idReporte, "tipoAsuntoPorOperario", this.solucionSeleccionada).subscribe(() => {
               console.log("Solución guardada...");
             });
+            // Presenta el siguiente alert con un campo obligatorio
             this.presentAlertConCampoObligatorio(idReporte);
           }
         }
       ]
     });
     await alert.present();
-
   }
 
   //ALLERT DE RETROALIMENTACION
   async presentAlertConCampoObligatorio(idReporte:string) {
     const alert = await this.alertController.create({
-      header: 'Ingrese un valor',
+      header: 'Comentario de Operario',
       inputs: [
         {
           name: 'inputTexto',
           type: 'text',
-          placeholder: 'Escribe algo aquí',
+          placeholder: 'Escribir',
         }
       ],
       buttons: [
@@ -239,6 +242,7 @@ export class AsignacionesOperadorComponent  implements OnInit {
             this.serviciosFireStoreDatabase.actualizarCampoDocumento("Reportes", idReporte,"fechaFinReporte",fechaHoyString).subscribe(()=>{
               console.log("Fecha fin...");
             });
+            this.usuarioLog.asignacionesActivas--;
           }
         }
       ]

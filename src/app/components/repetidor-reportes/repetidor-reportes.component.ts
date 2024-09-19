@@ -119,16 +119,18 @@ export class RepetidorReportesComponent  implements OnInit {
     }
   }
 
+  //SUMA DE ASIGNACIONES DE OPERARIO
   sumarAsignacion(idOp:string, cant:number){
     this.serviciosFireStore.actualizarCampoDocumento(
       "Usuarios",
       idOp,
       "asignacionesActivas",
       cant+1).subscribe(()=>{
-        console.log("Aumento asignacion", idOp);
+        console.log("Aumentó asignacion", idOp);
       });
   }
 
+  //CUENTA NUMERO REPORTES EXISTENTES
   conteoNumeroRep(){
     //LLAMAR SERVICIO DE CONTEO DE REPORTES Y CONVERSION DE NUMERO A LA VARIABLE A MANEJAR
     this.serviciosFireStore.contarNumeroDocumentosTotal("Reportes").then((numero: number) => {
@@ -137,6 +139,10 @@ export class RepetidorReportesComponent  implements OnInit {
       this.nuevoReporte.numeroReporte=this.asignableNuevo
     });
   }
+
+
+
+
 
   async crearReportes() {
 
@@ -169,7 +175,7 @@ export class RepetidorReportesComponent  implements OnInit {
       this.idOperadorElegidoMenorAsignciones="";
     }
     this.formGroupCrearReportes.reset();
-    this.router.navigate(['menu']);
+    this.router.navigate(['/menu']);
   }
 
 }

@@ -45,7 +45,8 @@ export class HeatmapComponent implements AfterViewInit {
   }
 
   getPoints() {
-    return this.localizaciones.map(loc => new google.maps.LatLng(loc.lat, loc.lng));
+    return this.localizaciones.map(
+      loc => new google.maps.LatLng(loc.lat, loc.lng));
   }
 
   getReportesGeneralesEmpresaOperario() {

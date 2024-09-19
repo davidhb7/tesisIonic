@@ -1,13 +1,35 @@
-<ion-content>
-  <capacitor-google-map #map id="map">
-  </capacitor-google-map>
-  <div id="heatmap-legend">
-    <h3 style="color: black;">Escala mapa de calor</h3>
-    <div class="scale">
-      <div class="color-block" style="background-color: #00FF00; color: black;"><strong style="margin-left: 5px;">Baja</strong></div>
-      <div class="color-block" style="background-color: #ffee00; color: black;"><strong style="margin-left: 5px;">Mediana</strong></div>
-      <div class="color-block" style="background-color: #FF0000; color: black;"><strong style="margin-left: 5px;">Alta</strong></div>
-    </div>
-  </div>
+<ion-content >
+  <ion-card>
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <h1><strong>MAPA DE CALOR DE REPORTES</strong></h1>
+          <p>En este mapa, se apreciarán las ubicaciones de los distintos reportes, tipo de situación y el comentario del Operario en caso de que este ya sea atentido y solucionado</p>
+          <br>
+          <h1><ion-icon name="information-circle-outline"></ion-icon>
+            SOLO LOS REPORTES QUE HAN SIDO DIAGNOSTICADOS Y ATENDIDOS POR EL OPERARIO APARECERÁN EN EL MAPA.
+          </h1>
+          <p>Los análisis de los reportes , contribuirá a una retroalimentacion de reparacion y prevención de daños.</p>
+          <br>
+          <p>Reportes "Sin revisión", no se graficarán en el mapa.</p>
+        </ion-col>
+      </ion-row>
 
+
+      <ion-row>
+        <ion-col>
+          <capacitor-google-map #map id="map">
+          </capacitor-google-map>
+          <div id="heatmap-legend">
+            <h3 style="color: black;">Escala mapa de calor</h3>
+            <div class="scale">
+              <div class="color-block" style="background-color: #00FF00; color: black;"><strong style="margin-left: 5px;">Baja</strong></div>
+              <div class="color-block" style="background-color: #ffee00; color: black;"><strong style="margin-left: 5px;">Mediana</strong></div>
+              <div class="color-block" style="background-color: #FF0000; color: black;"><strong style="margin-left: 5px;">Alta</strong></div>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

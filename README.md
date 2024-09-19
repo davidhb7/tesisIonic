@@ -13,7 +13,7 @@
   
 
 ## URL DEL DESPLIEGUE:
-  https://ionic-gest-rep-all.web.app/login
+  * https://ionic-gest-rep-all.web.app/login
 
 ### Comando actualizacion de Despliegue
   * ionic build --prod

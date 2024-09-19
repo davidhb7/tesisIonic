@@ -2,3 +2,50 @@
 ion-item  {
   cursor: pointer;
 }
+
+ion-list{
+  background-color: rgb(6, 220, 149);
+}
+
+.welcome-text {
+  margin-left: 20px;
+}
+
+.description-text {
+  font-size: 1rem;
+}
+
+.responsive-img img {
+  border-radius: 10px;
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 768px) {
+  .responsive-img img {
+    width: 600px;
+    height: 600px;
+  }
+}
+
+
+ion-content.custom-background{
+  background: rgb(0,0,0);
+  background: linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(9,121,11,1) 100%);
+}
+ion-card{
+  color: black;
+  background: linear-gradient(360deg, rgb(234, 236, 235) 0%, rgb(121, 121, 121) 100%);
+}
+ion-col{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+img{
+  border-radius: 10px;
+}
+
+ion-toolbar-container{
+  background-color: aquamarine;
+}

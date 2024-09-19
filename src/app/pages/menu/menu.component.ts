@@ -45,6 +45,8 @@ export class MenuComponent implements OnInit {
     this.traerUS();
   }
 
+
+
   ngOnInit() {
     return;
   }
@@ -152,7 +154,7 @@ export class MenuComponent implements OnInit {
   }
 
   irRepetidor(){
-    this.router.navigate(['repetidor']);
+    this.router.navigate(['/repetidor']);
   }
 
 
@@ -197,5 +199,7 @@ export class MenuComponent implements OnInit {
       this.visibleRepetidor=false;
     }
   }
+
+
 
 }

@@ -13,17 +13,17 @@
   <ion-card>
     <ion-card-content>
       <h3 *ngIf="!hayReportes" style="margin-left: 10px;">No hay reportes...</h3>
-      <h1><ion-icon name="information-circle-outline"></ion-icon>
+      <h1><ion-icon name="information-circle-outline" style="color: rgb(172, 156, 19);"></ion-icon>
         Realiza tus reportes aqui. Una vez realices tu solicitud, el operario asignado atenderá la situacón en la mayor brevedad posible.
       </h1>
       <br>
-      <ion-button (click)="navegarFormularioCrearReporte()" style="margin-left: 10px; ">Crear nuevo reporte</ion-button>
+      <ion-button  (click)="navegarFormularioCrearReporte()" style="margin-left: 10px; " color="success">Crear nuevo reporte</ion-button>
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
+  <ion-card *ngIf="usuarioPresente.idRol==='2'">
     <ion-card-content>
-      <div  *ngIf="usuarioPresente.idRol==='2'">
+      <div  >
         <ion-list>
           <ion-item *ngFor="let nuevoReporte of documentosReportes, let index" >
             <ion-label>
@@ -77,10 +77,18 @@
 
 
 
-      <div *ngIf="usuarioPresente.idRol==='4'">
-        <ion-list >
+
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card *ngIf="usuarioPresente.idRol==='4'">
+    <ion-card-content>
+      <div>
+        <ion-list  >
           <h3 style="text-align: center;">Reportes Pendientes.</h3>
-          <ion-item *ngFor="let repUsCli of documentosReportes" >
+
+          <ion-item *ngFor="let repUsCli of reportresUsuarioPendientes" >
             <ion-label *ngIf="repUsCli.estado==='EN PROCESO' ">
               <!-- REPORTES ASIGNADOS PARA EL USUARIO LOGUEADO -->
               Reporte numero: {{repUsCli.numeroReporte}}
@@ -100,22 +108,25 @@
                 <p>Tipo problema: {{repUsCli.tipoAsuntoPorOperario}}</p>
               }
               <p>Estado:</p><p style="color: orange;"><strong> {{repUsCli.estado}}</strong></p>
+              <ion-button color="danger" (click)="eliminarReporte(repUsCli)" style="font-size: 8px;">Eliminar</ion-button>
+              <ion-button color="success" (click)="navegarConIDVerReporte(repUsCli.idReporte)" style="font-size: 8px;">Ver</ion-button>
+              <ion-button color="warning" (click)="navegarConIDEditarReporte(repUsCli.idReporte)" style="font-size: 8px;">Editar</ion-button>
             </ion-label>
             @if (cargando) {
               <div style="text-align:center;">
                 <ion-spinner name="bubbles"></ion-spinner>
               </div>
             }
-            <ion-button color="danger" (click)="eliminarReporte(repUsCli)" style="font-size: 8px;">Eliminar</ion-button>
-            <ion-button color="success" (click)="navegarConIDVerReporte(repUsCli.idReporte)" style="font-size: 8px;">Ver</ion-button>
-            <ion-button color="warning" (click)="navegarConIDEditarReporte(repUsCli.idReporte)" style="font-size: 8px;">Editar</ion-button>
+
 
           </ion-item>
         </ion-list>
+
+
         <hr color=" blue">
         <ion-list >
           <h3 style="text-align: center;">Reportes Solucionados.</h3>
-          <ion-item *ngFor="let repUsCli of documentosReportes" >
+          <ion-item *ngFor="let repUsCli of reportresUsuarioSolucionado" >
             <ion-label *ngIf="repUsCli.estado==='SOLUCIONADO'">
               <!-- REPORTES ASIGNADOS PARA EL USUARIO LOGUEADO -->
               Reporte numero: {{repUsCli.numeroReporte}}

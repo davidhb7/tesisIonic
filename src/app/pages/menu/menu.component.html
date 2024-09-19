@@ -4,26 +4,31 @@
       <ion-title>Menú</ion-title>
     </ion-toolbar>
   </ion-header>
+
+
+
   <ion-content class="ion-padding">
     <ion-list style="border-radius: 10px;">
       <ion-menu-toggle>
-        <ion-item >
-          <ion-label (click)="redirectMenu('/reportes', usuarioLog.idUsuario)">
+
+
+        <ion-item>
+          <ion-label (click)="redirectMenu('/reportes', usuarioLog.idUsuario)" >
             Reportes
+          </ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="visibleRepetidor">
+          <ion-label (click)="irRepetidor()" >
+            Masivo
           </ion-label>
         </ion-item>
 
         <ion-item *ngIf="visibleAsignaciones">
           <ion-label (click)="irAsignacionesDelOperador()">
-            Reportes Asignados
+            Mis Asignados
           </ion-label>
         </ion-item>
-
-        <!-- <ion-item *ngIf="visibleRepetidor">
-          <ion-label (click)="irRepetidor()">
-            Repetidor
-          </ion-label>
-        </ion-item> -->
 
         <ion-item *ngIf="visibleUsuarios">
           <ion-label (click)="irTodosLosUsuarios()">
@@ -49,7 +54,6 @@
           </ion-label>
         </ion-item>
 
-
         <ion-item>
           <ion-label (click)="paraverPerfilconId(usuarioLog.idUsuario)">
             Perfíl
@@ -72,88 +76,70 @@
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
-      <ion-title>Gestión Reportes ACUA REPORTS </ion-title>
+      <ion-title><strong>ACUA REPORTS</strong></ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
     <ion-card style="border-radius: 20px;">
       <ion-card-title>
-        <div style="margin-left: 20px;">
-          <h1>Bienvenido {{usuarioLog.nombreUsuario}}</h1>
+        <div class="welcome-text">
+          <h1 style="color: black;"><strong>Bienvenido {{usuarioLog.nombreUsuario}}</strong></h1>
         </div>
-
       </ion-card-title>
       <ion-card-content>
-        <div>
-          <h1><ion-icon name="information-circle-outline"></ion-icon>
+        <div class="description-text">
+          <h1>
+            <ion-icon name="information-circle-outline"></ion-icon>
             Bienvenido a su aplicación de confianza de atención al cliente.
-            <strong>Sí necesita realizar un reporte, diríjase a las 3 lineas de la parte superior izquierda.</strong>
+            <strong>Sí necesita realizar un reporte, diríjase a las 3 líneas de la parte superior izquierda.</strong>
           </h1>
         </div>
 
         <br>
         <hr color="green">
         <br>
-        <ion-row>
-          <ion-col>
-            <ion-item style="margin-left: 100px;">
-              <img src="../../../assets/img/decoration/cascada.png" alt=""
-              style="border-radius: 10px; height: 600; width: 600; ">
-            </ion-item>
-          </ion-col>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" size-md="6">
+              <img src="../../../assets/img/decoration/cascada.png" alt="Cascada">
+            </ion-col>
 
+            <ion-col size="12" size-md="6">
+              <h1><strong>El Aporte de esta aplicación móvil y web.</strong></h1>
+              <br>
+              <h1>
+                Para quienes usan nuestros servicios públicos hídricos en el sector del Quereaml central, habitantes y comerciantes de la localidad, tendrán ahora una herramienta que facilitará sus derechos en la prestación de servicios públicos hídricos.
+              </h1>
+              <br>
+              <h1>
+                Este proyecto abarca actividades para el debido mantenimiento de infraestructura local, empresarial, alcantarillado y reparación de daños públicos y contratados.
+              </h1>
+            </ion-col>
+          </ion-row>
 
-          <ion-col>
-            <h1><strong>El Aporte de esta aplicación móvil y web.</strong></h1>
-            <br>
-            <h1>Para quienes usan nuestros servicios públicos hídricos en el sector del Quereaml central, habitantes y comerciantes de la localidad, tendrán ahora una herramienta que facilitará sus derechos en la prestación de servicios publico hídrico, donde tambien serán escuchados en solicitudes que los afecte en la comunidad o de manera individual de su domicilio o sector residencial.
-            </h1>
-            <br>
-            <h1>
-              Este proyecto abarca actividades para el debido mantenimiento de infraestructura local, empresarial, alcantarillado y reparacion de daños publicos y contratados.
-            </h1>
-            <br>
-            <p>
+          <br>
+          <hr color="green">
+          <br>
 
-            </p>
-
-
-          </ion-col>
-        </ion-row>
-
-        <br>
-        <hr color="green" >
-        <br>
-
-        <ion-row>
-          <ion-col>
-            <h1><strong>El aporte que ofrece la tecnología</strong></h1>
-            <br>
-            <h1>
-              La automatizacion de los reportes y solicitudes que se generen en esta aplicación, mejorarán el tiempo de respuesta y solución de daños y atenciones para con el usuario cliente de los servicios públicos hídricos.
-            </h1>
-            <br>
-            <h1>
-              Esta implementacion tecnológica esta pensada para mejorar la atencion al cliente, el cuidado de los recursos e impulsar el cuidado del recurso hidrico a travezde la tecnología.
-            </h1>
-
-
-
-          </ion-col>
-          <ion-col>
-            <ion-item>
-              <img src="../../../assets/img/decoration/mantoVirgen.png" alt="" style="border-radius: 10px; margin: 30px; height: 400px; width: 300px;">
-              <img src="../../../assets/img/decoration/Danubio.png" alt="" style="border-radius: 10px; margin: 30px; height: 400px; width: 300px;">
-            </ion-item>
-          </ion-col>
-        </ion-row>
-
-
-
-
+          <ion-row>
+            <ion-col size="12" size-md="6">
+              <h1><strong>El aporte que ofrece la tecnología</strong></h1>
+              <br>
+              <h1>
+                La automatización de los reportes y solicitudes que se generen en esta aplicación mejorarán el tiempo de respuesta y solución de daños y atenciones para los usuarios.
+              </h1>
+              <br>
+              <h1>
+                Esta implementación tecnológica está pensada para mejorar la atención al cliente, el cuidado de los recursos e impulsar el cuidado del recurso hídrico a través de la tecnología.
+              </h1>
+            </ion-col>
+            <ion-col size="12" size-md="6" class="responsive-img">
+              <!-- <img src="../../../assets/img/decoration/mantoVirgen.png" alt="Manto Virgen"> -->
+              <img src="../../../assets/img/decoration/Danubio.png" alt="Danubio">
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-card-content>
     </ion-card>
-
   </ion-content>
 </div>
-

@@ -61,15 +61,21 @@ export class FireStoreService {
   }
 
   //CREATE BY ID. CREAR DOCUMENTO CON UN ID PREDISEÑADO
-  async crearDocumentoGeneralPorID(data: any, enlace: string, idDoc: string){
+  async crearDocumentoGeneralPorID(data: any, enlace: string, idDoc: string) {
+    if (!enlace || !idDoc) {
+      throw new Error('El enlace o el ID del documento no están definidos.');
+    }
     const documento = doc(this.firestore, `${enlace}/${idDoc}`);
-    return await setDoc(documento,data);//setDoc, es el encargado de ordenar la creacion del documento en Firestore
+    return await setDoc(documento, data);
   }
 
   //UPDATE DOCUMENTO. ACTUALIZAR DOCUMENTO COMPLETO TENIENDO UN ID DE REFERENCIA
-  async actualizarDocumentoPorID(data:any, enlace:string, idDoc:number){
+  async actualizarDocumentoPorID(data: any, enlace: string, idDoc: string) {
+    if (!enlace || !idDoc) {
+      throw new Error('El enlace o el ID del documento no están definidos.');
+    }
     const documento = doc(this.firestore, `${enlace}/${idDoc}`);
-    return updateDoc(documento,data);
+    return updateDoc(documento, data);
   }
 
   //UPDATE CAMPO DE DOCUMENTO. ACTUALIZA UN CAMPO EN ESPECIFICO DE UN DOCUMENTO ESPECIFICO POR ID
