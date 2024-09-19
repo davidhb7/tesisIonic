@@ -22,6 +22,7 @@
       "es2018",
       "dom"
     ],
+    "allowSyntheticDefaultImports": true,
     "useDefineForClassFields": false,
     //PERMITIR LA NO INICILIZACION
     "strictPropertyInitialization": false,
