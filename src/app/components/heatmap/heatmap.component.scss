@@ -29,6 +29,7 @@ capacitor-google-map {
 
 ion-card{
   width: 1500px;
+  opacity: 0.95;
 }
 
 ion-card-content{
@@ -39,4 +40,13 @@ ion-card-content{
   justify-content: center;
   display: flex;
   // rgb(32, 61, 32)
+}
+
+
+ion-content {
+  --background: none;
+  background: url('../../../assets/img/decoration/mapaDecoracion.jpg') center center no-repeat;
+  background-size: cover;
+  //filter: blur(8px); /* Efecto de difuminado */
+  position: relative;
 }

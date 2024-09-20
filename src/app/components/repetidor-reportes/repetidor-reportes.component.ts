@@ -177,32 +177,22 @@ export class RepetidorReportesComponent  implements OnInit {
     // console.log(randomItem);
   }
 
+  //CREAR REPORTES EN MASA SEGUN LA CANTIDAD Y UBICACION OTORGADOS EN EL FORMULARIO
   async crearReportes() {
     let cnt=this.formGroupCrearReportes.get("cantidadReportes").value;
     let ub=this.formGroupCrearReportes.get("latitud").value.toString()+", "+this.formGroupCrearReportes.get("longitud").value.toString()
     let cantInicioMasivo=1;
-
     while(cnt>0){
-
       let analisisAleatorio=this.getEstadoAleatorioOperarioAReporte();
       console.log("cantidad: ",cnt);
       console.log("ubicacion: ",ub);
       console.log("repo: ",analisisAleatorio);
-
-      //TODO inicializar rep basico. llama metodo
       this.inicializarNuevoReporteDatosBasicos
-      //TODO asignar comentrio OP
       this.nuevoReporte.comentarioOperario= "Reporte masivo #",cantInicioMasivo;
-      //TODO descripcion base
       this.nuevoReporte.descripcion="Descripcion basica de reporte masivo #", cantInicioMasivo
-      //TODO igualar estado aleatorio op
       this.nuevoReporte.tipoAsuntoPorOperario=analisisAleatorio;
-      //TODO ubicac
       this.nuevoReporte.ubicacion=ub;
-
-      //TODO id del reporte
       this.nuevoReporte.idReporte=this.serviciosFireStore.crearIDUnico();
-      //TODO guarda ese reporte
       this.serviciosFireStore.crearDocumentoGeneralPorID(this.nuevoReporte,"Reportes",this.nuevoReporte.idReporte);
       cnt--;
       cantInicioMasivo++;

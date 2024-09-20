@@ -12,15 +12,13 @@
 <ion-content>
   <ion-list>
     <ion-card>
-      <ion-card-header>
-        <ion-card-subtitle style="font-weight: bold; color: white; ">Identificacion del Usuario</ion-card-subtitle>
-
-        <p>{{usuario.identificacionUsuario}}</p>
-
-        <p>{{usuario.idUsuario}}</p>
-      </ion-card-header>
 
       <ion-card-content>
+        <h1>Identificación del Usuario</h1>
+
+        <p>Identificación: {{usuario.identificacionUsuario}}</p>
+
+        <!-- <p>{{usuario.idUsuario}}</p> -->
         <ion-avatar style="margin-bottom: 20px;">
           @if(usuario.fotoAvatar===""){
             <img alt="Foto de usuario" src="../../../assets/icon/avatarDef.png" />

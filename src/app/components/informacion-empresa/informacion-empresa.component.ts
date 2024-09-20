@@ -49,34 +49,9 @@ export class InformacionEmpresaComponent  implements OnInit {
     }
   }
 
-  // async getEmpresa(){
-  //   // const response = await this.servicioFireStore.getDocumentSolo('Usuarios',this.idPresenteDeUsuario);
-  //   const response = await this.servicioFireStore.getUsuarioSegunRol<UsuarioI>(EMPRESA)
-  //   const usuarioData: DocumentData = response.data()
-  //   this.usuario = {
-  //     idUsuario: usuarioData['idUsuario'] || '',
-  //     identificacionUsuario:  usuarioData['cedulausuario'] ||'',
-  //     numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuario'] || 0,
-  //     nombreUsuario: usuarioData['nombreUsuario'] || '',
-  //     correoUsuario: usuarioData['correoUsuario'] || '',
-  //     celularUsuario: usuarioData['celularUsuario'] || '',
-  //     direccionUsuario: usuarioData['direccionUsuario'] || '',
-  //     telefonoUsuario: usuarioData['telefonoUsuario'] || '',
-  //     clave: usuarioData['clave'] || '',
-  //     idRol: usuarioData['idRol'] || '',
-  //     disponibleOperario: usuarioData['esActivo'] || true,
-  //     esActivo: usuarioData['esActivo'] || true,
-  //     asignacionesActivas: usuarioData['esActivo'] || 0,
-  //     fechaRegistro: usuarioData['fechaRegistro'] || '',
-  //     fotoAvatar:usuarioData['fotoAvatar'] || ''
-  //   }
-  //   console.log(this.usuario);
-  // }
 
   async getUsusarioLocal() {
-
     this.servicioFireStore.getUsuarioSegunRol<UsuarioI>(EMPRESA).subscribe({
-
       next: (doc: UsuarioI | null) => {
         this.usuario = doc; // Asigna el documento directamente a this.usuario
       },

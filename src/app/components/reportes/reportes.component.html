@@ -28,10 +28,10 @@
           <ion-item *ngFor="let nuevoReporte of documentosReportes, let index" >
             <ion-label>
               <!-- REPORTES CREADOS POR EL USUARIO LOGUEADO -->
-              Reporte número: {{nuevoReporte.numeroReporte}}
+              <p><strong>Reporte número: {{nuevoReporte.numeroReporte}}</strong></p>
               <p>Descripcipon: {{nuevoReporte.descripcion}}</p>
               @if(nuevoReporte.estado==="SOLUCIONADO"){
-                <p style="color: green;"> SOLUCIONADO</p>
+                <p style="color: green;"> <strong>SOLUCIONADO</strong></p>
               }@else {
                 <p style="color: orange;">EN PROCESO</p>
               }

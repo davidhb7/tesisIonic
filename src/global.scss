@@ -29,3 +29,37 @@
 //@import '@ionic/angular/css/palettes/dark.always.css';
 //@import '@ionic/angular/css/palettes/dark.class.css';
 
+
+:root {
+  --ion-header-background: #A0DFF7; /* Azul claro */
+  --ion-toolbar-background: #A8D5BA; /* Verde claro */
+  --ion-text-color: #ffffff; /* Blanco para el texto */
+
+  --ion-text-color: #525050; /* Gris claro */
+  --ion-text-color-contrast: #555353;
+}
+
+ion-header {
+  background-color: var(--ion-header-background);
+}
+
+ion-toolbar {
+  background-color: var(--ion-toolbar-background);
+}
+
+ion-title {
+  color: var(--ion-text-color);
+  font-weight: bold;
+  font-size: 24px;
+}
+
+
+
+@media (prefers-color-scheme: dark) {
+  /* Modo oscuro */
+  ion-toolbar-content:root {
+    --ion-header-background: #2A3A40; /* Azul oscuro más neutro */
+    --ion-toolbar-background: #1E5631; /* Verde oscuro */
+    --ion-text-color: #EDEDED; /* Gris claro para el texto */
+  }
+}

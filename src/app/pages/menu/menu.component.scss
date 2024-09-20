@@ -29,14 +29,13 @@ ion-list{
 }
 
 
-ion-content.custom-background{
-  background: rgb(0,0,0);
-  background: linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(9,121,11,1) 100%);
-}
+
 ion-card{
   color: black;
   background: linear-gradient(360deg, rgb(234, 236, 235) 0%, rgb(121, 121, 121) 100%);
+  opacity: 0.95;
 }
+
 ion-col{
   display: flex;
   flex-direction: column;
@@ -49,3 +48,41 @@ img{
 ion-toolbar-container{
   background-color: aquamarine;
 }
+
+ion-menu{
+  opacity: 0.95;
+  color: aquamarine;
+}
+strong{
+  font-weight: bold;
+}
+
+ion-content {
+  --background: none;
+  background: url('../../../assets/img/decoration/parqueQuereaml.png') center center no-repeat;
+  background-size: cover;
+  //filter: blur(8px); /* Efecto de difuminado */
+  position: relative;
+}
+
+ion-item{
+  background-color: aqua;
+}
+
+ion-item {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+ion-item:active {
+  transform: scale(0.98); /* Hace que el elemento se "hunda" ligeramente */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade un poco de sombra para enfatizar */
+}
+
+ion-item:hover {
+  transform: scale(1.02); /* Aumenta ligeramente el tamaño */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Añade una sombra más prominente */
+  background-color: rgba(0, 0, 0, 0.05); /* Opcional: cambia el fondo al pasar el mouse */
+}
+
+
+
