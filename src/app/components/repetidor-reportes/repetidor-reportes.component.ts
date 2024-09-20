@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { DocumentData } from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EN_PROCESO } from 'src/app/common/constant/constantes';
+import { ARREGLO_CONSTANTES, ARREGLO_CONSTANTES_MASIVO, EN_PROCESO, SOLUCIONADO } from 'src/app/common/constant/constantes';
 import { ReportesI } from 'src/app/common/interfaces/reportes.interface';
+import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { FireStoreService } from 'src/app/common/services/fire-store.service';
 import { InteractionService } from 'src/app/common/services/interaction.service';
+import { LocalStorageService } from 'src/app/common/services/local-storage.service';
 
 @Component({
   selector: 'app-repetidor-reportes',
@@ -14,6 +17,7 @@ import { InteractionService } from 'src/app/common/services/interaction.service'
 export class RepetidorReportesComponent  implements OnInit {
 
   //OBJETOS Y CLASES
+  usuarioLog:UsuarioI;
   formGroupCrearReportes: FormGroup;
   nuevoReporte:ReportesI;
   nuevosReportes:ReportesI[]=[];
@@ -23,6 +27,7 @@ export class RepetidorReportesComponent  implements OnInit {
 
   //VARIABLES
   asignableNuevo:number;
+  idUsuarioReporta:string=""
   idOperadorElegidoMenorAsignciones:string="";
   cantidadReportes=0;
   localizaciones: { lat: number, lng: number};
@@ -35,23 +40,44 @@ export class RepetidorReportesComponent  implements OnInit {
     private serviciosFireStore: FireStoreService,
     private serviciosInteraccion: InteractionService,
     private router: Router,
+    private servicioLocalStorage: LocalStorageService
   ) {
-
-
-
     this.formGroupCrearReportes=this.formBuilder.group({
       cantidadReportes:['', [Validators.required, Validators.pattern('[0-9]*'), Validators.min(1)]],
       latitud:['', Validators.required],
       longitud: ['', Validators.required],
     });
     this.inicializarReporteEnVacio();
-    this.inicializarNuevoReporteDatosBasicos();
-
-
   }
 
   ngOnInit() {
     return;
+  }
+
+  //CONSULTA EL USUARIO Y OTORGA/QUITA PERMISOS DE ROL
+  async traerUS() {
+    const response = await this.servicioLocalStorage.getDatosDeLocalStorage();
+      if (response) {
+        const usuarioData: DocumentData = response;
+        this.usuarioLog = {
+          idUsuario: usuarioData['idUsuario'] || '',
+          identificacionUsuario: usuarioData['identificacionUsuario'] || '',
+          numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuarioConsumidor'] || 0,
+          nombreUsuario: usuarioData['nombreUsuario'] || '',
+          correoUsuario: usuarioData['correoUsuario'] || '',
+          celularUsuario: usuarioData['celularUsuario'] || '',
+          direccionUsuario: usuarioData['direccionUsuario'] || '',
+          telefonoUsuario: usuarioData['telefonoUsuario'] || '',
+          clave: usuarioData['clave'] || '',
+          idRol: usuarioData['idRol'] || '',
+          disponibleOperario: usuarioData['disponibleOperario'] || true,
+          esActivo: usuarioData['esActivo'] || true,
+          asignacionesActivas: usuarioData['asignacionesActivas'] || 0,
+          fechaRegistro: usuarioData['fechaRegistro'] || '',
+          fotoAvatar:usuarioData['fotoAvatar'] || ''
+        };
+        this.idUsuarioReporta = this.usuarioLog.idUsuario;
+      }
   }
 
   //INICIALIZAR CON VACIO
@@ -73,6 +99,7 @@ export class RepetidorReportesComponent  implements OnInit {
       tipoAsuntoPorOperario:''
     }
   }
+
   //this.formGroupCrearReportes.get("latitud").value.toString()+this.formGroupCrearReportes.get("longitud").value.toString(),
   //INICIALIZACION PARA CREAR CON DATOS BASICOS
   inicializarNuevoReporteDatosBasicos(){
@@ -84,13 +111,13 @@ export class RepetidorReportesComponent  implements OnInit {
       descripcion: "",
       ubicacion: "",
       fechaRegistroReporte: fechaHoyString,
-      fechaAtencionReporte: "",
-      fechaFinReporte: "",
-      idUsuario: '',
+      fechaAtencionReporte: fechaHoyString,
+      fechaFinReporte: fechaHoyString,
+      idUsuario: this.idUsuarioReporta,
       idOperador: '',
       idEmpresa: '',
       idFoto: '',
-      estado:EN_PROCESO,
+      estado:SOLUCIONADO,
       comentarioOperario:'',
       tipoAsuntoPorOperario:''
     }
@@ -106,11 +133,8 @@ export class RepetidorReportesComponent  implements OnInit {
           operadoresConMenosAsignaciones=operador;
         }
       });
-
-
       this.idOperadorElegidoMenorAsignciones=operadoresConMenosAsignaciones.idUsuario;
-
-      console.log(operadoresConMenosAsignaciones.asignacionesActivas+1);
+      this.serviciosFireStore.actualizarCampoDocumento("Usuarios",this.idOperadorElegidoMenorAsignciones,"asignacionesActivas",operadoresConMenosAsignaciones.asignacionesActivas+1);
       this.nuevoReporte.idOperador=this.idOperadorElegidoMenorAsignciones;
       return operadoresConMenosAsignaciones;
     }catch(error){
@@ -120,15 +144,18 @@ export class RepetidorReportesComponent  implements OnInit {
   }
 
   //SUMA DE ASIGNACIONES DE OPERARIO
-  sumarAsignacion(idOp:string, cant:number){
-    this.serviciosFireStore.actualizarCampoDocumento(
-      "Usuarios",
-      idOp,
-      "asignacionesActivas",
-      cant+1).subscribe(()=>{
-        console.log("Aumentó asignacion", idOp);
-      });
-  }
+  // sumarAsignacion(idOp:string, cant:number){
+  //   this.serviciosFireStore.actualizarCampoDocumento(
+  //     "Usuarios",
+  //     idOp,
+  //     "asignacionesActivas",
+  //     cant+1).subscribe(()=>{
+  //       console.log("Aumentó asignacion", idOp);
+  //     });
+  // }
+
+
+
 
   //CUENTA NUMERO REPORTES EXISTENTES
   conteoNumeroRep(){
@@ -138,42 +165,49 @@ export class RepetidorReportesComponent  implements OnInit {
       this.asignableNuevo=this.numeroActualReportes+1
       this.nuevoReporte.numeroReporte=this.asignableNuevo
     });
+
   }
 
-
-
-
+  //ASIGNACION ALEATORIA DEL ESTADO DEL REPORTE
+  getEstadoAleatorioOperarioAReporte(){
+    const items = ARREGLO_CONSTANTES_MASIVO
+    const randomIndex = Math.floor(Math.random() * items.length);
+    const randomItem = items[randomIndex];
+    return randomItem;
+    // console.log(randomItem);
+  }
 
   async crearReportes() {
-
-
-
     let cnt=this.formGroupCrearReportes.get("cantidadReportes").value;
     let ub=this.formGroupCrearReportes.get("latitud").value.toString()+", "+this.formGroupCrearReportes.get("longitud").value.toString()
-
+    let cantInicioMasivo=1;
 
     while(cnt>0){
-      this.conteoNumeroRep()
 
-      this.nuevoReporte.descripcion="Reporte masivo #"+cnt.toString();
+      let analisisAleatorio=this.getEstadoAleatorioOperarioAReporte();
+      console.log("cantidad: ",cnt);
+      console.log("ubicacion: ",ub);
+      console.log("repo: ",analisisAleatorio);
+
+      //TODO inicializar rep basico. llama metodo
+      this.inicializarNuevoReporteDatosBasicos
+      //TODO asignar comentrio OP
+      this.nuevoReporte.comentarioOperario= "Reporte masivo #",cantInicioMasivo;
+      //TODO descripcion base
+      this.nuevoReporte.descripcion="Descripcion basica de reporte masivo #", cantInicioMasivo
+      //TODO igualar estado aleatorio op
+      this.nuevoReporte.tipoAsuntoPorOperario=analisisAleatorio;
+      //TODO ubicac
       this.nuevoReporte.ubicacion=ub;
-      this.nuevoReporte.idReporte= this.serviciosFireStore.crearIDUnico(),
 
-      this.getOperarioAsignar();
-      try{
-        this.sumarAsignacion(this.idOperadorElegidoMenorAsignciones,this.contadorAsignaciones);
-      }catch(e){
-        console.log("no se sumó: ",e)
-      }
-
-      //Crea y guarda el objeto de reporte
-      await this.serviciosFireStore.crearDocumentoGeneralPorID(this.nuevoReporte,'Reportes',this.nuevoReporte.idReporte).catch((err)=>{
-        console.log("no se guardo reporte #", cnt, "error: ",err)
-      });
-      console.log(cnt);
+      //TODO id del reporte
+      this.nuevoReporte.idReporte=this.serviciosFireStore.crearIDUnico();
+      //TODO guarda ese reporte
+      this.serviciosFireStore.crearDocumentoGeneralPorID(this.nuevoReporte,"Reportes",this.nuevoReporte.idReporte);
       cnt--;
-      this.idOperadorElegidoMenorAsignciones="";
+      cantInicioMasivo++;
     }
+    console.log("terminó en ", cnt)
     this.formGroupCrearReportes.reset();
     this.router.navigate(['/menu']);
   }

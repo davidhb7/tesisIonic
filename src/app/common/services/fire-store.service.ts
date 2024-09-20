@@ -85,8 +85,6 @@ export class FireStoreService {
       updateDoc(referenciaColeccion,{
         [campo]:nuevovalor
       }).then(()=>{
-        console.log("docID",referenciaColeccion)
-        console.log("Campo actualizado, nuevo valor: ", nuevovalor);
         observable.next();
         observable.complete();
       }).catch(e=>{
