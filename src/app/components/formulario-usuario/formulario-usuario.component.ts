@@ -52,7 +52,7 @@ export class FormularioUsuarioComponent  implements OnInit {
       esActivo: true,
       asignacionesActivas:0,
       fechaRegistro: '',
-      fotoAvatar:''
+      fotoAvatar:'',
     };
     this.form = this.formBuilder.group({
       cedulausuario:['', Validators.required, Validators.pattern('[0-9]*')],
@@ -82,7 +82,7 @@ export class FormularioUsuarioComponent  implements OnInit {
       esActivo: true,
       asignacionesActivas:0,
       fechaRegistro: fechaHoyString,
-      fotoAvatar:''
+      fotoAvatar:'',
     };
   }
 }

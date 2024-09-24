@@ -87,7 +87,7 @@ export class MenuComponent implements OnInit {
       esActivo: true,
       asignacionesActivas: 0,
       fechaRegistro: '',
-      fotoAvatar:''
+      fotoAvatar:'',
     };
   }
 
@@ -112,7 +112,7 @@ export class MenuComponent implements OnInit {
           esActivo: usuarioData['esActivo'] || true,
           asignacionesActivas: usuarioData['asignacionesActivas'] || 0,
           fechaRegistro: usuarioData['fechaRegistro'] || '',
-          fotoAvatar:usuarioData['fotoAvatar'] || ''
+          fotoAvatar:usuarioData['fotoAvatar'] || '',
         };
         this.idQuienInicia = this.usuarioLog.idUsuario;
         console.log("ROL: ", this.usuarioLog.idRol);

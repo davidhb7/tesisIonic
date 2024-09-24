@@ -78,7 +78,7 @@ export class AsignacionesOperadorComponent  implements OnInit {
       esActivo: true,
       asignacionesActivas:0,
       fechaRegistro: '',
-      fotoAvatar:''
+      fotoAvatar:'',
     };
 
   }
@@ -102,7 +102,7 @@ export class AsignacionesOperadorComponent  implements OnInit {
       esActivo: usuarioData['esActivo'] ||true,
       asignacionesActivas:usuarioData['esActivo'] || 0,
       fechaRegistro: usuarioData['fechaRegistro'] || '',
-      fotoAvatar:usuarioData['fotoAvatar'] || ''
+      fotoAvatar:usuarioData['fotoAvatar'] || '',
     }
     this.operarioAsignar=this.usuarioLog.idUsuario;
     this.getReportesAsignados();

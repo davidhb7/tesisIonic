@@ -40,6 +40,7 @@ export class UsuarioComponent  implements OnInit {
     return;
   }
 
+  //INICIALIZACION VACIA DE USUARIO
   inicializarUsuarioVacio(){
     this.usuario = {
       idUsuario: '',
@@ -56,10 +57,12 @@ export class UsuarioComponent  implements OnInit {
       esActivo: true,
       asignacionesActivas:0,
       fechaRegistro: '',
-      fotoAvatar:''
+      fotoAvatar:'',
     }
   }
 
+
+  //TRAE USUARIO POR ID
   async getUsuarioPorID(){
     this.serviciosInteraccion.cargandoConMensaje("Cargando");
     const response = await this.servicioFireStore.getDocumentSolo('Usuarios',this.idPresenteDeUsuario);
@@ -79,11 +82,12 @@ export class UsuarioComponent  implements OnInit {
       esActivo: usuarioData['esActivo'] || true,
       asignacionesActivas: usuarioData['esActivo'] || 0,
       fechaRegistro: usuarioData['fechaRegistro'] || '',
-      fotoAvatar:usuarioData['fotoAvatar'] || ''
+      fotoAvatar:usuarioData['fotoAvatar'] || '',
     }
     this.serviciosInteraccion.cerrarCargando();
   }
 
+  //CAMBIO FOTO AVATAR
   async subirFotoAvatar(event:any){
     const nombreRutaCarpetaStorage=this.usuario.correoUsuario;
     const nombreFotoEnStorage="fotoAvatar"+this.usuario.nombreUsuario;

@@ -73,7 +73,9 @@
         <p *ngIf="formGroupRegistro.get('telefonoUsuario').errors['pattern']">Por favor, ingrese solo números.</p>
       </ion-text>
 
-      <ion-button type="submit"  style="margin-left: 10px; font-size: 9px;" color="success" [disabled]="formGroupRegistro.invalid" (click)="guardarUsuarioRegistro()">Enviar</ion-button>
+      <ion-button *ngIf="!paraEditarUsuario" type="submit"  style="margin-left: 10px; font-size: 9px;" color="success" [disabled]="formGroupRegistro.invalid" (click)="guardarUsuarioRegistro()">Enviar</ion-button>
+
+      <ion-button *ngIf="paraEditarUsuario" type="submit"  style="margin-left: 10px; font-size: 9px;" color="warning" [disabled]="formGroupRegistro.invalid" (click)="guardarEdicion()">Guardar Cambios</ion-button>
 
 
     </form>

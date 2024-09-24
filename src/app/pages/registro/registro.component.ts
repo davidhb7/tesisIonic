@@ -26,18 +26,20 @@ export class RegistroComponent  implements OnInit {
   cargando:boolean=false;
   pase:string=""
   idPresenteParaEditar:string="";
+  paraEditarUsuario:boolean=false;
 
 
   constructor(
 
     private formBuilderRegistro: FormBuilder,
     private serviciosAuthe: AuthServices,
-    private fireStroreService:FireStoreService,
+    private serviciosFireStore:FireStoreService,
     private serviciosInteraccion: InteractionService,
     private router: Router,
     private routerActivate: ActivatedRoute,
   ) {
     this.idPresenteParaEditar=routerActivate.snapshot.params['idUsuario'];
+    this.editarO_Guardar();
     this.inicializarVacio();
     this.editar_o_crear();
 
@@ -65,7 +67,7 @@ export class RegistroComponent  implements OnInit {
       esActivo: true,
       asignacionesActivas:0,
       fechaRegistro: '',
-      fotoAvatar:''
+      fotoAvatar:'',
     };
     this.formGroupRegistro = this.formBuilderRegistro.group({
       cedulausuario:['', (Validators.required, Validators.pattern('[0-9]*'))],
@@ -95,7 +97,7 @@ export class RegistroComponent  implements OnInit {
       esActivo: true,
       asignacionesActivas:0,
       fechaRegistro: fechaHoyString,
-      fotoAvatar:''
+      fotoAvatar:'',
     };
   }
 
@@ -103,12 +105,12 @@ export class RegistroComponent  implements OnInit {
   async editar_o_crear(){
     if(this.idPresenteParaEditar!=null || this.idPresenteParaEditar!=undefined){
       this.serviciosInteraccion.cargandoConMensaje("Cargando");
-      const response = await this.fireStroreService.getDocumentSolo('Usuarios',this.idPresenteParaEditar);
+      const response = await this.serviciosFireStore.getDocumentSolo('Usuarios',this.idPresenteParaEditar);
       const usuarioData: DocumentData = response.data();
       this.nuevoUsuario = {
         idUsuario: usuarioData['idUsuario'] || '',
-        identificacionUsuario:  usuarioData['cedulausuario'] ||'',
-        numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuario'] || 0,
+        identificacionUsuario:  usuarioData['identificacionUsuario'] ||'',
+        numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuarioConsumidor'] || 0,
         nombreUsuario: usuarioData['nombreUsuario'] || '',
         correoUsuario: usuarioData['correoUsuario'] || '',
         celularUsuario: usuarioData['celularUsuario'] || '',
@@ -120,7 +122,7 @@ export class RegistroComponent  implements OnInit {
         esActivo: usuarioData['esActivo'] || '',
         asignacionesActivas:usuarioData['esActivo'] || 0,
         fechaRegistro: usuarioData['fechaRegistro'] || '',
-        fotoAvatar:usuarioData['fotoAvatar'] || ''
+        fotoAvatar:usuarioData['fotoAvatar'] || '',
 
       }
       this.serviciosInteraccion.cerrarCargando();
@@ -139,13 +141,37 @@ export class RegistroComponent  implements OnInit {
     if(resp){
       this.serviciosInteraccion.mensajeGeneral("Usuario registrado correctamente");
       this.nuevoUsuario.idUsuario=resp.user.uid;
-      await this.fireStroreService.crearDocumentoGeneralPorID(this.nuevoUsuario,'Usuarios', resp.user.uid.toString());
+      await this.serviciosFireStore.crearDocumentoGeneralPorID(this.nuevoUsuario,'Usuarios', resp.user.uid.toString());
       console.log( resp.user.uid)
       console.log(resp.user.uid.toString())
     }
     this.router.navigate(['/login']);
     this.cargando=false;
-
   }
+
+  //EN ESTADO DE EDICION, SE MUESTRA Y EJECUTA EL BOTON GUARDAR EDICION
+  async guardarEdicion(){
+    this.cargando=true;
+    this.serviciosInteraccion.cargandoConMensaje("Guardando datos de usuario")//Interacciones del proceso
+    await this.serviciosFireStore.actualizarDocumentoPorID(this.nuevoUsuario,'Usuarios',this.idPresenteParaEditar);
+    this.cargando=false;
+    this.serviciosInteraccion.mensajeGeneral("Datos guardados.");
+    this.serviciosInteraccion.cerrarCargando();
+    await this.router.navigate(["/usuarios"]);
+  }
+
+
+  //RECTIFICA SI ES PARA EDITAR O CREAR
+  editarO_Guardar(){
+    if(this.idPresenteParaEditar!=null || this.idPresenteParaEditar!=undefined){
+      this.paraEditarUsuario=true;
+    }
+    else{
+      this.paraEditarUsuario=false;
+    }
+  }
+
+
+
 
 }

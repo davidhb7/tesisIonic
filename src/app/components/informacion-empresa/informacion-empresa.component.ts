@@ -45,7 +45,7 @@ export class InformacionEmpresaComponent  implements OnInit {
       esActivo: true,
       asignacionesActivas:0,
       fechaRegistro: '',
-      fotoAvatar:''
+      fotoAvatar:'',
     }
   }
 

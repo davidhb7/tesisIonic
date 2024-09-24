@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ARREGLO_CONSTANTES, ARREGLO_CONSTANTES_MASIVO, EN_PROCESO, SOLUCIONADO } from 'src/app/common/constant/constantes';
+import { ARREGLO_CONSTANTES, ARREGLO_CONSTANTES_MASIVO, SOLUCIONADO } from 'src/app/common/constant/constantes';
 import { ReportesI } from 'src/app/common/interfaces/reportes.interface';
 import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { FireStoreService } from 'src/app/common/services/fire-store.service';
@@ -33,6 +33,8 @@ export class RepetidorReportesComponent  implements OnInit {
   localizaciones: { lat: number, lng: number};
   contadorAsignaciones=0;
   numeroActualReportes:number;
+
+  xnuevoNumRep=0;
 
 
   constructor(
@@ -74,7 +76,7 @@ export class RepetidorReportesComponent  implements OnInit {
           esActivo: usuarioData['esActivo'] || true,
           asignacionesActivas: usuarioData['asignacionesActivas'] || 0,
           fechaRegistro: usuarioData['fechaRegistro'] || '',
-          fotoAvatar:usuarioData['fotoAvatar'] || ''
+          fotoAvatar:usuarioData['fotoAvatar'] || '',
         };
         this.idUsuarioReporta = this.usuarioLog.idUsuario;
       }
@@ -107,7 +109,7 @@ export class RepetidorReportesComponent  implements OnInit {
     let fechaHoyString: string = `${this.fechaHoy.getDate()}/${this.fechaHoy.getMonth() + 1}/${this.fechaHoy.getFullYear()} ${this.fechaHoy.getHours()}:${this.fechaHoy.getMinutes()}`;
     this.nuevoReporte={
       idReporte: '',
-      numeroReporte: this.asignableNuevo,
+      numeroReporte: 0,
       descripcion: "",
       ubicacion: "",
       fechaRegistroReporte: fechaHoyString,
@@ -165,7 +167,8 @@ export class RepetidorReportesComponent  implements OnInit {
       this.asignableNuevo=this.numeroActualReportes+1
       this.nuevoReporte.numeroReporte=this.asignableNuevo
     });
-
+    this.xnuevoNumRep=this.asignableNuevo;
+    return this.xnuevoNumRep
   }
 
   //ASIGNACION ALEATORIA DEL ESTADO DEL REPORTE
@@ -187,9 +190,10 @@ export class RepetidorReportesComponent  implements OnInit {
       console.log("cantidad: ",cnt);
       console.log("ubicacion: ",ub);
       console.log("repo: ",analisisAleatorio);
-      this.inicializarNuevoReporteDatosBasicos
-      this.nuevoReporte.comentarioOperario= "Reporte masivo #",cantInicioMasivo;
-      this.nuevoReporte.descripcion="Descripcion basica de reporte masivo #", cantInicioMasivo
+      this.inicializarNuevoReporteDatosBasicos();
+      this.conteoNumeroRep();
+      this.nuevoReporte.comentarioOperario= "Reporte masivo #",cantInicioMasivo.toString();
+      this.nuevoReporte.descripcion="Descripcion basica de reporte masivo #", cantInicioMasivo.toString();
       this.nuevoReporte.tipoAsuntoPorOperario=analisisAleatorio;
       this.nuevoReporte.ubicacion=ub;
       this.nuevoReporte.idReporte=this.serviciosFireStore.crearIDUnico();
@@ -198,7 +202,7 @@ export class RepetidorReportesComponent  implements OnInit {
       cantInicioMasivo++;
     }
     console.log("terminó en ", cnt)
-    this.formGroupCrearReportes.reset();
+    // this.formGroupCrearReportes.reset();
     this.router.navigate(['/menu']);
   }
 

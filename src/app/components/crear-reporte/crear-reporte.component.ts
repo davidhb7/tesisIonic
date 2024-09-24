@@ -111,7 +111,7 @@ export class CrearReporteComponent  implements OnInit {
       esActivo: true,
       asignacionesActivas:0,
       fechaRegistro: '',
-      fotoAvatar:''
+      fotoAvatar:'',
     };
   }
 
@@ -193,7 +193,6 @@ export class CrearReporteComponent  implements OnInit {
 
   //FUNCION EDITAR
   async guardarRegistroEditar(){
-    console.log("id presente rep: ",this.idPresenteDeReporte)
     try{
       this.cargando=true;
       this.serviciosInteraccion.cargandoConMensaje("Guardando Reportes")//Interacciones del proceso
@@ -213,7 +212,6 @@ export class CrearReporteComponent  implements OnInit {
   //EDITAR O CREAR SEGUN DEFINICION DE ID
   async editar_o_Crear(){
     if(this.idPresenteDeReporte!=null || this.idPresenteDeReporte!=undefined ){
-
       //PARA EDITAR
       const response = await this.serviciosFireStore.getDocumentSolo('Reportes',this.idPresenteDeReporte);
       const reporteData: DocumentData = response.data();
@@ -334,8 +332,6 @@ export class CrearReporteComponent  implements OnInit {
     console.log("foto",fotoUrl);
   }
 
-
-
   // ASIGNACION AUTOMATICA DE OPERARIOS
   async getOperarioAsignar(){
     try{
@@ -400,7 +396,7 @@ export class CrearReporteComponent  implements OnInit {
           esActivo: usuarioData['esActivo'] || true,
           asignacionesActivas: usuarioData['asignacionesActivas'] || 0,
           fechaRegistro: usuarioData['fechaRegistro'] || '',
-          fotoAvatar:usuarioData['fotoAvatar'] || ''
+          fotoAvatar:usuarioData['fotoAvatar'] || '',
         };
         console.log("ROL: ", this.usuarioLog.idRol);
         this.idPresenteDeUsuario=this.usuarioLog.idUsuario

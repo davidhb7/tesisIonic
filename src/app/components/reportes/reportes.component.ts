@@ -71,7 +71,7 @@ export class ReportesComponent  implements OnInit {
       esActivo: true,
       asignacionesActivas:0,
       fechaRegistro: '',
-      fotoAvatar:''
+      fotoAvatar:'',
     };
 
   }
@@ -164,7 +164,7 @@ export class ReportesComponent  implements OnInit {
       esActivo: usuarioData['esActivo'] ||true,
       asignacionesActivas:usuarioData['esActivo'] || 0,
       fechaRegistro: usuarioData['fechaRegistro'] || '',
-      fotoAvatar:usuarioData['fotoAvatar'] || ''
+      fotoAvatar:usuarioData['fotoAvatar'] || '',
     }
     console.log(this.usuarioPresente);
     this.serviciosInteraccion.cerrarCargando();
