@@ -70,7 +70,7 @@ export class RegistroComponent  implements OnInit {
       fotoAvatar:'',
     };
     this.formGroupRegistro = this.formBuilderRegistro.group({
-      cedulausuario:['', (Validators.required, Validators.pattern('[0-9]*'))],
+      identificacionUsuario:['', [Validators.required, Validators.pattern('[0-9]*')]],
       nombreUsuario: ['', [Validators.required]],
       correoUsuario: ['', [Validators.required, Validators.email]],
       celularUsuario: ['', [Validators.required, Validators.pattern('[0-9]*')]],

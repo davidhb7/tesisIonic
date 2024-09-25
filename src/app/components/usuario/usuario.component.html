@@ -37,17 +37,18 @@
           <input type="file" accept="image/*" style="display: none;" id="carga-archivo" (change)="subirFotoAvatar($event)">
         </p>
         <p>Nombre:{{usuario.nombreUsuario}} </p>
+        <p>Cedula: <strong>{{usuario.identificacionUsuario}}</strong></p>
         <p>Correo: {{usuario.correoUsuario}} </p>
         <p>Celular: {{usuario.celularUsuario}}</p>
         @if(usuario.esActivo===true){
-          <p style="color: green;"> Empleado ACTIVO</p>
+          <p style="color: green;">ACTIVO</p>
         }@else {
-          <p style="color: red;">Empleado INACTIVO</p>
+          <p style="color: red;">INACTIVO</p>
         }
         <p>Direccion-Sector del Queremal</p>
-
+        <p>Fecha de registro: {{usuario.fechaRegistro}}</p>
       </ion-card-content>
-
+      <ion-button color="warning" (click)="redireccionarParaEditar(usuario.idUsuario)" style="font-size: 8px; margin: 10px;" *ngIf="verPerfil">Editar perfil</ion-button>
     </ion-card>
   </ion-list>
 </ion-content>

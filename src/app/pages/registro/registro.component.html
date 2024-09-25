@@ -22,17 +22,17 @@
         <ion-input formControlName="nombreUsuario" type="text" aria-label="nombreUsuario" [(ngModel)]="nuevoUsuario.nombreUsuario"></ion-input>
       </ion-item>
       <ion-text color="danger" *ngIf="formGroupRegistro.get('nombreUsuario').invalid && formGroupRegistro.get('nombreUsuario').touched">
-        <p *ngIf="formGroupRegistro.get('nombreUsuario').errors['required']">Nombre Completo es requerido.</p>
+        <p *ngIf="formGroupRegistro.get('nombreUsuario').errors['required']" style="margin: 10px;" >Nombre Completo es requerido.</p>
       </ion-text>
 
       <!-- Campo para la cedula -->
       <ion-item>
-        <ion-label position="floating">Cedula:</ion-label>
-        <ion-input formControlName="cedulausuario" type="tel" aria-label="cedulausuario" [(ngModel)]="nuevoUsuario.identificacionUsuario"></ion-input>
+        <ion-label position="floating">Identificación:</ion-label>
+        <ion-input formControlName="identificacionUsuario" type="tel" aria-label="identificacionUsuario" [(ngModel)]="nuevoUsuario.identificacionUsuario"></ion-input>
       </ion-item>
-      <ion-text color="danger" *ngIf="formGroupRegistro.get('cedulausuario').invalid && formGroupRegistro.get('cedulausuario').touched">
-        <p *ngIf="formGroupRegistro.get('cedulausuario').errors['required']">Cedula es requerida.</p>
-        <p *ngIf="formGroupRegistro.get('cedulausuario').errors['pattern']">Por favor, ingrese solo números.</p>
+      <ion-text color="danger" *ngIf="formGroupRegistro.get('identificacionUsuario').invalid && formGroupRegistro.get('identificacionUsuario').touched">
+        <p *ngIf="formGroupRegistro.get('identificacionUsuario').errors['required']" style="margin: 10px;" >Idenfiticación es requerido.</p>
+        <p *ngIf="formGroupRegistro.get('identificacionUsuario').errors['pattern']">Por favor, ingrese solo números.</p>
       </ion-text>
 
       <!-- Campo para el Correo -->
@@ -41,7 +41,7 @@
         <ion-input formControlName="correoUsuario" type="email" aria-label="correoUsuario" [(ngModel)]="nuevoUsuario.correoUsuario"></ion-input>
       </ion-item>
       <ion-text color="danger" *ngIf="formGroupRegistro.get('correoUsuario').invalid && formGroupRegistro.get('correoUsuario').touched">
-        <p *ngIf="formGroupRegistro.get('correoUsuario').errors['required']">Correo es requerido.</p>
+        <p *ngIf="formGroupRegistro.get('correoUsuario').errors['required']" style="margin: 10px;" >Correo es requerido.</p>
         <p *ngIf="formGroupRegistro.get('correoUsuario').errors['email']">Correo no es válido.</p>
       </ion-text>
 
@@ -51,7 +51,7 @@
         <ion-input formControlName="celularUsuario" type="tel" aria-label="celularUsuario" [(ngModel)]="nuevoUsuario.celularUsuario"></ion-input>
       </ion-item>
       <ion-text color="danger" *ngIf="formGroupRegistro.get('celularUsuario').invalid && formGroupRegistro.get('celularUsuario').touched">
-        <p *ngIf="formGroupRegistro.get('celularUsuario').errors['required']">Celular es requerido.</p>
+        <p *ngIf="formGroupRegistro.get('celularUsuario').errors['required']" style="margin: 10px;" >Celular es requerido.</p>
         <p *ngIf="formGroupRegistro.get('celularUsuario').errors['pattern']">Por favor, ingrese solo números.</p>
       </ion-text>
 
@@ -61,7 +61,7 @@
         <ion-input formControlName="direccionUsuario" type="text" aria-label="direccionUsuario" [(ngModel)]="nuevoUsuario.direccionUsuario"></ion-input>
       </ion-item>
       <ion-text color="danger" *ngIf="formGroupRegistro.get('direccionUsuario').invalid && formGroupRegistro.get('direccionUsuario').touched">
-        <p *ngIf="formGroupRegistro.get('direccionUsuario').errors['required']">Dirección es requerida.</p>
+        <p *ngIf="formGroupRegistro.get('direccionUsuario').errors['required']" style="margin: 10px;" >Dirección es requerida.</p>
       </ion-text>
 
       <!-- Campo para el Teléfono Fijo -->
@@ -70,7 +70,7 @@
         <ion-input formControlName="telefonoUsuario" type="tel" aria-label="telefonoUsuario" [(ngModel)]="nuevoUsuario.telefonoUsuario"></ion-input>
       </ion-item>
       <ion-text color="danger" *ngIf="formGroupRegistro.get('telefonoUsuario').invalid && formGroupRegistro.get('telefonoUsuario').touched">
-        <p *ngIf="formGroupRegistro.get('telefonoUsuario').errors['pattern']">Por favor, ingrese solo números.</p>
+        <p *ngIf="formGroupRegistro.get('telefonoUsuario').errors['pattern']" style="margin: 10px;" >Por favor, ingrese solo números.</p>
       </ion-text>
 
       <ion-button *ngIf="!paraEditarUsuario" type="submit"  style="margin-left: 10px; font-size: 9px;" color="success" [disabled]="formGroupRegistro.invalid" (click)="guardarUsuarioRegistro()">Enviar</ion-button>

@@ -14,14 +14,14 @@
     <ion-card-content>
       <h3 *ngIf="!hayReportes" style="margin-left: 10px;">No hay reportes...</h3>
       <h1><ion-icon name="information-circle-outline" style="color: rgb(172, 156, 19);"></ion-icon>
-        Realiza tus reportes aqui. Una vez realices tu solicitud, el operario asignado atenderá la situacón en la mayor brevedad posible.
+        Realiza tus reportes aqui. Una vez realices tu solicitud, el operario asignado atenderá la situación en la mayor brevedad posible.
       </h1>
       <br>
       <ion-button  (click)="navegarFormularioCrearReporte()" style="margin-left: 10px; " color="success">Crear nuevo reporte</ion-button>
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="usuarioPresente.idRol==='2'">
+  <ion-card *ngIf="usuarioPresente.idRol==='2' || usuarioPresente.idRol==='3'">
     <ion-card-content>
       <div  >
         <ion-list>

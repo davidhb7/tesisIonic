@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { OPERADOR } from 'src/app/common/constant/constantes';
+import { OPERADOR, USUARIO_CONSUMIDOR } from 'src/app/common/constant/constantes';
 import { OperarioI } from 'src/app/common/interfaces/operario.interface';
 import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { AuthServices } from 'src/app/common/services/auth.service';
@@ -51,17 +51,7 @@ export class OperariosComponent  implements OnInit {
     });
   }
 
-  //TRAER TODOS LOS OPERARIOS REGISTRADOS EN LA EMPRESA
-  getOperariosRegistrados(){
-    this.serviciosFireStore.getDocumentosGeneralAtentoCambios<UsuarioI>("Usuarios").subscribe(
-      data=>{
-        if(data){
-          this.operariosRegistrdos=data;
-          console.log("Respuesta general: ",data)
-        }
-      }
-    )
-  }
+
 
   //CREAR
   //REDIRECCION A FORMULARIO, CREAR OPERARIO DESDE LA EMPRESA
@@ -80,7 +70,7 @@ export class OperariosComponent  implements OnInit {
   //VER OPERARIO POR ID. REDIRECCIONAR
   //REDIRECCIONAR A VER USUARIO POR ID
   navegarConIDVerOperario(idOperario?:string){
-    this.router.navigate(['/operario',idOperario]);
+    this.router.navigate(['/usuario',idOperario]);
     console.log("enviando id",idOperario)
   }
 
@@ -89,5 +79,7 @@ export class OperariosComponent  implements OnInit {
     this.router.navigate(['/formulario-operador',idOperador])
     console.log("Para editar:", idOperador);
   }
+
+
 
 }

@@ -5,6 +5,7 @@ import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { FireStoreService } from 'src/app/common/services/fire-store.service';
 import { InteractionService } from 'src/app/common/services/interaction.service';
 import { FireStorageService } from 'src/app/common/services/fire-storage.service';
+import { LocalStorageService } from 'src/app/common/services/local-storage.service';
 
 @Component({
   selector: 'app-usuario',
@@ -15,23 +16,29 @@ export class UsuarioComponent  implements OnInit {
 
   //OBJETOS
   usuario: UsuarioI;
+  usuarioLocal: UsuarioI;
 
   //VARIABLES
   idPresenteDeUsuario:string="";//VARIABLE A USAR ÁRA EL ID DEL USUARIO
   nombrePresente:string="";
   urlFotoAvatar="";
+  verPerfil:boolean=false;
 
   constructor(
     private servicioFireStore: FireStoreService,//INYECTANDO DEPENDENCIA
     private servicioFireStorage: FireStorageService,
     private route: ActivatedRoute,
     private serviciosInteraccion: InteractionService,
+    private servicioLocalStorage: LocalStorageService,
+    private router: Router,
   ) {
     //RECIBE EL ID DEL USUARIO POR PARAMETRO DE ROUTE
     this.idPresenteDeUsuario=route.snapshot.params['idUsuario'];
-
-    this.inicializarUsuarioVacio();
+    console.log("id rout:", this.idPresenteDeUsuario)
+    this.traerUSLocal();
     this.getUsuarioPorID();
+    this.inicializarUsuarioVacio();
+
 
 
   }
@@ -59,18 +66,37 @@ export class UsuarioComponent  implements OnInit {
       fechaRegistro: '',
       fotoAvatar:'',
     }
+
+    this.usuarioLocal = {
+      idUsuario: '',
+      identificacionUsuario:'',
+      numeroReferenciaUsuarioConsumidor: 0,
+      nombreUsuario: '',
+      correoUsuario: '',
+      celularUsuario: '',
+      direccionUsuario: '',
+      telefonoUsuario: '',
+      clave: '',
+      idRol: '',
+      disponibleOperario:true,
+      esActivo: true,
+      asignacionesActivas:0,
+      fechaRegistro: '',
+      fotoAvatar:'',
+    }
+
+
   }
 
 
   //TRAE USUARIO POR ID
   async getUsuarioPorID(){
-    this.serviciosInteraccion.cargandoConMensaje("Cargando");
     const response = await this.servicioFireStore.getDocumentSolo('Usuarios',this.idPresenteDeUsuario);
     const usuarioData: DocumentData = response.data();
     this.usuario = {
       idUsuario: usuarioData['idUsuario'] || '',
-      identificacionUsuario:  usuarioData['cedulausuario'] ||'',
-      numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuario'] || 0,
+      identificacionUsuario:  usuarioData['identificacionUsuario'] ||'',
+      numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuarioConsumidor'] || 0,
       nombreUsuario: usuarioData['nombreUsuario'] || '',
       correoUsuario: usuarioData['correoUsuario'] || '',
       celularUsuario: usuarioData['celularUsuario'] || '',
@@ -84,7 +110,36 @@ export class UsuarioComponent  implements OnInit {
       fechaRegistro: usuarioData['fechaRegistro'] || '',
       fotoAvatar:usuarioData['fotoAvatar'] || '',
     }
-    this.serviciosInteraccion.cerrarCargando();
+  }
+
+  //CONSULTA EL USUARIO Y OTORGA/QUITA PERMISOS DE ROL
+  async traerUSLocal() {
+    try {
+      const response = await this.servicioLocalStorage.getDatosDeLocalStorage();
+      if (response) {
+        const usuarioData: DocumentData = response;
+        this.usuarioLocal = {
+          idUsuario: usuarioData['idUsuario'] || '',
+          identificacionUsuario: usuarioData['identificacionUsuario'] || '',
+          numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuarioConsumidor'] || 0,
+          nombreUsuario: usuarioData['nombreUsuario'] || '',
+          correoUsuario: usuarioData['correoUsuario'] || '',
+          celularUsuario: usuarioData['celularUsuario'] || '',
+          direccionUsuario: usuarioData['direccionUsuario'] || '',
+          telefonoUsuario: usuarioData['telefonoUsuario'] || '',
+          clave: usuarioData['clave'] || '',
+          idRol: usuarioData['idRol'] || '',
+          disponibleOperario: usuarioData['disponibleOperario'] || true,
+          esActivo: usuarioData['esActivo'] || true,
+          asignacionesActivas: usuarioData['asignacionesActivas'] || 0,
+          fechaRegistro: usuarioData['fechaRegistro'] || '',
+          fotoAvatar:usuarioData['fotoAvatar'] || '',
+        };
+      }
+    } catch (error) {
+      console.error('Error al traer el usuario del LocalStorage:', error);
+    }
+    this.paraVerPerfil();
   }
 
   //CAMBIO FOTO AVATAR
@@ -104,5 +159,22 @@ export class UsuarioComponent  implements OnInit {
     this.serviciosInteraccion.mensajeGeneral("Listo");
     this.serviciosInteraccion.cerrarCargando();
   }
+
+  paraVerPerfil(){
+    if(this.idPresenteDeUsuario===this.usuarioLocal.idUsuario){
+      this.verPerfil=true;
+    }
+    else{
+      this.verPerfil=false;
+    }
+  }
+
+  //EDITAR
+  redireccionarParaEditar(idUsuario:string){
+    console.log("Para editar", idUsuario);
+    this.router.navigate(['/formulario-registro',idUsuario])
+  }
+
+
 
 }
