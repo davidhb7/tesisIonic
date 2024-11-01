@@ -9,17 +9,13 @@ import { AsignacionesOperadorComponent } from './components/asignaciones-operado
 import { StaticsComponent } from './components/statics/statics.component';
 import { InformacionEmpresaComponent } from './components/informacion-empresa/informacion-empresa.component';
 import { RepetidorReportesComponent } from './components/repetidor-reportes/repetidor-reportes.component';
+import { FormularioRecuperarPassComponent } from './components/formulario-recuperar-pass/formulario-recuperar-pass.component';
 
 const routes: Routes = [
   //CUANDO EL COMPONENTE TIENE MODULE INDIVIDUAL, USAR LOADCHILDREN
   //CUANDO NO TIENE MODULE, SOLO USAR COMPONENT. DECLARAR Y EXPORTAR EN MODULE COMUNITARIO
 
-  //VACIO Y POR DEFECTO A LOGIN
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
+
 
   //PARA INICIAR SESION
   {
@@ -131,7 +127,17 @@ const routes: Routes = [
   {
     path:'repetidor',
     component:RepetidorReportesComponent
-  }
+  },
+  {
+    path:'recuperar-pass',
+    component:FormularioRecuperarPassComponent
+  },
+  //VACIO Y POR DEFECTO A LOGIN
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
 
 
 ];

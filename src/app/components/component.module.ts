@@ -17,6 +17,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import { HeatmapComponent } from './heatmap/heatmap.component';
 import { InformacionEmpresaComponent } from './informacion-empresa/informacion-empresa.component';
 import { RepetidorReportesComponent } from './repetidor-reportes/repetidor-reportes.component';
+import { FormularioRecuperarPassComponent } from './formulario-recuperar-pass/formulario-recuperar-pass.component';
 
 
 
@@ -48,7 +49,9 @@ import { RepetidorReportesComponent } from './repetidor-reportes/repetidor-repor
     //INFO EMPRESA
     InformacionEmpresaComponent,
     //REPETIDOR
-    RepetidorReportesComponent
+    RepetidorReportesComponent,
+    //FORMULARIO RECUPERAR CONTRASEÑA
+    FormularioRecuperarPassComponent
   ],
 
   exports:[
@@ -76,7 +79,9 @@ import { RepetidorReportesComponent } from './repetidor-reportes/repetidor-repor
     //INFO EMPRESA
     InformacionEmpresaComponent,
     //REPETIDOR
-    RepetidorReportesComponent
+    RepetidorReportesComponent,
+    //FORMULARIO RECUPERAR CONTRASEÑA
+    FormularioRecuperarPassComponent
 
 
 

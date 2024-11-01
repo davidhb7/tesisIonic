@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Recuperar Contraseña
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <form [formGroup]="formGroupPass">
+        <!-- Campo para el Correo -->
+        <ion-item>
+          <ion-label position="floating">Correo:</ion-label>
+          <ion-input formControlName="correoUsuario" type="email"
+            aria-label="correoUsuario"></ion-input>
+        </ion-item>
+        <ion-text color="danger"
+          *ngIf="formGroupPass.get('correoUsuario').invalid && formGroupPass.get('correoUsuario').touched">
+          <p *ngIf="formGroupPass.get('correoUsuario').errors?.['required']"
+            style="margin: 10px;">Correo es requerido.</p>
+          <p *ngIf="formGroupPass.get('correoUsuario').errors?.['email']">Correo no es válido.</p>
+        </ion-text>
+
+        <ion-button  type="submit"
+        style="margin-left: 10px; font-size: 9px; font-size: 20px; margin: 25px;" color="success"
+        [disabled]="formGroupPass.invalid"
+        (click)="enviarRestarPass()">Registrarme</ion-button>
+
+
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

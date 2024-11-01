@@ -30,6 +30,11 @@ export class AuthServices {
     });
   }
 
+  //OBTENCION DE LINK PARA RECUPERAR CONTRASEÑA
+  recuperarPass(correo:string){
+    return this.servicioAngularFireAuth.sendPasswordResetEmail(correo);
+  }
+
   //CONECTADO O NO
   estadoLogUsuario(){
     return this.servicioAngularFireAuth.authState;
