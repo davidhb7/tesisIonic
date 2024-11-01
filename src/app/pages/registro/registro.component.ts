@@ -103,6 +103,7 @@ export class RegistroComponent  implements OnInit {
 
   //EDITAR O CREAR SEGUN PARAMETRO ID USUARIO
   async editar_o_crear(){
+    //SI NO ES NULL O INDEFINIDO, EL FORMULARIO ES PARA EDITAR
     if(this.idPresenteParaEditar!=null || this.idPresenteParaEditar!=undefined){
       this.serviciosInteraccion.cargandoConMensaje("Cargando");
       const response = await this.serviciosFireStore.getDocumentSolo('Usuarios',this.idPresenteParaEditar);
@@ -127,6 +128,7 @@ export class RegistroComponent  implements OnInit {
       }
       this.serviciosInteraccion.cerrarCargando();
     }
+    //PARA CREAR. CARGA LOS DATOS
     else{
       this.inicializarUsuarioBase();
     }

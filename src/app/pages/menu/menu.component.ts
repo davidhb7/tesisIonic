@@ -153,9 +153,9 @@ export class MenuComponent implements OnInit {
     this.router.navigate(['/infor-empresa']);
   }
 
-  irRepetidor(){
-    this.router.navigate(['/repetidor']);
-  }
+  // irRepetidor(){
+  //   this.router.navigate(['/repetidor']);
+  // }
 
 
   //DISPONIBILIDAD DE VISTAS Y FUNCIONALIDADES SEGUN EL ROL

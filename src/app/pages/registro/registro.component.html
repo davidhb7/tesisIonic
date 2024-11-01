@@ -9,9 +9,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-card>
-    <p style="margin-left: 15px; font-weight: bold;">Confirma correctamente que eres parte de la asociacion comunitaria de San José del Salado - Dagua - Valle del Cauca</p>
+<ion-content >
+  <ion-card >
+    <p style="margin-left: 15px; font-weight: bold;">Verifica correctamente que eres parte de la asociacion comunitaria de San José del Salado - Dagua - Valle del Cauca</p>
 
     <hr color="blue">
 
@@ -27,7 +27,7 @@
 
       <!-- Campo para la cedula -->
       <ion-item>
-        <ion-label position="floating">Identificación:</ion-label>
+        <ion-label position="floating">Identificación - Cedula:</ion-label>
         <ion-input formControlName="identificacionUsuario" type="tel" aria-label="identificacionUsuario" [(ngModel)]="nuevoUsuario.identificacionUsuario"></ion-input>
       </ion-item>
       <ion-text color="danger" *ngIf="formGroupRegistro.get('identificacionUsuario').invalid && formGroupRegistro.get('identificacionUsuario').touched">
@@ -75,7 +75,9 @@
 
       <ion-button *ngIf="!paraEditarUsuario" type="submit"  style="margin-left: 10px; font-size: 9px;" color="success" [disabled]="formGroupRegistro.invalid" (click)="guardarUsuarioRegistro()">Enviar</ion-button>
 
-      <ion-button *ngIf="paraEditarUsuario" type="submit"  style="margin-left: 10px; font-size: 9px;" color="warning" [disabled]="formGroupRegistro.invalid" (click)="guardarEdicion()">Guardar Cambios</ion-button>
+      <ion-button *ngIf="paraEditarUsuario" type="submit"  style="margin-left: 10px; font-size: 9px;"
+      color="warning" [disabled]="formGroupRegistro.invalid"
+      (click)="guardarEdicion()">Guardar Cambios</ion-button>
 
 
     </form>

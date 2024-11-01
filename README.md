@@ -12,16 +12,12 @@
   * https://ionicframework.com/docs/
   
 
+
 ## URL DEL DESPLIEGUE:
   * https://ionic-gest-rep-all.web.app/login
 
-### Comando actualizacion de Despliegue
-  * ionic build --prod
-  * firebase deploy
 
-## Comando sincronización/creación Android
-  * ionic capacitor build android (sincronizacion y creacion)
-  * npx ionic cap run android (compilacion y ejecucion)
+
 
 ## GRAFICOS:
   * Base: https://www.youtube.com/watch?v=MwWzSJnkrgQ&t=59s
@@ -29,3 +25,11 @@
   * https://apexcharts.com/angular-chart-demos/
 
 
+## Comando actualizacion de Despliegue
+  * ionic build --prod
+  * firebase deploy
+
+
+## Comando sincronización/creación Android
+  * ionic capacitor build android (sincronizacion y creacion) ||  npm run ionic:build --prod
+  * npx ionic cap run android (compilacion y ejecucion)

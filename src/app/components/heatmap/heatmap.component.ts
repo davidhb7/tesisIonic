@@ -17,7 +17,12 @@ export class HeatmapComponent implements AfterViewInit {
   heatmap: any;
   markerCluster: any;
 
-  localizaciones: { lat: number, lng: number, tipoAsuntoPorOperario: string, comentarioOperario: string }[] = [];
+  localizaciones: {
+    lat: number,
+    lng: number,
+    tipoAsuntoPorOperario: string,
+    comentarioOperario: string }[] = [];
+
   marcadores:any[]=[];
 
   reportes: ReportesI[] = [];
