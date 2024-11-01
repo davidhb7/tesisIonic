@@ -76,7 +76,17 @@ export class RegistroComponent  implements OnInit {
       celularUsuario: ['', [Validators.required, Validators.pattern('[0-9]*')]],
       direccionUsuario: ['',[ Validators.required]],
       telefonoUsuario: ['', [Validators.pattern('[0-9]*')]],
-    });
+      //PARA LA CONTRASEÑA
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required]
+    },  { validator: this.coincidenciaPass });
+  }
+
+  //METODO QUE VALIDA LAS CONTRASEÑAS Y SU COINCIDENCIA
+  coincidenciaPass(formGroup: FormGroup) {
+    const password = formGroup.get('password')?.value;
+    const confirmPassword = formGroup.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { mismatch: true };
   }
 
   //INICIALIZAR USUARIO CON DATOS BASICOS
@@ -137,9 +147,10 @@ export class RegistroComponent  implements OnInit {
 
   //GUARDAR USUARIO NUEVO
   async guardarUsuarioRegistro(){
+    const contra = this.formGroupRegistro.get('password')?.value;
     this.cargando=true;
     this.nuevoUsuario.clave=this.nuevoUsuario.identificacionUsuario;
-    const resp= await this.serviciosAuthe.registrarUsuarioRegistroAuthServices(this.nuevoUsuario.correoUsuario, this.nuevoUsuario.clave);
+    const resp= await this.serviciosAuthe.registrarUsuarioRegistroAuthServices(this.nuevoUsuario.correoUsuario, contra);
     if(resp){
       this.serviciosInteraccion.mensajeGeneral("Usuario registrado correctamente");
       this.nuevoUsuario.idUsuario=resp.user.uid;
