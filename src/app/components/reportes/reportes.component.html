@@ -60,9 +60,6 @@
                 <p style="color: orange;">EN PROCESO</p>
               }
             </ion-label>
-
-
-
             @if (cargando) {
               <div style="text-align:center;">
                 <ion-spinner name="bubbles"></ion-spinner>
@@ -74,10 +71,6 @@
           </ion-item>
         </ion-list>
       </div>
-
-
-
-
     </ion-card-content>
   </ion-card>
 
@@ -91,23 +84,23 @@
           <ion-item *ngFor="let repUsCli of reportresUsuarioPendientes" >
             <ion-label *ngIf="repUsCli.estado==='EN PROCESO' ">
               <!-- REPORTES ASIGNADOS PARA EL USUARIO LOGUEADO -->
-              Reporte numero: {{repUsCli.numeroReporte}}
-              <p>Descripcipon: {{repUsCli.descripcion}}</p>
-              <p>Id: {{repUsCli.idReporte}}</p>
-
+              <p><strong>Reporte numero: </strong>{{repUsCli.numeroReporte}}</p>
+              <p><strong>Descripcipon:</strong> {{repUsCli.descripcion}}</p>
+              <p><strong>Id Reporte:</strong> {{repUsCli.idReporte}}</p>
+              <p><strong>Fecha:</strong> {{repUsCli.fechaRegistroReporte}}</p>
               @if(repUsCli.comentarioOperario===""){
-                <p>Comentario Operario: Sin comentario.</p>
+                <p><strong>Comentario Operario: </strong> Sin comentario.</p>
               }
               @else {
-                <p>Comentario Operario: {{repUsCli.comentarioOperario}}</p>
+                <p><strong>Comentario Operario:</strong> {{repUsCli.comentarioOperario}}</p>
               }
               @if(repUsCli.tipoAsuntoPorOperario===""){
-                <p>Tipo problema: Sin asignar</p>
+                <p><strong>Tipo problema:</strong> Sin atender</p>
               }
               @else {
                 <p>Tipo problema: {{repUsCli.tipoAsuntoPorOperario}}</p>
               }
-              <p>Estado:</p><p style="color: orange;"><strong> {{repUsCli.estado}}</strong></p>
+              <p style="color: orange;"><strong style="color: gray;">Estado:</strong> {{repUsCli.estado}}</p>
               <ion-button color="danger" (click)="eliminarReporte(repUsCli)" style="font-size: 8px;">Eliminar</ion-button>
               <ion-button color="success" (click)="navegarConIDVerReporte(repUsCli.idReporte)" style="font-size: 8px;">Ver</ion-button>
               <ion-button color="warning" (click)="navegarConIDEditarReporte(repUsCli.idReporte)" style="font-size: 8px;">Editar</ion-button>
@@ -117,8 +110,6 @@
                 <ion-spinner name="bubbles"></ion-spinner>
               </div>
             }
-
-
           </ion-item>
         </ion-list>
 

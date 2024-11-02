@@ -20,6 +20,7 @@ export class ReportesComponent  implements OnInit {
   documentosReportes:ReportesI[]=[];
   documentosGeneralesReportes: ReportesI[]=[];
   usuarioPresente:UsuarioI;
+
   //CUANDO ES-CLI
   reportresUsuarioPendientes:ReportesI[]=[];
   reportresUsuarioSolucionado:ReportesI[]=[];
@@ -29,6 +30,7 @@ export class ReportesComponent  implements OnInit {
   hayReportes:boolean;
   cargando:boolean=false;
   idUsuarioPresente:string;
+  ascendente: boolean = true;
 
 
 
@@ -40,6 +42,7 @@ export class ReportesComponent  implements OnInit {
     private servicioLocalStorage: LocalStorageService
   ) {
     this.inicializarUSVacio()
+    //this.ordenarReportesUsCliPendiente();
     this.idUsuarioPresente=route.snapshot.params['idUsuario'];//DECLARAR EL PASO DE ID EN EL ROUTING
     this.avisoExisteReporte();
     //CONDICIONAL PARA ESTOS...
@@ -52,7 +55,6 @@ export class ReportesComponent  implements OnInit {
   ngOnInit() {
     return;
   }
-
 
   //INICIALIZAR USUARIO VACIO
   inicializarUSVacio(){
@@ -73,11 +75,7 @@ export class ReportesComponent  implements OnInit {
       fechaRegistro: '',
       fotoAvatar:'',
     };
-
   }
-
-
-
 
   //SI ES EMPRESA U OPERARIO, TRAER TODOS LOS REPORTES
   getReportesGeneralesEmpresaOperario(){
@@ -118,7 +116,6 @@ export class ReportesComponent  implements OnInit {
 
     });
   }
-
 
   //CREAR REPORTE CON ID DE PARAMETRO EN RUTA
   navegarFormularioCrearReporte(){
@@ -171,7 +168,6 @@ export class ReportesComponent  implements OnInit {
     this.mostrarReportesSegunUsuario();
   }
 
-
   //MUESTRA REPORTES SEGUN EL USUARIO. TODOS O LOS DE LOS DEL USUARIO EN PARTICULAR
   mostrarReportesSegunUsuario(){
     if(this.usuarioPresente.idRol=="1" || this.usuarioPresente.idRol=="2" || this.usuarioPresente.idRol=="3"){
@@ -184,6 +180,7 @@ export class ReportesComponent  implements OnInit {
       this.hayReportes=false;
     }
   }
+
 
 
 
