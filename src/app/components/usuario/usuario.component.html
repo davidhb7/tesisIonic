@@ -46,9 +46,14 @@
       <p>Direccion-Sector del Queremal</p>
       <p>Fecha de registro: {{usuario.fechaRegistro}}</p>
     </ion-card-content>
+
     <ion-button color="warning"
       (click)="redireccionarParaEditar(usuario.idUsuario)"
       style="font-size: 17px; margin: 10px;" *ngIf="verPerfil">Editar
       perfil</ion-button>
+
+      <ion-button color="primary"
+      (click)="redireccionarParaCambiarPass()"
+      style="font-size: 17px; margin: 10px;" *ngIf="verPerfil">Cambiar contraseña</ion-button>
   </ion-card>
 </ion-content>

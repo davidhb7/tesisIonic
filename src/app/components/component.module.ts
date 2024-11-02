@@ -18,6 +18,7 @@ import { HeatmapComponent } from './heatmap/heatmap.component';
 import { InformacionEmpresaComponent } from './informacion-empresa/informacion-empresa.component';
 import { RepetidorReportesComponent } from './repetidor-reportes/repetidor-reportes.component';
 import { FormularioRecuperarPassComponent } from './formulario-recuperar-pass/formulario-recuperar-pass.component';
+import { CambiarPassComponent } from './cambiar-pass/cambiar-pass.component';
 
 
 
@@ -51,7 +52,9 @@ import { FormularioRecuperarPassComponent } from './formulario-recuperar-pass/fo
     //REPETIDOR
     RepetidorReportesComponent,
     //FORMULARIO RECUPERAR CONTRASEÑA
-    FormularioRecuperarPassComponent
+    FormularioRecuperarPassComponent,
+    //CAMBIAR CONTRASEÑA
+    CambiarPassComponent
   ],
 
   exports:[
@@ -81,7 +84,9 @@ import { FormularioRecuperarPassComponent } from './formulario-recuperar-pass/fo
     //REPETIDOR
     RepetidorReportesComponent,
     //FORMULARIO RECUPERAR CONTRASEÑA
-    FormularioRecuperarPassComponent
+    FormularioRecuperarPassComponent,
+    //CAMBIAR CONTRASEÑA
+    CambiarPassComponent
 
 
 

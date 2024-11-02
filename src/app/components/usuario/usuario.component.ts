@@ -175,6 +175,11 @@ export class UsuarioComponent  implements OnInit {
     this.router.navigate(['/formulario-registro',idUsuario])
   }
 
+  //CAMBIAR PASSWORD
+  redireccionarParaCambiarPass(){
+    this.router.navigate(['/cambiar-pass'])
+  }
+
 
 
 }

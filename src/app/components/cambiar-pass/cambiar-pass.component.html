@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Actualizar Contraseña
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <form [formGroup]="formGroupPass">
+        <!-- Campo para Contraseña -->
+        <ion-item>
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input formControlName="password" type="password"></ion-input>
+        </ion-item>
+        <ion-text color="danger"
+          *ngIf="formGroupPass.get('password')?.invalid && formGroupPass.get('password')?.touched">
+          <p *ngIf="formGroupPass.get('password')?.errors?.['required']"
+            style="margin: 10px;">Contraseña es requerida.</p>
+          <p *ngIf="formGroupPass.get('password')?.errors?.['minlength']"
+            style="margin: 10px;">Contraseña debe tener al menos 6
+            caracteres.</p>
+        </ion-text>
+
+        <!-- Campo para Confirmar Contraseña -->
+        <ion-item>
+          <ion-label position="floating">Confirmar Contraseña</ion-label>
+          <ion-input formControlName="confirmPassword"
+            type="password"></ion-input>
+        </ion-item>
+        <ion-text color="danger"
+          *ngIf="formGroupPass.hasError('mismatch') && formGroupPass.get('confirmPassword')?.touched">
+          <p style="margin: 10px;">Las contraseñas no coinciden.</p>
+        </ion-text>
+
+
+        <ion-button  type="submit"
+        style="margin-left: 10px; font-size: 9px; font-size: 20px; margin: 25px;"
+        color="warning" [disabled]="formGroupPass.invalid"
+        (click)="guardarCambios()">Guardar Cambios</ion-button>
+
+
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

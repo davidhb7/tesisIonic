@@ -10,6 +10,7 @@ import { StaticsComponent } from './components/statics/statics.component';
 import { InformacionEmpresaComponent } from './components/informacion-empresa/informacion-empresa.component';
 import { RepetidorReportesComponent } from './components/repetidor-reportes/repetidor-reportes.component';
 import { FormularioRecuperarPassComponent } from './components/formulario-recuperar-pass/formulario-recuperar-pass.component';
+import { CambiarPassComponent } from './components/cambiar-pass/cambiar-pass.component';
 
 const routes: Routes = [
   //CUANDO EL COMPONENTE TIENE MODULE INDIVIDUAL, USAR LOADCHILDREN
@@ -131,6 +132,10 @@ const routes: Routes = [
   {
     path:'recuperar-pass',
     component:FormularioRecuperarPassComponent
+  },
+  {
+    path:'cambiar-pass',
+    component:CambiarPassComponent
   },
   //VACIO Y POR DEFECTO A LOGIN
   {
