@@ -151,6 +151,7 @@ export class RegistroComponent  implements OnInit {
     this.cargando=true;
     this.nuevoUsuario.clave=this.nuevoUsuario.identificacionUsuario;
     const resp= await this.serviciosAuthe.registrarUsuarioRegistroAuthServices(this.nuevoUsuario.correoUsuario, contra);
+
     if(resp){
       this.serviciosInteraccion.mensajeGeneral("Usuario registrado correctamente");
       this.nuevoUsuario.idUsuario=resp.user.uid;
@@ -183,6 +184,25 @@ export class RegistroComponent  implements OnInit {
       this.paraEditarUsuario=false;
     }
   }
+
+  //VERIFICA SI ESE CORREO YA EXISTE
+  verificarCorreo(){
+    if(this.formGroupRegistro.get('correoUsuario').valid){
+      const correoUs = this.formGroupRegistro.get('correoUsuario')?.value;
+      this.serviciosAuthe.verificarExisteCorreo(correoUs).then((existe)=>{
+        if(existe){
+          this.serviciosInteraccion.mensajeGeneral("Ya existe una cuenta con ese correo");
+          alert("Ese correo ya existe en el sistema")
+        }
+        else if(!existe){
+          this.serviciosInteraccion.mensajeGeneral("Correo apto");
+          this.guardarUsuarioRegistro();
+        }
+      })
+    }
+  }
+
+
 
 
 

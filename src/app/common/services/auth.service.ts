@@ -63,4 +63,9 @@ export class AuthServices {
   estadoLogUsuario(){
     return this.servicioAngularFireAuth.authState;
   }
+
+  verificarExisteCorreo(correo:string){
+    return this.servicioAngularFireAuth.fetchSignInMethodsForEmail(correo);
+  }
+
 }
