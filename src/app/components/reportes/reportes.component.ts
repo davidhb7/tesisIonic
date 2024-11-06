@@ -5,7 +5,6 @@ import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
 import { FireStoreService } from 'src/app/common/services/fire-store.service';
 import { InteractionService } from 'src/app/common/services/interaction.service';
 import { DocumentData } from '@angular/fire/firestore';
-import { MenuComponent } from 'src/app/pages/menu/menu.component';
 import { EN_PROCESO, SOLUCIONADO } from 'src/app/common/constant/constantes';
 import { LocalStorageService } from 'src/app/common/services/local-storage.service';
 
@@ -14,23 +13,22 @@ import { LocalStorageService } from 'src/app/common/services/local-storage.servi
   templateUrl: './reportes.component.html',
   styleUrls: ['./reportes.component.scss'],
 })
-export class ReportesComponent  implements OnInit {
+export class ReportesComponent implements OnInit {
 
   //OBJETOS
-  documentosReportes:ReportesI[]=[];
-  documentosGeneralesReportes: ReportesI[]=[];
-  usuarioPresente:UsuarioI;
+  reportesGenerales: ReportesI[] = [];
+  usuarioPresente: UsuarioI;
 
-  //CUANDO ES-CLI
-  reportresUsuarioPendientes:ReportesI[]=[];
-  reportresUsuarioSolucionado:ReportesI[]=[];
+  //  - CUANDO ES-CLI
+  reportresUsuarioPendientes: ReportesI[] = [];
+  reportresUsuarioSolucionado: ReportesI[] = [];
 
 
   //VARIABLES
-  hayReportes:boolean;
-  cargando:boolean=false;
-  idUsuarioPresente:string;
+  hayReportes: boolean;
+  cargando: boolean = false;
   ascendente: boolean = true;
+  avisoSinReportes:string="Por el momento no hay reportes."
 
 
 
@@ -42,12 +40,8 @@ export class ReportesComponent  implements OnInit {
     private servicioLocalStorage: LocalStorageService
   ) {
     this.inicializarUSVacio()
-    //this.ordenarReportesUsCliPendiente();
-    this.idUsuarioPresente=route.snapshot.params['idUsuario'];//DECLARAR EL PASO DE ID EN EL ROUTING
-    this.avisoExisteReporte();
     //CONDICIONAL PARA ESTOS...
-    this.tipoUsuario();
-    console.log(this.documentosReportes)
+    this.usuarioLogueado();
 
 
   }
@@ -57,10 +51,10 @@ export class ReportesComponent  implements OnInit {
   }
 
   //INICIALIZAR USUARIO VACIO
-  inicializarUSVacio(){
+  inicializarUSVacio() {
     this.usuarioPresente = {
       idUsuario: '',
-      identificacionUsuario:'',
+      identificacionUsuario: '',
       numeroReferenciaUsuarioConsumidor: 0,
       nombreUsuario: '',
       correoUsuario: '',
@@ -69,11 +63,11 @@ export class ReportesComponent  implements OnInit {
       telefonoUsuario: '',
       clave: '',
       idRol: '',
-      disponibleOperario:true,
+      disponibleOperario: true,
       esActivo: true,
-      asignacionesActivas:0,
+      asignacionesActivas: 0,
       fechaRegistro: '',
-      fotoAvatar:'',
+      fotoAvatar: '',
     };
   }
 
@@ -82,111 +76,114 @@ export class ReportesComponent  implements OnInit {
     this.serviciosFireStoreDatabase.getDocumentosGeneralAtentoCambios<ReportesI>("Reportes").subscribe(
       data=>{
         if(data){
-          this.documentosGeneralesReportes=data;
-          console.log("Respuesta general: ",data)
+          this.reportesGenerales=data;
         }
       }
     )
   }
 
-  //MENSAJE QUE AVISA AL USUARIO LA EXISTENCIA O NO DE REPORTES EN LA PANTALLA
-  avisoExisteReporte(){
-    if(this.documentosReportes.length>=0 || this.documentosGeneralesReportes.length>=0){
-      this.hayReportes=true;
-    }
-    else{
-      this.hayReportes=false;
-    }
-  }
-
-  //GET REPORTES ESPECIFICOS CREADOS POR EL USUARIO QUE INICIA SESION. ROL DE USUARIO
-  async getReportesParaUsuariosObservable() {
-    this.serviciosFireStoreDatabase.getReportesParaUsuariosObservable(this.idUsuarioPresente).subscribe({
-      next: documentos => {
-        this.documentosReportes=documentos;
-        // Distribuir los reportes en los arrays correspondientes
-      for (let reporte of this.documentosReportes) {
-        if (reporte.estado === EN_PROCESO) {
-          this.reportresUsuarioPendientes.push(reporte);
-        } else if (reporte.estado === SOLUCIONADO) {
-          this.reportresUsuarioSolucionado.push(reporte);
-        }
+  //GET REPORTES PENDIENTES POR ID DEL USUARIO CLIENTE LOGUIEADO - ROL 4
+  getReportesPendientesPorIDUsuario(){
+    this.serviciosFireStoreDatabase.getReportesSegunEstadoUsuarioConsumidor(EN_PROCESO,this.usuarioPresente.idUsuario).subscribe({
+      next:documentoPendiente=>{
+        this.reportresUsuarioPendientes=documentoPendiente;
       }
-      },
-
     });
   }
 
+  getReportesSolucionadoPorIDUsuario(){
+    this.serviciosFireStoreDatabase.getReportesSegunEstadoUsuarioConsumidor(SOLUCIONADO,this.usuarioPresente.idUsuario).subscribe({
+      next:documentoSolucionado=>{
+        this.reportresUsuarioSolucionado=documentoSolucionado;
+      }
+    });
+  }
+
+
+
+  //ELIMINA EL REPORTE SELECCIONADO
+  async eliminarReporte(idRep: string) {
+    this.cargando = true;
+    try {
+      await this.serviciosFireStoreDatabase.eliminarDocPorID('Reportes', idRep);
+    } catch (e) {
+      console.log(e)
+      console.error("No se pudo eliminar.")
+      throw new Error("No se pudo eliminar.")
+    }
+    this.cargando = false;
+  }
+
+  //CONSULTAR USUARIO
+  async usuarioLogueado() {
+    const response = await this.servicioLocalStorage.getDatosDeLocalStorage();
+    const usuarioData: DocumentData = response;
+    this.usuarioPresente = {
+      idUsuario: usuarioData['idUsuario'] || '',
+      identificacionUsuario: usuarioData['cedulausuario'] || '',
+      numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuario'] || 0,
+      nombreUsuario: usuarioData['nombreUsuario'] || '',
+      correoUsuario: usuarioData['correoUsuario'] || '',
+      celularUsuario: usuarioData['celularUsuario'] || '',
+      direccionUsuario: usuarioData['direccionUsuario'] || '',
+      telefonoUsuario: usuarioData['telefonoUsuario'] || '',
+      clave: usuarioData['clave'] || '',
+      idRol: usuarioData['idRol'] || '',
+      disponibleOperario: usuarioData['esActivo'] || true,
+      esActivo: usuarioData['esActivo'] || true,
+      asignacionesActivas: usuarioData['esActivo'] || 0,
+      fechaRegistro: usuarioData['fechaRegistro'] || '',
+      fotoAvatar: usuarioData['fotoAvatar'] || '',
+    }
+    console.log(this.usuarioPresente.idRol);
+    this.serviciosInteraccion.cerrarCargando();
+    this.cargarReportesSegunUsuario(this.usuarioPresente.idRol);
+  }
+
+  //MUESTRA REPORTES SEGUN EL USUARIO. TODOS O LOS DE LOS DEL USUARIO EN PARTICULAR
+  cargarReportesSegunUsuario(idUs:string) {
+    switch (idUs) {
+      case "1":
+        break;
+
+      case "2":
+        this.getReportesPendientesPorIDUsuario();
+        this.getReportesSolucionadoPorIDUsuario();
+        this.getReportesGeneralesEmpresaOperario();
+        break;
+
+      case "3":
+        this.getReportesPendientesPorIDUsuario();
+        this.getReportesSolucionadoPorIDUsuario();
+        this.getReportesGeneralesEmpresaOperario();
+        break;
+
+      case "4":
+        this.getReportesPendientesPorIDUsuario();
+        this.getReportesSolucionadoPorIDUsuario();
+        break;
+
+      default:
+        this.hayReportes = false;
+    }
+  }
+
   //CREAR REPORTE CON ID DE PARAMETRO EN RUTA
-  navegarFormularioCrearReporte(){
+  navegarFormularioCrearReporte() {
     this.router.navigate(['/crear-reporte']);
     console.log("sin id")
   }
 
-  //ELIMINA EL REPORTE SELECCIONADO
-  async eliminarReporte(reporteEliminar: ReportesI){
-    this.cargando=true;
-    await this.serviciosFireStoreDatabase.eliminarDocPorID( 'Reportes',reporteEliminar.idReporte);
-    this.cargando=false;
+  //REDIRECCION A EDITAR REPORTE
+  async navegarConIDEditarReporte(idRep: string) {
+    this.router.navigate(['/crear-reporte', idRep]);
+    console.log("enviando id editar", idRep)
   }
 
   //REDIRECCIONAR A GET REPORTE CON ID
-  navegarConIDVerReporte(idRep:string){
-    this.router.navigate(['/reporte',idRep]);
-    console.log("enviando id",idRep)
+  navegarConIDVerReporte(idRep: string) {
+    this.router.navigate(['/reporte', idRep]);
+    console.log("enviando id", idRep)
   }
-
-  //REDIRECCION A EDITAR REPORTE
-  async navegarConIDEditarReporte(idRep:string){
-    this.router.navigate(['/crear-reporte',idRep]);
-    console.log("enviando id editar",idRep)
-  }
-
-  //CONSULTAR USUARIO
-  async tipoUsuario(){
-    const response= await this.servicioLocalStorage.getDatosDeLocalStorage();
-    const usuarioData: DocumentData = response;
-    this.usuarioPresente= {
-      idUsuario: usuarioData['idUsuario'] ||'',
-      identificacionUsuario: usuarioData['cedulausuario'] ||'',
-      numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuario'] || 0,
-      nombreUsuario: usuarioData['nombreUsuario'] ||'',
-      correoUsuario: usuarioData['correoUsuario'] || '',
-      celularUsuario: usuarioData['celularUsuario'] ||'',
-      direccionUsuario: usuarioData['direccionUsuario'] ||'',
-      telefonoUsuario: usuarioData['telefonoUsuario'] ||'',
-      clave: usuarioData['clave'] ||'',
-      idRol: usuarioData['idRol'] ||'',
-      disponibleOperario: usuarioData['esActivo'] || true,
-      esActivo: usuarioData['esActivo'] ||true,
-      asignacionesActivas:usuarioData['esActivo'] || 0,
-      fechaRegistro: usuarioData['fechaRegistro'] || '',
-      fotoAvatar:usuarioData['fotoAvatar'] || '',
-    }
-    console.log(this.usuarioPresente);
-    this.serviciosInteraccion.cerrarCargando();
-    this.mostrarReportesSegunUsuario();
-  }
-
-  //MUESTRA REPORTES SEGUN EL USUARIO. TODOS O LOS DE LOS DEL USUARIO EN PARTICULAR
-  mostrarReportesSegunUsuario(){
-    if(this.usuarioPresente.idRol=="1" || this.usuarioPresente.idRol=="2" || this.usuarioPresente.idRol=="3"){
-      this.getReportesGeneralesEmpresaOperario();
-    }
-    else if(this.usuarioPresente.idRol=="4"){
-      this.getReportesParaUsuariosObservable();
-    }
-    else{
-      this.hayReportes=false;
-    }
-  }
-
-
-
-
-
-
-
-
 
 }

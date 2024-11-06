@@ -93,9 +93,10 @@ export class FireStoreService {
       })
     });
   }
+
   //DELETE
-  eliminarDocPorID( enlace:string, idDoc:string){
-    const documento = doc(this.firestore, `${enlace}/${idDoc}`);
+  eliminarDocPorID( coleccionPertenece:string, idDocumento:string){
+    const documento = doc(this.firestore, `${coleccionPertenece}/${idDocumento}`);
     return deleteDoc(documento);
   }
 
@@ -233,7 +234,7 @@ export class FireStoreService {
     });
   }
 
-  //CONSULTA COMPUESTA. TRAE LOS REPORTES SEGUN SU ESTADO
+  //CONSULTA COMPUESTA. TRAE LOS REPORTES SEGUN SU ESTADO POR ID OPERADOR
   getReportesSegunEstado(estado:string, idOperario:string):Observable<ReportesI[]>{
     const colleccion = collection(this.firestore, "Reportes");
     const consulta = query(colleccion, where("estado", "==", estado), where("idOperador", "==",idOperario ));
@@ -250,9 +251,9 @@ export class FireStoreService {
   }
 
   //CONSULTA COMPUESTA. TRAE LOS REPORTES SEGUN SU ESTADO PARA EL USUARIO CONSUMIDOR
-  getReportesSegunEstadoUsuarioConsumidor(estado:string, idOperario:string):Observable<ReportesI[]>{
+  getReportesSegunEstadoUsuarioConsumidor(estado:string, idUsuarioConsumidor:string):Observable<ReportesI[]>{
     const colleccion = collection(this.firestore, "Reportes");
-    const consulta = query(colleccion, where("estado", "==", estado), where("idUsuario", "==",idOperario ));
+    const consulta = query(colleccion, where("estado", "==", estado), where("idUsuario", "==",idUsuarioConsumidor ));
     return new Observable<ReportesI[]>((observador)=>{
       const unsubscribe=onSnapshot(consulta,(querySnapShot)=>{
         const documentoSegunEstado: ReportesI[]=[];
