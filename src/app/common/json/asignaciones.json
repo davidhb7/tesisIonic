@@ -1,0 +1,8 @@
+{
+  "Asignaciones": {
+    "idAsignacion": "string",
+    "idReporte": "string",
+    "idOperario": "string",
+    "fechaAsignacion": "string"
+  }
+}

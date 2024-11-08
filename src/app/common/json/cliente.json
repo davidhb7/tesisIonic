@@ -1,0 +1,12 @@
+{
+  "Usuario": {
+    "idUsuario": "string",
+    "identificacionUsuario": "string",
+    "numeroReferenciaUsuarioConsumidor": "number",
+    "nombreUsuario": "string",
+    "correoUsuario": "string",
+    "celularUsuario": "string",
+    "direccionUsuario": "string",
+    "telefonoUsuario": "string"
+  }
+}

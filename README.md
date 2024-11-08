@@ -26,10 +26,10 @@
 
 
 ## Comando actualizacion de Despliegue
-  * ionic build --prod
+  * ionic build --prod ||  npm run ionic:build --prod
   * firebase deploy
 
 
 ## Comando sincronización/creación Android
-  * ionic capacitor build android (sincronizacion y creacion) ||  npm run ionic:build --prod
+  * ionic capacitor build android (sincronizacion y creacion) 
   * npx ionic cap run android (compilacion y ejecucion)

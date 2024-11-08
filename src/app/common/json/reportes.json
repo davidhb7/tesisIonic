@@ -1,0 +1,20 @@
+{
+  "Reporte": {
+    "idReporte": "string",
+    "numeroReporte": "number",
+    "referenciaCliente":"string",
+    "descripcion": "string",
+    "ubicacion": "string",
+    "fechaRegistroReporte": "string",
+    "fechaAtencionReporte": "string",
+    "fechaSuceso":"string",
+    "fechaFinReporte": "string",
+    "idUsuarioCreador": "string",
+    "idOperadorAsignado": "string",
+    "idEmpresa": "string",
+    "estadoReporte": "string",
+    "comentarioOperario": "string",
+    "tipoAsuntoPorOperario": "string"
+  }
+}
+

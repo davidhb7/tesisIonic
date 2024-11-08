@@ -1,0 +1,25 @@
+{
+  "Usuario": {
+    "NIT":"string",
+    "idUsuario": "string",
+    "identificacionUsuario": "string",
+    "numeroReferenciaUsuarioConsumidor": "number",
+    "numeroAsignaciones":"number",
+    "nombreUsuario": "string",
+    "correoUsuario": "string",
+    "celularUsuario": "string",
+    "direccionUsuario": "string",
+    "sector":"string",
+    "telefonoUsuario": "string",
+    "idRol": "string",
+    "idEmpresa":"string",
+    "disponibleOperario": "boolean",
+    "esActivo": "boolean",
+    "asignacionesActivas": "number",
+    "fechaRegistro": "string",
+    "fotoAvatar": "string"
+  }
+}
+
+
+
