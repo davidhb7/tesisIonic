@@ -96,7 +96,7 @@ export class FormularioOperadorComponent  implements OnInit {
   async guardarOperador(){
     try{
       this.cargando=true;
-      this.nuevoUsuarioOperario.clave=this.nuevoUsuarioOperario.celularUsuario;
+      this.nuevoUsuarioOperario.clave=this.nuevoUsuarioOperario.identificacionUsuario;
       const resp= await this.serviciosAuthentication.registrarUsuarioRegistroAuthServices(this.nuevoUsuarioOperario.correoUsuario, this.nuevoUsuarioOperario.clave);
       if(resp){
         this.nuevoUsuarioOperario.idUsuario=resp.user.uid;

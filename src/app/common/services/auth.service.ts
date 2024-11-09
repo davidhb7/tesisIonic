@@ -27,9 +27,7 @@ export class AuthServices {
 
   //REGISTRAR USUARIO CON CORREO Y CONTRASEÑA
   async registrarUsuarioRegistroAuthServices(correo:string, contraPase:string){//estaba pasando objeto usuarioI
-    return await this.servicioAngularFireAuth.createUserWithEmailAndPassword(correo, contraPase).catch((error)=>{
-      console.log("ERROR DE REGISTRO: ", error)
-    });
+    return await this.servicioAngularFireAuth.createUserWithEmailAndPassword(correo, contraPase);
   }
 
   //REAUTENTICARSE AUTOMATICAMENTE
@@ -64,8 +62,6 @@ export class AuthServices {
     return this.servicioAngularFireAuth.authState;
   }
 
-  verificarExisteCorreo(correo:string){
-    return this.servicioAngularFireAuth.fetchSignInMethodsForEmail(correo);
-  }
+
 
 }

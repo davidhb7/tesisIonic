@@ -150,7 +150,9 @@ export class RegistroComponent  implements OnInit {
     const contra = this.formGroupRegistro.get('password')?.value;
     this.cargando=true;
     this.nuevoUsuario.clave=this.nuevoUsuario.identificacionUsuario;
-    const resp= await this.serviciosAuthe.registrarUsuarioRegistroAuthServices(this.nuevoUsuario.correoUsuario, contra);
+    const resp= await this.serviciosAuthe.registrarUsuarioRegistroAuthServices(this.nuevoUsuario.correoUsuario, contra).catch(()=>{
+      this.serviciosInteraccion.mensajeGeneral("Correo en uso o invalido");
+    });
 
     if(resp){
       this.serviciosInteraccion.mensajeGeneral("Usuario registrado correctamente");
@@ -187,19 +189,20 @@ export class RegistroComponent  implements OnInit {
 
   //VERIFICA SI ESE CORREO YA EXISTE
   verificarCorreo(){
-    if(this.formGroupRegistro.get('correoUsuario').valid){
-      const correoUs = this.formGroupRegistro.get('correoUsuario')?.value;
-      this.serviciosAuthe.verificarExisteCorreo(correoUs).then((existe)=>{
-        if(existe){
-          this.serviciosInteraccion.mensajeGeneral("Ya existe una cuenta con ese correo");
-          alert("Ese correo ya existe en el sistema")
-        }
-        else if(!existe){
-          this.serviciosInteraccion.mensajeGeneral("Correo apto");
-          this.guardarUsuarioRegistro();
-        }
-      })
-    }
+    // if(this.formGroupRegistro.get('correoUsuario').valid){
+    //   const correoUs = this.formGroupRegistro.get('correoUsuario')?.value;
+    //   this.serviciosAuthe.verificarExisteCorreo(correoUs).then((existe)=>{
+    //     if(existe){
+    //       this.serviciosInteraccion.mensajeGeneral("Ya existe una cuenta con ese correo");
+    //       alert("Ese correo ya existe en el sistema")
+    //     }
+    //     else if(!existe){
+    //       this.serviciosInteraccion.mensajeGeneral("Correo apto");
+    //       this.guardarUsuarioRegistro();
+    //     }
+    //   })
+    // }
+    this.guardarUsuarioRegistro();
   }
 
 
