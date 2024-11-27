@@ -11,8 +11,8 @@
 
 <ion-content>
   <ion-card>
-
-    <!-- Campo para el Número de Reporte -->
+    <ion-card-content>
+      <!-- Campo para el Número de Reporte -->
     <ion-item>
       <ion-label position="floating">Número de Reporte:</ion-label>
       <ion-input type="text" name="numeroReporte" aria-label="number" [(ngModel)]="nuevoReporte.numeroReporte" disabled="true" re></ion-input>
@@ -32,7 +32,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label>Fotos de galeria:</ion-label>
+      <ion-label>Subir Fotos de galeria:</ion-label>
       <ion-buttons slot="end">
         <label for="carga-archivo">
           <ion-icon slot="icon-only" name="image-outline"></ion-icon>
@@ -42,13 +42,30 @@
       </ion-buttons>
     </ion-item>
 
-    <!-- FOTOS AL CREAR EL REPORTE -->
+    <ion-item>
+      <ion-label>Tomar Foto</ion-label>
+      <ion-buttons slot="end">
+        <ion-button style="background-color: aquamarine; border-radius: 10px;" (click)="metodoTomarFoto()">
+          Camara
+          <ion-icon  name="camera-outline" style="margin-left: 10px;" ></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+
+
+
+    <!-- MUESTRA FOTOS AL CREAR EL REPORTE -->
+    <h2><strong>Sección Fotos del reporte:</strong></h2>
     <ion-item class="imagen" *ngFor="let urlFoto of enlacesFotos">
       <div style="display: flex; flex-direction: column; align-items: center;">
         <img src="{{urlFoto}}" alt="" style="margin: 10px; border-radius: 10px; height: 100px; width: 200px;">
+
         <ion-icon name="close-circle-outline" color="danger" (click)="eliminarFoto(urlFoto)" style="margin-top: 5px; margin-bottom: 10px;"></ion-icon>
       </div>
     </ion-item>
+
+
 
     <!-- MUESTRA FOTOS A EDITAR -->
     <ion-item class="imagen" *ngFor="let foto of fotosEditar">
@@ -58,7 +75,7 @@
       </div>
     </ion-item>
 
-
+    <hr color="grey">
 
 
     <!-- Botón para enviar el formulario -->
@@ -73,6 +90,8 @@
       </div>
     }
     <p style="margin-left: 10px; color: orange;" >  <strong>Reportes realizados:</strong> {{numeroActualReportes}}</p>
+
+    </ion-card-content>
 
   </ion-card>
 </ion-content>

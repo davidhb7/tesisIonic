@@ -12,52 +12,52 @@
       <ion-menu-toggle>
 
 
-        <ion-item>
-          <ion-label (click)="redirectMenu('/reportes', usuarioLog.idUsuario)" >
+        <ion-item (click)="redirectMenu('/reportes', usuarioLog.idUsuario)" >
+          <ion-label >
             Reportes
           </ion-label>
         </ion-item>
 
 
 
-        <ion-item *ngIf="visibleAsignaciones">
-          <ion-label (click)="irAsignacionesDelOperador()">
+        <ion-item *ngIf="visibleAsignaciones" (click)="irAsignacionesDelOperador()">
+          <ion-label >
             Mis Asignados
           </ion-label>
         </ion-item>
 
-        <ion-item *ngIf="visibleUsuarios">
-          <ion-label (click)="irTodosLosUsuarios()">
+        <ion-item *ngIf="visibleUsuarios" (click)="irTodosLosUsuarios()">
+          <ion-label >
             Usuarios
           </ion-label>
         </ion-item>
 
-        <ion-item *ngIf="visibleOperarios">
-          <ion-label (click)="irTodosLosOperarios()">
+        <ion-item *ngIf="visibleOperarios" (click)="irTodosLosOperarios()">
+          <ion-label >
             Operarios
           </ion-label>
         </ion-item>
 
-        <ion-item *ngIf="visibleEstadisticas">
-          <ion-label (click)="irEstadisticasDeOperarios()">
+        <ion-item *ngIf="visibleEstadisticas" (click)="irEstadisticasDeOperarios()">
+          <ion-label >
             Estadísticas de Operarios
           </ion-label>
         </ion-item>
 
-        <ion-item *ngIf="visibleInfoEmpresa">
-          <ion-label (click)="irInformacionEmpresa()">
+        <ion-item *ngIf="visibleInfoEmpresa" (click)="irInformacionEmpresa()">
+          <ion-label >
             Sobre nosotros
           </ion-label>
         </ion-item>
 
-        <ion-item>
-          <ion-label (click)="paraverPerfilconId(usuarioLog.idUsuario)">
+        <ion-item  (click)="paraverPerfilconId(usuarioLog.idUsuario)">
+          <ion-label>
             Perfíl
           </ion-label>
         </ion-item>
 
-        <ion-item>
-          <ion-label (click)="cerrarSesion()">
+        <ion-item (click)="cerrarSesion()">
+          <ion-label >
             Cerrar Sesión
           </ion-label>
         </ion-item>

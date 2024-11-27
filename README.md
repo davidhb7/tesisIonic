@@ -14,7 +14,7 @@
 
 
 ## URL DEL DESPLIEGUE:
-  * https://ionic-gest-rep-all.web.app/login
+  * https://ionic-gest-rep-all.web.app
 
 
 

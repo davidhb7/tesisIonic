@@ -9,10 +9,19 @@ import { FireStoreService } from 'src/app/common/services/fire-store.service';
 import { AuthServices } from 'src/app/common/services/auth.service';
 import { FotoI } from 'src/app/common/interfaces/fotos.interface';
 import { InteractionService } from 'src/app/common/services/interaction.service';
-import { Camera, CameraResultType } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 import { Geolocation } from '@capacitor/geolocation';
 import { LocalStorageService } from 'src/app/common/services/local-storage.service';
+
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Plugins } from '@capacitor/core';
+import { CapacitorConfig } from '@capacitor/cli';
+import { finalize } from 'rxjs/operators';
+
+
+const { PermissionsAndroid } = Plugins;
+
 
 
 
@@ -55,7 +64,7 @@ export class CrearReporteComponent  implements OnInit {
     private router: Router,
     private serviciosAuth: AuthServices,
     private route: ActivatedRoute,
-    private servicioLocalStorage: LocalStorageService
+    private servicioLocalStorage: LocalStorageService,
   ) {
     //RECIBIENDO ID IDREPORTE
     this.idPresenteDeReporte=route.snapshot.params['idReporte'];
@@ -91,7 +100,19 @@ export class CrearReporteComponent  implements OnInit {
   }
 
   ngOnInit() {
+    Camera.requestPermissions();
+    this.solicitarPermisos();
+    Geolocation.requestPermissions();
     return;
+  }
+
+  //PREGUNTAR POR PERMISOS
+  async solicitarPermisos() {
+    const { granted } = await PermissionsAndroid['request'](
+      PermissionsAndroid['PERMISSIONS']['WRITE_EXTERNAL_STORAGE']
+
+    );
+    return granted;
   }
 
   //INICIALIZAR USUARIO VACIO
@@ -240,8 +261,7 @@ export class CrearReporteComponent  implements OnInit {
     }
   }
 
-
-
+  //METODO EDITAR
   paraEdit(){
     if(this.idPresenteDeReporte=="" || this.idPresenteDeReporte==undefined){
       this.paraEditar=false;
@@ -250,6 +270,7 @@ export class CrearReporteComponent  implements OnInit {
       this.paraEditar=true;
     }
   }
+
   //CONSUMO DE SERVICIO SUBIR FOTOS AL STORAGE MIENTRAS SE CREA EL REPORTE
   async subirFotoCrearReporte(event:any){
     const nombreRutaCarpetaStorage=this.usuarioLog.correoUsuario;
@@ -320,18 +341,6 @@ export class CrearReporteComponent  implements OnInit {
     this.nuevoReporte.ubicacion=localizacion.coords.latitude.toString() +" "+ localizacion.coords.longitude.toString()
   }
 
-  //METODO PARA USAR LA CAMARA DEL DISPOSITIVO
-  async tomarFoto(){
-    const foto =await Camera.getPhoto({
-      quality: 90,
-      allowEditing: true,
-      resultType: CameraResultType.Uri
-    });
-    let fotoUrl = foto.webPath;
-    console.log("fotoUrl",fotoUrl);
-    console.log("foto",fotoUrl);
-  }
-
   // ASIGNACION AUTOMATICA DE OPERARIOS
   async getOperarioAsignar(){
     try{
@@ -351,6 +360,7 @@ export class CrearReporteComponent  implements OnInit {
     }
   }
 
+  //AUMENTO AL NUMERO DE AASIGNACIONES AL OPERARIO
   sumarAsignacion(idOp:string, cant:number){
     this.serviciosFireStore.actualizarCampoDocumento(
       "Usuarios",
@@ -406,6 +416,82 @@ export class CrearReporteComponent  implements OnInit {
     }
   }
 
+  //UTILIZAR CAMARA Y ACEPTA/CANCELA LA FOTO QUE SE TOMA
+  async metodoTomarFoto(){
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Base64,
+      source:CameraSource.Camera,
+    });
+    if(image){
+      this.guardarEnNubeBs64JPG(image.base64String);
+      this.guardarFotoTomadaEnDispositivo(image.base64String);
+    }
+
+  }
+
+  //GUARDA FOTO EN EL CELULAR
+  async guardarFotoTomadaEnDispositivo(fotoTomada:string){
+    await Filesystem.writeFile({
+      path: 'Foto.jpg',
+      data: fotoTomada,
+      directory: Directory.Documents,
+    });
+  }
+
+  //TOMA LA FOTO QUE REALIZÓ CON LA AMARA, LA CONVIERTE A JPG (ESTA EN BASE64) Y LA SUBE A LA NUBE
+  async guardarEnNubeBs64JPG(bs64:string){
+    const blob = this.convertidorBs64ToJPG(bs64);
+    const nombreRutaCarpetaStorage=this.usuarioLog.correoUsuario;
+    const nombreFotoEnStorage="fotoReporte"+this.nuevoReporte.numeroReporte+this.contadorFotosNombre.toString();
+    this.serviciosInteraccion.cargandoConMensaje("Cargando foto.")
+    const res = await this.servicioFireStorage.cargarFotoFireStorage(blob, nombreRutaCarpetaStorage, nombreFotoEnStorage )
+    if(res){
+      this.nuevaFotoI.urlFoto=res;
+      this.enlacesFotos.push(res)
+      this.idsFotosSeleccionadas.push(this.nuevaFotoI.idFoto);
+      this.nuevaFotoI.idFoto=this.serviciosFireStore.crearIDUnico();
+      await this.serviciosFireStore.crearDocumentoGeneralPorID(this.nuevaFotoI,'Fotos',this.nuevaFotoI.idFoto);
+      this.contadorFotosNombre++;
+    }
+    else{
+      this.serviciosInteraccion.mensajeGeneral("Error cargar FS");
+    }
+    this.serviciosInteraccion.mensajeGeneral("Listo");
+    this.serviciosInteraccion.cerrarCargando();
+  }
+
+  //CONVERTIR DE BASE64 A JPG
+  convertidorBs64ToJPG(base64: string, contentType = 'image/jpeg'): Blob {
+    try {
+      if (!base64.startsWith('data:image')) {
+        base64 = `data:${contentType};base64,${base64}`;
+      }
+
+      const byteCharacters = atob(base64.split(',')[1]);
+      const byteArrays = [];
+
+      for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+        const slice = byteCharacters.slice(offset, offset + 512);
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+        byteArrays.push(new Uint8Array(byteNumbers));
+      }
+
+      console.log('La conversión de Base64 a Blob se completó con éxito.');
+      this.serviciosInteraccion.mensajeGeneral("Conversion exitosa");
+      return new Blob(byteArrays, { type: contentType });
+
+    } catch (error) {
+      console.error('Error durante la conversión de Base64 a Blob:', error);
+      this.serviciosInteraccion.mensajeGeneral("Error de conversion");
+      this.serviciosInteraccion.mensajeGeneral("-"+error);
+      return null;
+    }
+  }
 
 
 
