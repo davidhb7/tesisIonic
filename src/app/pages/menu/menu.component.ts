@@ -153,6 +153,12 @@ export class MenuComponent implements OnInit {
     this.router.navigate(['/infor-empresa']);
   }
 
+  //CREAR REPORTE CON ID DE PARAMETRO EN RUTA
+  navegarFormularioCrearReporte() {
+    this.router.navigate(['/crear-reporte']);
+    console.log("sin id")
+  }
+
   // irRepetidor(){
   //   this.router.navigate(['/repetidor']);
   // }

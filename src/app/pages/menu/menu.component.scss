@@ -81,5 +81,29 @@ ion-item:hover {
   background-color: rgba(0, 0, 0, 0.05); /* Opcional: cambia el fondo al pasar el mouse */
 }
 
+ion-tab-bar {
+  border-top: 1px solid #ccc; /* Línea superior para separar la barra de los demás elementos */
+  background-color: rgb(182, 243, 223);
+}
+
+ion-tab-button {
+  border-right: 1px solid #ccc; /* Línea separadora entre botones */
+  padding: 10px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  background-color: rgb(182, 243, 223);
+}
+
+ion-tab-button:last-child {
+  border-right: none; /* Elimina la línea para el último botón */
+}
+
+ion-tab-button:hover {
+  background-color: #f0f0f0; /* Color de fondo al pasar el mouse */
+}
+
+ion-tab-button:active {
+  transform: scale(0.95); /* Animación al presionar */
+  background-color: #e0e0e0; /* Color de fondo durante la pulsación */
+}
 
 
