@@ -10,14 +10,13 @@ import { AuthServices } from 'src/app/common/services/auth.service';
 import { FotoI } from 'src/app/common/interfaces/fotos.interface';
 import { InteractionService } from 'src/app/common/services/interaction.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-
 import { Geolocation } from '@capacitor/geolocation';
 import { LocalStorageService } from 'src/app/common/services/local-storage.service';
-
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { Plugins } from '@capacitor/core';
 import { CapacitorConfig } from '@capacitor/cli';
 import { finalize } from 'rxjs/operators';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 
 
 const { PermissionsAndroid } = Plugins;
@@ -65,6 +64,7 @@ export class CrearReporteComponent  implements OnInit {
     private serviciosAuth: AuthServices,
     private route: ActivatedRoute,
     private servicioLocalStorage: LocalStorageService,
+    private diagnostic: Diagnostic
   ) {
     //RECIBIENDO ID IDREPORTE
     this.idPresenteDeReporte=route.snapshot.params['idReporte'];
@@ -329,6 +329,7 @@ export class CrearReporteComponent  implements OnInit {
 
   //TOMA LA UBICACION DE QUIEN REALIZA EL REPORTE
   async tomarubicacion(){
+    this.checkAndEnableGPS();
     this.serviciosInteraccion.cargandoConMensaje("Tomando coordenadas")
     const parametrosUbicacion = {
       enableHighAccuracy: true, // Obtener coordenadas más precisas
@@ -493,7 +494,21 @@ export class CrearReporteComponent  implements OnInit {
     }
   }
 
-
+  async checkAndEnableGPS() {
+    try {
+      const isEnabled = await this.diagnostic.isLocationEnabled();
+      if (!isEnabled) {
+        await this.diagnostic.switchToLocationSettings();
+        this.serviciosInteraccion.mensajeGeneral("EActivado");
+      } else {
+        console.log('El GPS ya está habilitado');
+        this.serviciosInteraccion.mensajeGeneral("Ya se encuentra activado");
+      }
+    } catch (error) {
+      console.error('Error verificando el estado del GPS:', error);
+      this.serviciosInteraccion.mensajeGeneral("Error al activar ubicacion");
+    }
+  }
 
 
 }
