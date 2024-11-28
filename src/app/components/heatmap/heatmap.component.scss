@@ -1,9 +1,11 @@
 capacitor-google-map {
   display: inline-block;
-  width: 1200px;
-  height: 600px;
+  width: 1400px;
+  height: 500px;
   border-radius: 10px;
   margin: 10px;
+
+
 }
 
 //NUEVO PARA LA ESCALA
@@ -28,18 +30,19 @@ capacitor-google-map {
 }
 
 ion-card{
-  width: 1500px;
+  width: 100%;
+  max-width: 1500px; /* Limita el ancho máximo */
   opacity: 0.95;
+  margin: auto; /* Centra el card horizontalmente */
 }
 
 ion-card-content{
   color: rgb(77, 77, 77);
-  background: rgb(0,0,0);
   background: linear-gradient(360deg, rgb(234, 236, 235) 0%, rgb(166, 221, 166) 100%);
-  align-items: center;
-  justify-content: center;
   display: flex;
-  // rgb(32, 61, 32)
+  align-items: flex-start; /* Alinea el contenido superior cuando hay espacio */
+  justify-content: space-between; /* Espacia texto y mapa */
+  flex-wrap: wrap; /* Permite que los elementos se reorganicen en varias líneas */
 }
 
 
@@ -47,6 +50,31 @@ ion-content {
   --background: none;
   background: url('/assets/img/decoration/mapaDecoracion.jpg') center center no-repeat;
   background-size: cover;
-  //filter: blur(8px); /* Efecto de difuminado */
   position: relative;
 }
+
+
+// @media only screen and (max-width: 1200px) {
+// 	// hacer algo en ese rango de ancho.
+//   capacitor-google-map{
+//       display: block;
+//       max-width: 1000px;
+//       width: 1000;
+//       height: 600px;
+//       border-radius: 10px;
+//       margin: 10px;
+//   }
+// }
+
+// @media only screen and (min-width: 360px) {
+// 	// hacer algo en ese rango de ancho.
+//   capacitor-google-map{
+//       display: block;
+//       min-width: 340px;
+//       height: 600px;
+//       border-radius: 10px;
+//       margin: 10px;
+//   }
+// }
+
+

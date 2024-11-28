@@ -18,12 +18,14 @@ ion-content {
 }
 
 ion-card {
-  width: 100%;
-  max-width: 600px; /* Limita el ancho máximo del card */
+  width: 100%; /* Permite que el card crezca con el contenedor */
+  max-width: calc(100% - 30px); /* Limita el ancho considerando un margen de 15px en ambos lados */
+  min-width: 380px; /* Define un ancho mínimo de 380px */
   background-color: rgb(203, 240, 228);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera para un mejor diseño */
-  opacity: 0.85;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto; /* Centra el card horizontalmente */
+  padding: 10px; /* Ajuste opcional para espaciado interno */
 }
 
 ion-card-content {
