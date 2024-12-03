@@ -71,7 +71,6 @@ export class LoginComponent  implements OnInit {
           next:async documentoCorreo=>{
             this.servicioLocalStorage.limpiarTodoLocalStorage();
             this.servicioLocalStorage.guardarDatosEnLocalStorage(documentoCorreo);
-            this.serviciosInteraccion.mensajeGeneral("Inicio correcto");
             this.serviciosInteraccion.cerrarCargando();
             this.inicializarCamposLogin();
             this.servicioLocalStorage.cargarLocalStorage();

@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/menu"></ion-back-button>
+      <ion-back-button defaultHref="/reportes"></ion-back-button>
     </ion-buttons>
     <ion-title>
       Reporte
@@ -13,18 +13,15 @@
 <ion-content>
   <ion-list>
     <ion-card>
-      <ion-card-header>
-        <ion-card-title></ion-card-title>
-        <ion-card-subtitle style="font-weight: bold; color: white; ">Identificacion del reporte:</ion-card-subtitle>
-        <p>{{idPresenteReporte}}</p>
-      </ion-card-header>
 
 
       <ion-card-content>
-        <strong>Reporte numero: {{reporte.numeroReporte}}</strong>
-        <p>Descripcipon expecifica: {{reporte.descripcion}}</p>
+        <strong>Reporte número: {{reporte.numeroReporte}}</strong>
+        <p>Descripción expecifica: {{reporte.descripcion}}</p>
         <p>Coordenadas {{reporte.ubicacion}}</p>
-        <p>Operario asignado: {{reporte.idOperador}}</p>
+        <p>Operario asignado: {{operarioAtiende.nombreUsuario}} </p>
+        <p>Creador de reporte: {{usuarioLocal.nombreUsuario}}</p>
+
         <!-- <p style="color: green;">{{reporte.estado}}</p> -->
         @if(reporte.estado==="SOLUCIONADO"){
           <p style="color: green;"> SOLUCIONADO</p>

@@ -3,7 +3,7 @@
     "NIT":"string",
     "idUsuario": "string",
     "identificacionUsuario": "string",
-    "numeroReferenciaUsuarioConsumidor": "number",
+    "numeroReferenciaUsuarioConsumidor": "string",
     "numeroAsignaciones":"number",
     "nombreUsuario": "string",
     "correoUsuario": "string",

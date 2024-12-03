@@ -26,6 +26,12 @@ export class GoogleMapsComponent{
     this.initMap();
     this.trackLocation();
 
+    // Listener para redibujar el mapa cuando la pantalla cambie de tamaño
+    window.addEventListener('resize', () => {
+      google.maps.event.trigger(this.map, 'resize');
+    });
+
+
   }
 
 
@@ -33,7 +39,7 @@ export class GoogleMapsComponent{
     const mapRef = document.getElementById('map');
 
     this.map = await new google.maps.Map(mapRef, {
-      center: { lat: 3.523303, lng: -76.712034 },
+      center: { lat: 3.523323, lng: -76.712068     },
       zoom: 14,
     });
 

@@ -47,8 +47,6 @@ export class AuthServices {
   async cambiarPass(nuevaPass:string){
     const auth = getAuth();
     const user = auth.currentUser;
-    console.log("usuario actual: ", user);
-    console.log("nueva contra: ", nuevaPass);
     return await updatePassword(user,nuevaPass);
   }
 

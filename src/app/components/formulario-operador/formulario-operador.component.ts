@@ -119,7 +119,6 @@ export class FormularioOperadorComponent  implements OnInit {
       this.cargando=true;
       const response= await this.servicioFireStore.getDocumentSolo("Usuarios", this.idPresenteOperario);
       const usuarioData: DocumentData = response.data();
-      console.log("EDITAR");
       this.nuevoUsuarioOperario={
         idUsuario: usuarioData['idUsuario'] || '',
         identificacionUsuario:  usuarioData['cedulausuario'] ||'',
@@ -138,7 +137,6 @@ export class FormularioOperadorComponent  implements OnInit {
       }
       this.cargando=false;
     }else{
-      console.log("CREAR: ", this.idPresenteOperario)
       this.iniciaizarOperadorBase();
     }
   }

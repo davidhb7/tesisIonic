@@ -5,3 +5,35 @@ capacitor-google-map {
   border-radius: 10px;
   margin: 10px;
 }
+
+
+ion-content {
+  --background: none;
+  background: url('/assets/img/decoration/mapaDecoracion.jpg') center center no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+
+
+//CAMBIOS*********
+
+.map-container {
+  width: 100%;
+  height: 100%;
+  max-height: 100vh; /* Máximo ocupa la altura total de la pantalla */
+}
+
+capacitor-google-map {
+  width: 100%; /* Se adapta al ancho del contenedor */
+  height: 100%; /* Se adapta al alto del contenedor */
+  border-radius: 10px;
+  margin: 10px 0;
+}
+
+/* Opcional: ajustar estilos en dispositivos más pequeños */
+@media (max-width: 768px) {
+  .map-container {
+    height: 50vh; /* Altura ajustada para pantallas pequeñas */
+  }
+}

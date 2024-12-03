@@ -19,13 +19,11 @@ export class LocalStorageService  {
 
   async guardarDatosEnLocalStorage(valor:any ){
     await this.localStorage.set("USUARIO",valor);
-    console.log("Dato guardado en Local storage.", valor);
   }
 
   async getDatosDeLocalStorage(){
     try{
       const item = await this.localStorage.get("USUARIO");
-      console.log("Item obtenido: ", item)
       return item;
     }catch(e){
       console.log("Error get local storage",e)

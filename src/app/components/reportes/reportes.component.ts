@@ -72,32 +72,58 @@ export class ReportesComponent implements OnInit {
   }
 
   //SI ES EMPRESA U OPERARIO, TRAER TODOS LOS REPORTES
-  getReportesGeneralesEmpresaOperario(){
+  // getReportesGeneralesEmpresaOperario(){
+  //   this.serviciosFireStoreDatabase.getDocumentosGeneralAtentoCambios<ReportesI>("Reportes").subscribe(
+  //     data=>{
+  //       if(data){
+  //         this.reportesGenerales=data;
+  //       }
+  //     }
+  //   )
+  // }
+  getReportesGeneralesEmpresaOperario() {
     this.serviciosFireStoreDatabase.getDocumentosGeneralAtentoCambios<ReportesI>("Reportes").subscribe(
-      data=>{
-        if(data){
-          this.reportesGenerales=data;
+      data => {
+        if (data) {
+          this.reportesGenerales = data.sort((a, b) => a.numeroReporte - b.numeroReporte);
         }
       }
-    )
+    );
   }
+
 
   //GET REPORTES PENDIENTES POR ID DEL USUARIO CLIENTE LOGUIEADO - ROL 4
-  getReportesPendientesPorIDUsuario(){
-    this.serviciosFireStoreDatabase.getReportesSegunEstadoUsuarioConsumidor(EN_PROCESO,this.usuarioPresente.idUsuario).subscribe({
-      next:documentoPendiente=>{
-        this.reportresUsuarioPendientes=documentoPendiente;
+  // getReportesPendientesPorIDUsuario(){
+  //   this.serviciosFireStoreDatabase.getReportesSegunEstadoUsuarioConsumidor(EN_PROCESO,this.usuarioPresente.idUsuario).subscribe({
+  //     next:documentoPendiente=>{
+  //       this.reportresUsuarioPendientes=documentoPendiente;
+  //     }
+  //   });
+  // }
+  getReportesPendientesPorIDUsuario() {
+    this.serviciosFireStoreDatabase.getReportesSegunEstadoUsuarioConsumidor(EN_PROCESO, this.usuarioPresente.idUsuario).subscribe({
+      next: documentoPendiente => {
+        this.reportresUsuarioPendientes = documentoPendiente.sort((a, b) => a.numeroReporte - b.numeroReporte);
       }
     });
   }
 
-  getReportesSolucionadoPorIDUsuario(){
-    this.serviciosFireStoreDatabase.getReportesSegunEstadoUsuarioConsumidor(SOLUCIONADO,this.usuarioPresente.idUsuario).subscribe({
-      next:documentoSolucionado=>{
-        this.reportresUsuarioSolucionado=documentoSolucionado;
+
+  // getReportesSolucionadoPorIDUsuario(){
+  //   this.serviciosFireStoreDatabase.getReportesSegunEstadoUsuarioConsumidor(SOLUCIONADO,this.usuarioPresente.idUsuario).subscribe({
+  //     next:documentoSolucionado=>{
+  //       this.reportresUsuarioSolucionado=documentoSolucionado;
+  //     }
+  //   });
+  // }
+  getReportesSolucionadoPorIDUsuario() {
+    this.serviciosFireStoreDatabase.getReportesSegunEstadoUsuarioConsumidor(SOLUCIONADO, this.usuarioPresente.idUsuario).subscribe({
+      next: documentoSolucionado => {
+        this.reportresUsuarioSolucionado = documentoSolucionado.sort((a, b) => a.numeroReporte - b.numeroReporte);
       }
     });
   }
+
 
 
 
@@ -177,13 +203,16 @@ export class ReportesComponent implements OnInit {
   //REDIRECCION A EDITAR REPORTE
   async navegarConIDEditarReporte(idRep: string) {
     this.router.navigate(['/crear-reporte', idRep]);
-    console.log("enviando id editar", idRep)
   }
 
   //REDIRECCIONAR A GET REPORTE CON ID
   navegarConIDVerReporte(idRep: string) {
     this.router.navigate(['/reporte', idRep]);
-    console.log("enviando id", idRep)
+  }
+
+  //REDIRECCIONAR A GET REPORTE CON ID
+  navegarMenu() {
+    this.router.navigate(['/menu']);
   }
 
 }

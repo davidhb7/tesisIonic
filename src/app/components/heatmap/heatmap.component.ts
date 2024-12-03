@@ -32,6 +32,11 @@ export class HeatmapComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.inicializarMapa();
     this.getReportesGeneralesEmpresaOperario();
+
+    // Listener para redibujar el mapa cuando la pantalla cambie de tamaño
+    window.addEventListener('resize', () => {
+      google.maps.event.trigger(this.map, 'resize');
+    });
   }
 
   //INICIALIZAR MAPA

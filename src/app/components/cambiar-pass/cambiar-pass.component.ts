@@ -60,7 +60,7 @@ export class CambiarPassComponent  implements OnInit {
         })
 
       }
-      console.log("cambios guardados");
+      console.log("Cambios guardados");
       this.router.navigate(['/menu'])
     }
   }

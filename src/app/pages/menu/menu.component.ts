@@ -54,7 +54,6 @@ export class MenuComponent implements OnInit {
   //DIRECTORIO DE MENU. REDIRECCIONA SEGUN LO ELEGIDO
   redirectMenu(nuevaRuta: string, elId?: string) {
     this.router.navigate([nuevaRuta, elId]);
-    console.log(elId);
   }
 
   //CERRAR SESION CON SERVICIO
@@ -115,7 +114,6 @@ export class MenuComponent implements OnInit {
           fotoAvatar:usuarioData['fotoAvatar'] || '',
         };
         this.idQuienInicia = this.usuarioLog.idUsuario;
-        console.log("ROL: ", this.usuarioLog.idRol);
         this.clasificarRolSegunStorage(this.usuarioLog.idRol);
       }
     } catch (error) {
@@ -156,7 +154,6 @@ export class MenuComponent implements OnInit {
   //CREAR REPORTE CON ID DE PARAMETRO EN RUTA
   navegarFormularioCrearReporte() {
     this.router.navigate(['/crear-reporte']);
-    console.log("sin id")
   }
 
   // irRepetidor(){
@@ -167,7 +164,6 @@ export class MenuComponent implements OnInit {
   //DISPONIBILIDAD DE VISTAS Y FUNCIONALIDADES SEGUN EL ROL
   clasificarRolSegunStorage(idRol: string) {
     if (idRol == "4") {
-      console.log("Us-Cons");
       this.visibleReportes = false;
       this.visibleOperarios = false;
       this.visibleUsuarios = false;
@@ -176,7 +172,6 @@ export class MenuComponent implements OnInit {
       this.visibleInfoEmpresa=true;
       this.visibleRepetidor=false;
     } else if (idRol == "1" || idRol == "2") {
-      console.log("Adm - Empr");
       this.visibleReportes = true;
       this.visibleOperarios = true;
       this.visibleUsuarios = true;
@@ -186,7 +181,6 @@ export class MenuComponent implements OnInit {
       this.visibleRepetidor=true;
 
     } else if (idRol == "3") {
-      console.log("Op");
       this.visibleReportes = true;
       this.visibleOperarios = false;
       this.visibleUsuarios = false;
@@ -195,7 +189,6 @@ export class MenuComponent implements OnInit {
       this.visibleInfoEmpresa= true;
       this.visibleRepetidor=false;
     } else {
-      console.log("ROL DESCONOCIDO");
       this.visibleReportes = false;
       this.visibleOperarios = false;
       this.visibleUsuarios = false;

@@ -34,7 +34,6 @@ export class FireStoreService {
   //CREAR ID ALEATORIO
   crearIDUnico(){
     const uuid = uuidv4();
-    console.log("El idUnico", uuid);
     return uuid;
   }
 

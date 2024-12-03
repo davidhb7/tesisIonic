@@ -62,7 +62,6 @@ export class OperariosComponent  implements OnInit {
   //ELIMINAR OPERARIO POR ID
   async eliminarUsuario(operarioEliminar: UsuarioI){
     this.cargando=true;
-    console.log(operarioEliminar.idUsuario)
     await this.serviciosFireStore.eliminarDocPorID( 'Usuarios',operarioEliminar.idUsuario);
     this.cargando=false;
   }
@@ -71,13 +70,11 @@ export class OperariosComponent  implements OnInit {
   //REDIRECCIONAR A VER USUARIO POR ID
   navegarConIDVerOperario(idOperario?:string){
     this.router.navigate(['/usuario',idOperario]);
-    console.log("enviando id",idOperario)
   }
 
   //EDITAR OPERARIO POR ID
   redireccionarParaEditar(idOperador:string){
     this.router.navigate(['/formulario-operador',idOperador])
-    console.log("Para editar:", idOperador);
   }
 
 

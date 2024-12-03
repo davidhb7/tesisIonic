@@ -66,6 +66,7 @@ export class CrearReporteComponent  implements OnInit {
     private servicioLocalStorage: LocalStorageService,
     private diagnostic: Diagnostic
   ) {
+    this.checkAndEnableGPS();
     //RECIBIENDO ID IDREPORTE
     this.idPresenteDeReporte=route.snapshot.params['idReporte'];
     this.paraEdit();
@@ -329,7 +330,6 @@ export class CrearReporteComponent  implements OnInit {
 
   //TOMA LA UBICACION DE QUIEN REALIZA EL REPORTE
   async tomarubicacion(){
-    this.checkAndEnableGPS();
     this.serviciosInteraccion.cargandoConMensaje("Tomando coordenadas")
     const parametrosUbicacion = {
       enableHighAccuracy: true, // Obtener coordenadas más precisas
@@ -499,13 +499,12 @@ export class CrearReporteComponent  implements OnInit {
       const isEnabled = await this.diagnostic.isLocationEnabled();
       if (!isEnabled) {
         await this.diagnostic.switchToLocationSettings();
-        this.serviciosInteraccion.mensajeGeneral("EActivado");
+        this.serviciosInteraccion.mensajeGeneral("Activado");
       } else {
         console.log('El GPS ya está habilitado');
         this.serviciosInteraccion.mensajeGeneral("Ya se encuentra activado");
       }
     } catch (error) {
-      console.error('Error verificando el estado del GPS:', error);
       this.serviciosInteraccion.mensajeGeneral("Error al activar ubicacion");
     }
   }

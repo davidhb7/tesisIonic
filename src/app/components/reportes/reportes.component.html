@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/menu"></ion-back-button>
+    <ion-buttons slot="start" >
+      <ion-back-button (click)="navegarMenu()"></ion-back-button>
     </ion-buttons>
     <ion-title>
       Reportes
@@ -37,7 +37,7 @@
                       <!-- REPORTES PERTENECIENTES PARA EL USUARIO LOGUEADO -->
                       <p><strong>Reporte numero: </strong>{{reporteGen.numeroReporte}}</p>
                       <p><strong>Descripcipon:</strong> {{reporteGen.descripcion}}</p>
-                      <p><strong>Id Reporte:</strong> {{reporteGen.idReporte}}</p>
+                      <!-- <p><strong>Id Reporte:</strong> {{reporteGen.idReporte}}</p> -->
                       <p><strong>Fecha:</strong> {{reporteGen.fechaRegistroReporte}}</p>
 
                     <ion-button color="success" (click)="navegarConIDVerReporte(reporteGen.idReporte)" style="font-size: 10px;">Ver</ion-button>
@@ -58,7 +58,7 @@
   <div>
     <ion-card>
       <ion-card-header>
-        <ion-card-title style="color: green;"><strong>Mis Reportes Pendientes: </strong></ion-card-title>
+        <ion-card-title style="color: orange;"><strong>Mis Reportes Pendientes: </strong></ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <div>
@@ -68,7 +68,7 @@
                 <!-- REPORTES PERTENECIENTES PARA EL USUARIO LOGUEADO -->
                 <p><strong>Reporte numero: </strong>{{reportePnd.numeroReporte}}</p>
                 <p><strong>Descripcipon:</strong> {{reportePnd.descripcion}}</p>
-                <p><strong>Id Reporte:</strong> {{reportePnd.idReporte}}</p>
+                <!-- <p><strong>Id Reporte:</strong> {{reportePnd.idReporte}}</p> -->
                 <p><strong>Fecha:</strong> {{reportePnd.fechaRegistroReporte}}</p>
 
               <ion-button color="danger" (click)="eliminarReporte(reportePnd.idReporte)" style="font-size: 10px;">Eliminar</ion-button>
@@ -88,7 +88,7 @@
 
     <ion-card >
       <ion-card-header>
-        <ion-card-title style="color: orange;"><strong>Mis Reportes Solucionados:</strong></ion-card-title>
+        <ion-card-title style="color: green;"><strong>Mis Reportes Solucionados:</strong></ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <div>
@@ -98,7 +98,7 @@
                 <!-- REPORTES PERTENECIENTES PARA EL USUARIO LOGUEADO -->
                 <p><strong>Reporte numero: </strong>{{reporteSol.numeroReporte}}</p>
                 <p><strong>Descripcipon:</strong> {{reporteSol.descripcion}}</p>
-                <p><strong>Id Reporte:</strong> {{reporteSol.idReporte}}</p>
+                <!-- <p><strong>Id Reporte:</strong> {{reporteSol.idReporte}}</p> -->
                 <p><strong>Fecha:</strong> {{reporteSol.fechaRegistroReporte}}</p>
 
               <ion-button color="success" (click)="navegarConIDVerReporte(reporteSol.idReporte)" style="font-size: 10px;">Ver</ion-button>

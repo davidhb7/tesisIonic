@@ -34,7 +34,6 @@ export class UsuarioComponent  implements OnInit {
   ) {
     //RECIBE EL ID DEL USUARIO POR PARAMETRO DE ROUTE
     this.idPresenteDeUsuario=route.snapshot.params['idUsuario'];
-    console.log("id rout:", this.idPresenteDeUsuario)
     this.traerUSLocal();
     this.getUsuarioPorID();
     this.inicializarUsuarioVacio();
@@ -151,8 +150,6 @@ export class UsuarioComponent  implements OnInit {
     const res = await this.servicioFireStorage.cargarFotoFireStorage(archivo, nombreRutaCarpetaStorage, nombreFotoEnStorage );
     this.usuario.fotoAvatar=res;
     this.urlFotoAvatar=res.toString();
-    console.log(this.usuario.fotoAvatar);
-    console.log("link", res, "id: ", this.idPresenteDeUsuario)
     this.servicioFireStore.actualizarCampoDocumento("Usuarios", this.idPresenteDeUsuario,"fotoAvatar",this.urlFotoAvatar).subscribe(()=>{
       console.log("Foto guardada...");
     });
@@ -171,7 +168,6 @@ export class UsuarioComponent  implements OnInit {
 
   //EDITAR
   redireccionarParaEditar(idUsuario:string){
-    console.log("Para editar", idUsuario);
     this.router.navigate(['/formulario-registro',idUsuario])
   }
 

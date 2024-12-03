@@ -50,7 +50,6 @@ export class UsuariosComponent  implements OnInit {
   //VER. REDIRECCIONAR A VER USUARIO POR ID
   navegarConIDVerReporte(idUsuario:string){
     this.router.navigate(['/usuario',idUsuario]);
-    console.log("enviando id",idUsuario)
   }
 
   //ELIMINAR DOCUMENTO CON ID
@@ -67,7 +66,6 @@ export class UsuariosComponent  implements OnInit {
 
   //EDITAR
   redireccionarParaEditar(idUsuario:string){
-    console.log("Para editar", idUsuario);
     this.router.navigate(['/formulario-registro',idUsuario])
   }
 

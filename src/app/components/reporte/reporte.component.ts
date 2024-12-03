@@ -6,6 +6,9 @@ import { ReportesComponent } from '../reportes/reportes.component';
 import { DocumentData } from '@angular/fire/firestore';
 import { FotoI } from 'src/app/common/interfaces/fotos.interface';
 import { InteractionService } from 'src/app/common/services/interaction.service';
+import { LocalStorageService } from 'src/app/common/services/local-storage.service';
+import { UsuarioI } from 'src/app/common/interfaces/usuarios.interface';
+import { OperarioI } from 'src/app/common/interfaces/operario.interface';
 
 @Component({
   selector: 'app-reporte',
@@ -16,6 +19,8 @@ export class ReporteComponent  implements OnInit {
 
   //OBJETOS
   reporte: ReportesI;
+  usuarioLocal:UsuarioI
+  operarioAtiende:OperarioI
   fotosDeReporte:FotoI[]=[]
 
   //VARIABLES
@@ -27,9 +32,16 @@ export class ReporteComponent  implements OnInit {
     private servicioFireStore: FireStoreService,//INYECTANDO DEPENDENCIA
     private route: ActivatedRoute,
     private serviciosInteraccion: InteractionService,
+    private serviciosLocalStorage: LocalStorageService
+
   ) {
     //RECIBE EL ID QUE TRAE EL NAVEGADOR DE COMPONENTE: poner el id tal cual la interfazS
     this.idPresenteReporte=route.snapshot.params['idReporte'];
+    this.inicializarUsuarioLocalVacio();
+    this.traerUSLocal();
+
+    this.inicializarOperarioVacio();
+
     this.inicializarEnVacio();
     this.getReporteSoloVer();
     this.getFotosPorIdReporte();
@@ -38,6 +50,44 @@ export class ReporteComponent  implements OnInit {
 
   ngOnInit() {
     return;
+  }
+
+  inicializarUsuarioLocalVacio(){
+    this.usuarioLocal = {
+      idUsuario: '',
+      identificacionUsuario:'',
+      numeroReferenciaUsuarioConsumidor: 0,
+      nombreUsuario: '',
+      correoUsuario: '',
+      celularUsuario: '',
+      direccionUsuario: '',
+      telefonoUsuario: '',
+      clave: '',
+      idRol: '',
+      disponibleOperario:true,
+      esActivo: true,
+      asignacionesActivas:0,
+      fechaRegistro: '',
+      fotoAvatar:'',
+    }
+  }
+  inicializarOperarioVacio(){
+    this.operarioAtiende ={
+      idUsuario: '',
+      identificacionUsuario:'',
+      numeroReferenciaUsuarioConsumidor: 0,
+      nombreUsuario: '',
+      correoUsuario: '',
+      celularUsuario: '',
+      direccionUsuario: '',
+      telefonoUsuario: '',
+      clave: '',
+      idRol: '',
+      disponibleOperario:true,
+      esActivo: true,
+      asignacionesActivas:0,
+      fechaRegistro: ''
+    }
   }
 
   //INICIALIZAR REPORTE VACIO
@@ -81,6 +131,8 @@ export class ReporteComponent  implements OnInit {
       tipoAsuntoPorOperario:reporteData['tipoAsuntoPorOperario'] || '',
     }
     this.actualizarUbicacionReporte(this.reporte.ubicacion);
+    this.getUsuarioPorID();
+    console.log(this.reporte)
   }
 
 
@@ -102,5 +154,55 @@ export class ReporteComponent  implements OnInit {
     this.destinationLocation = { lat, lng };
   }
 
+
+  async traerUSLocal() {
+    try {
+      const response = await this.serviciosLocalStorage.getDatosDeLocalStorage();
+      if (response) {
+        const usuarioData: DocumentData = response;
+        this.usuarioLocal = {
+          idUsuario: usuarioData['idUsuario'] || '',
+          identificacionUsuario: usuarioData['identificacionUsuario'] || '',
+          numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuarioConsumidor'] || 0,
+          nombreUsuario: usuarioData['nombreUsuario'] || '',
+          correoUsuario: usuarioData['correoUsuario'] || '',
+          celularUsuario: usuarioData['celularUsuario'] || '',
+          direccionUsuario: usuarioData['direccionUsuario'] || '',
+          telefonoUsuario: usuarioData['telefonoUsuario'] || '',
+          clave: usuarioData['clave'] || '',
+          idRol: usuarioData['idRol'] || '',
+          disponibleOperario: usuarioData['disponibleOperario'] || true,
+          esActivo: usuarioData['esActivo'] || true,
+          asignacionesActivas: usuarioData['asignacionesActivas'] || 0,
+          fechaRegistro: usuarioData['fechaRegistro'] || '',
+          fotoAvatar:usuarioData['fotoAvatar'] || '',
+        };
+      }
+    } catch (error) {
+      console.error('Error al traer el usuario del LocalStorage:', error);
+    }
+  }
+
+
+  async getUsuarioPorID(){
+    const response= await this.servicioFireStore.getDocumentSolo("Usuarios", this.reporte.idOperador);
+    const usuarioData: DocumentData = response.data();
+    this.operarioAtiende={
+      idUsuario: usuarioData['idUsuario'] || '',
+      identificacionUsuario:  usuarioData['cedulausuario'] ||'',
+      numeroReferenciaUsuarioConsumidor: usuarioData['numeroReferenciaUsuario'] || 0,
+      nombreUsuario: usuarioData['nombreUsuario'] || '',
+      correoUsuario: usuarioData['correoUsuario'] || '',
+      celularUsuario: usuarioData['celularUsuario'] || '',
+      direccionUsuario: usuarioData['direccionUsuario'] || '',
+      telefonoUsuario: usuarioData['telefonoUsuario'] || '',
+      clave: usuarioData['clave'] || '',
+      idRol: usuarioData['idRol'] || '',
+      disponibleOperario: usuarioData['esActivo'] || true,
+      esActivo: usuarioData['esActivo'] || true,
+      asignacionesActivas:usuarioData['esActivo'] || true,
+      fechaRegistro: usuarioData['fechaRegistro'] || ''
+    }
+  }
 
 }
